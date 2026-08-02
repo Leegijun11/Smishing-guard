@@ -1,0 +1,23 @@
+# ---- 공통 ----
+python-dotenv==1.0.1
+
+# ---- ML model (BERT fine-tuning) ----
+torch>=2.2.0
+transformers==4.44.2
+datasets==2.21.0
+scikit-learn==1.5.1
+pandas==2.2.2
+numpy<2.0
+accelerate==0.33.0
+
+# ---- Vector DB (ChromaDB + 한국어 임베딩) ----
+chromadb==0.5.5
+sentence-transformers==3.0.1
+
+# ---- LLM Agent ----
+openai==1.40.6
+
+# ---- Backend API ----
+fastapi==0.112.2
+uvicorn[standard]==0.30.6
+pydantic==2.8.2
