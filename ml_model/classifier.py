@@ -17,6 +17,12 @@ class SmishingClassifier:
 
     def __init__(self, model_dir: Optional[str] = None, device: Optional[str] = None):
         model_path = model_dir or str(BERT_MODEL_DIR)
+        if not Path(model_path).exists():
+            raise FileNotFoundError(
+                f"파인튜닝된 모델을 찾을 수 없습니다: {model_path}\n"
+                f"먼저 `python -m ml_model.train` 을 실행해 학습하세요. "
+                f"(베이스 모델: {BASE_BERT_MODEL})"
+            )
 
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
@@ -58,7 +64,18 @@ class SmishingClassifier:
         return [self.predict(t) for t in texts]
 
 
+_singleton: Optional[SmishingClassifier] = None
+
+
+def get_classifier() -> SmishingClassifier:
+    """FastAPI 등에서 모델을 한 번만 로드해 재사용하기 위한 헬퍼."""
+    global _singleton
+    if _singleton is None:
+        _singleton = SmishingClassifier()
+    return _singleton
+
+
 if __name__ == "__main__":
-    clf =  SmishingClassifier()
+    clf = get_classifier()
     sample = "[Web발신] CJ대한통운 고객님의 택배가 주소지 불명으로 보관중입니다. 주소 재확인 http://cj-parcel.info/kr"
     print(clf.predict(sample))
