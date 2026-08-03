@@ -17,6 +17,8 @@ from llm.prompts import SYSTEM_PROMPT, build_user_prompt
 from ml_model.classifier import get_classifier
 from vector_db.retriever import get_retriever
 
+VALID_VERDICTS = {"위험", "주의", "안전"}
+
 
 class SmishingAgent:
     """텍스트 -> (BERT 분류 + RAG 검색) -> LLM 최종 판단."""
@@ -57,7 +59,7 @@ class SmishingAgent:
         )
 
         raw_content = response.choices[0].message.content
-        llm_result = json.loads(raw_content)
+        llm_result = self._parse_llm_json(raw_content)
 
         return {
             "input_text": text,
@@ -71,6 +73,25 @@ class SmishingAgent:
             "bert_prediction": bert_result,
             "reference_chunks": reference_chunks,
         }
+
+    @staticmethod
+    def _parse_llm_json(raw_content: Optional[str]) -> Dict:
+        if not raw_content:
+            raise RuntimeError("LLM 응답이 비어 있습니다.")
+
+        try:
+            parsed = json.loads(raw_content)
+        except json.JSONDecodeError as e:
+            raise RuntimeError(
+                f"LLM 응답을 JSON으로 파싱하지 못했습니다: {raw_content}"
+            ) from e
+
+        if parsed.get("verdict") not in VALID_VERDICTS:
+            raise RuntimeError(
+                f"LLM이 유효하지 않은 verdict를 반환했습니다: {parsed.get('verdict')}"
+            )
+
+        return parsed
 
 
 _singleton: Optional[SmishingAgent] = None
