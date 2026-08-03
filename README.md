@@ -39,15 +39,15 @@ backend (FastAPI) ──▶ frontend (Node.js UI)
 
 ```bash
 python -m venv .venv
-.venv\Scripts\activate          # PowerShell: .venv\Scripts\Activate.ps1
+.venv\Scripts\activate          
 pip install -r requirements.txt
 
-copy .env.example .env          # 이후 .env 에 OPENAI_API_KEY 입력
+# 이후 .env 확인
 ```
 
 ## 2. BERT 학습 (ml_model)
 
-`data/raw/smishing_dataset.csv` 로 `klue/bert-base`(무료 공개 모델)를 파인튜닝합니다.
+`data/raw/smishing_dataset.csv` 로 `klue/bert-base`를 파인튜닝합니다.
 
 ```bash
 python -m ml_model.train
@@ -61,7 +61,7 @@ python -m ml_model.classifier
 
 ## 3. ChromaDB 색인 (vector_db)
 
-`data/knowledge/*.md` 를 청킹해 무료 임베딩 모델(`jhgan/ko-sroberta-multitask`)로 벡터화 후 저장합니다.
+`data/knowledge/*.md` 를 청킹해 임베딩 모델(`jhgan/ko-sroberta-multitask`)로 벡터화 후 저장합니다.
 
 ```bash
 python -m vector_db.build_index
@@ -77,7 +77,7 @@ python -m vector_db.retriever
 
 ## 4. LLM 에이전트 단독 테스트 (llm)
 
-`.env` 에 `OPENAI_API_KEY` 를 넣은 뒤:
+`.env` 에 `OPENAI_API_KEY` 을 확인한 뒤:
 
 ```bash
 python -m llm.agent
@@ -87,7 +87,6 @@ python -m llm.agent
 
 ```bash
 python -m backend.main
-# 또는: uvicorn backend.main:app --reload --port 8000
 ```
 
 - `GET /health` : 서버/모델 준비 상태
