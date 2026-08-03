@@ -16,13 +16,18 @@ def get_client():
 
 
 def get_embedding_function():
-    # 무료 오픈 임베딩 모델 (한국어 특화). OpenAI 호출 없이 로컬에서 임베딩.
     return SentenceTransformerEmbeddingFunction(model_name=EMBEDDING_MODEL)
 
 
-def build_index() -> None:
+def build_index(reset: bool = True) -> None:
     client = get_client()
     ef = get_embedding_function()
+
+    if reset:
+        try:
+            client.delete_collection(CHROMA_COLLECTION)
+        except Exception:
+            pass  
 
     collection = client.get_or_create_collection(
         name=CHROMA_COLLECTION,
