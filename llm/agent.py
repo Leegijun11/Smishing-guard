@@ -21,8 +21,6 @@ VALID_VERDICTS = {"위험", "주의", "안전"}
 
 
 class SmishingAgent:
-    """텍스트 -> (BERT 분류 + RAG 검색) -> LLM 최종 판단."""
-
     def __init__(self):
         if not OPENAI_API_KEY:
             raise RuntimeError(
@@ -102,6 +100,10 @@ def get_agent() -> SmishingAgent:
     if _singleton is None:
         _singleton = SmishingAgent()
     return _singleton
+
+
+def is_ready() -> bool:
+    return _singleton is not None
 
 
 if __name__ == "__main__":
