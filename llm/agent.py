@@ -1,7 +1,7 @@
 import json
 import sys
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
@@ -73,8 +73,18 @@ class SmishingAgent:
         }
 
 
+_singleton: Optional[SmishingAgent] = None
+
+
+def get_agent() -> SmishingAgent:
+    global _singleton
+    if _singleton is None:
+        _singleton = SmishingAgent()
+    return _singleton
+
+
 if __name__ == "__main__":
-    agent = SmishingAgent()
+    agent = get_agent()
     sample = (
         "[Web발신] CJ대한통운 고객님의 택배가 주소지 불명으로 보관중입니다. "
         "주소 재확인 http://cj-parcel.info/kr"
