@@ -1,7 +1,7 @@
 # ---- 공통 ----
 python-dotenv==1.0.1
 
-# ---- ML model (BERT fine-tuning) ----
+# ---- ML model ----
 torch>=2.2.0
 transformers==4.44.2
 datasets==2.21.0
@@ -10,7 +10,7 @@ pandas==2.2.2
 numpy<2.0
 accelerate==0.33.0
 
-# ---- Vector DB (ChromaDB + 한국어 임베딩) ----
+# ---- Vector DB ----
 chromadb==0.5.5
 sentence-transformers==3.0.1
 
