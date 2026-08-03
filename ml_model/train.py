@@ -4,11 +4,12 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 import numpy as np
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score, precision_recall_fscore_support
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
     DataCollatorWithPadding,
+    EarlyStoppingCallback,
     Trainer,
     TrainingArguments,
 )
@@ -22,7 +23,17 @@ def compute_metrics(eval_pred):
     logits, labels = eval_pred
     preds = np.argmax(logits, axis=-1)
     acc = accuracy_score(labels, preds)
-    return {"accuracy": acc}
+    macro_f1 = f1_score(labels, preds, average="macro")
+    precision, recall, f1, _ = precision_recall_fscore_support(
+        labels, preds, average="weighted", zero_division=0
+    )
+    return {
+        "accuracy": acc,
+        "macro_f1": macro_f1,
+        "weighted_precision": precision,
+        "weighted_recall": recall,
+        "weighted_f1": f1,
+    }
 
 
 def main():
@@ -66,8 +77,11 @@ def main():
         learning_rate=2e-5,
         per_device_train_batch_size=16,
         per_device_eval_batch_size=32,
-        num_train_epochs=3,
+        num_train_epochs=8,
         weight_decay=0.01,
+        load_best_model_at_end=True,
+        metric_for_best_model="macro_f1",
+        greater_is_better=True,
         logging_steps=10,
         report_to=[],
     )
@@ -79,6 +93,7 @@ def main():
         eval_dataset=tokenized["validation"],
         data_collator=collator,
         compute_metrics=compute_metrics,
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
     )
 
     trainer.train()
