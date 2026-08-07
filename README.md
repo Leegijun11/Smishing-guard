@@ -61,63 +61,70 @@
 
 ### 1. 환경 설정 및 패키지 설치
 
-`ash
+```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# .env 파일 생성 및 OPENAI_API_KEY 설정
-`
+# .env 파일 생성 후 OPENAI_API_KEY 설정
+```
 
 ### 2. BERT 모델 학습
 
-data/raw/smishing_dataset.csv 데이터를 기반으로 klue/bert-base를 파인튜닝합니다.
+`data/raw/smishing_dataset.csv` 데이터를 기반으로 `klue/bert-base`를 파인튜닝합니다.
 
-`ash
+```bash
 python -m ml_model.train
-`
+```
 
 학습 완료 후 추론 테스트:
 
-`ash
+```bash
 python -m ml_model.classifier
-`
+```
 
 ### 3. ChromaDB 지식베이스 색인
 
-data/knowledge/*.md 대처 문서를 청킹하여 임베딩(jhgan/ko-sroberta-multitask) 후 저장합니다.
+`data/knowledge/*.md` 대처 문서를 청킹하여 임베딩(`jhgan/ko-sroberta-multitask`) 후 저장합니다.
 
-`ash
+```bash
 python -m vector_db.build_index
-`
+```
 
 ### 4. 백엔드 및 프론트엔드 실행
 
-**백엔드 실행 (FastAPI)**
+#### 백엔드 실행 (FastAPI)
 
-`ash
+```bash
 python -m backend.main
-`
+```
 
-**프론트엔드 실행 (Node.js)**
+#### 프론트엔드 실행 (Node.js)
 
-`ash
+```bash
 cd frontend
 npm install
 npm start
-`
+```
 
-접속: http://127.0.0.1:3000 
+접속 주소
+
+```
+http://127.0.0.1:3000
+```
 
 ---
 
-## 사기 라벨 / 지식베이스 확장 방법 (추후 확장법)
+# 사기 라벨 / 지식베이스 확장 방법
 
-1. common/labels.py 내 LABELS에 신규 라벨 정의 추가
-2. data/raw/smishing_dataset.csv에 해당 라벨의 훈련 샘플 추가
-3. data/knowledge/<label_key>.md 파일 생성 후 대처 가이드 작성 (H2 ## 섹션 단위)
-4. 재학습 및 재색인 진행:
-   `ash
-   python -m ml_model.train
-   python -m vector_db.build_index
-   `
+새로운 스미싱 유형을 추가하려면 아래 순서대로 진행합니다.
+
+1. `common/labels.py`의 `LABELS`에 신규 라벨을 추가합니다.
+2. `data/raw/smishing_dataset.csv`에 해당 라벨의 학습 데이터를 추가합니다.
+3. `data/knowledge/<label_key>.md` 파일을 생성하고 대응 가이드를 작성합니다. (`##` 단위로 문서를 작성)
+4. 모델과 지식베이스를 다시 생성합니다.
+
+```bash
+python -m ml_model.train
+python -m vector_db.build_index
+```
