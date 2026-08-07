@@ -1,115 +1,123 @@
 # Smishing Guard
 
-문자 메시지를 입력하면 (1) 파인튜닝된 BERT로 스미싱 유형을 분류하고, (2) ChromaDB에서
-해당 유형의 대처방법을 검색한 뒤, (3) OpenAI(gpt-3.5-turbo) 에이전트가 최종적으로
-**위험 / 주의 / 안전** 을 판단하고 다음 행동 가이드라인을 알려주는 프로젝트.
+경량 ML 모델(KLUE-BERT)과 LLM(GPT-3.5)을 결합하여, 사용자가 입력한 문자 메시지의 스미싱 여부를 판단하고 유형별 맞춤형 대처 가이드를 제공하는 보안 보조 서비스입니다.
 
-## 폴더 구조
+---
 
-```
-common/       라벨 정의, 경로/환경변수 설정 (모든 모듈이 공유)
-data/         학습 데이터셋(raw)과 유형별 대처방법 원본 문서(knowledge)
-ml_model/     BERT 파인튜닝(train.py) + 추론 래퍼(classifier.py)
-vector_db/    knowledge 문서 청킹 + ChromaDB 색인/검색
-llm/          OpenAI 에이전트 (BERT 결과 + 검색 결과 -> 최종 판단)
-backend/      FastAPI 서버 (REST API)
-frontend/     Node.js(Express) 웹 UI
-artifacts/    학습된 모델, ChromaDB 파일 등 산출물 (git에는 포함 안 됨)
-```
+## 실행 화면
 
-## 처리 흐름
+![Smishing Guard UI](./docs/demo_screen.PNG)
 
-```
-사용자 입력 문자
-   │
-   ▼
-ml_model.classifier  ──▶  유형(label) + 확신도
-   │
-   ▼
-vector_db.retriever  ──▶  해당 유형 대처방법 청크 검색 (ChromaDB)
-   │
-   ▼
-llm.agent (gpt-3.5-turbo) ──▶  verdict(위험/주의/안전) + 행동 가이드라인
-   │
-   ▼
-backend (FastAPI) ──▶ frontend (Node.js UI)
-```
+- **위험도 판별**: 분석 결과에 따른 위험 단계 (위험 / 주의 / 안전) 시각화
+- **실시간 사기 유형 판별**: BERT 모델의 예측 확률 분포를 바 차트로 시각화
+- **판단 근거 및 대처 가이드**: RAG로 검색된 공식 대처 문서 기반 가이드 제공
 
-## 1. 준비
+---
 
-```bash
+## Key Technical Decisions
+
+### 1. Hybrid 2-Stage Pipeline (비용 및 속도 지연 최적화)
+- **Problem**: 모든 문자 분석을 LLM API에 직결할 경우 처리 속도 지연과 API 비용 부담이 발생함.
+- **Solution**: 
+  - **1차 (Fast Path)**: Fine-tuned KLUE-BERT가 문자를 1차 분류 및 확률 분포 계산.
+  - **2차 (Deep Analysis)**: BERT가 판별한 라벨 정보만 타겟팅하여 ChromaDB에서 대처 문서를 RAG 검색하고, 이를 기반으로 LLM이 최종 검증 및 맞춤형 행동 가이드 생성.
+- **Result**: 불필요한 토큰 소모를 방지하고, 검색 노이즈를 최소화하여 정확도와 응답 속도를 동시 확보.
+
+### 2. Single Source of Truth 기반 모듈화 설계
+- **Problem**: 스미싱 유형이 추가/수정될 때 ML, Vector DB, LLM 프롬프트, API, UI 코드를 각각 수정하면서 발생하는 동기화 오류 위험.
+- **Solution**: 
+  - common/labels.py에 라벨 키, 한국어명, 프롬프트 설명, 룰베이스 키워드를 단일 공급원으로 관리.
+  - 새 사기 유형 추가 시 labels.py 수정만으로 학습 데이터 로더, Vector DB 색인기, LLM 프롬프트 템플릿이 자동 동기화되는 Decoupled 구조 구축.
+
+---
+
+## 아키텍처 및 처리 흐름
+
+1. **[사용자]** 문자 메시지 입력
+2. **[ml_model]** KLUE-BERT 파인튜닝 모델
+   - 1차 유형 분류 및 확률 분포 계산
+3. **[vector_db]** ChromaDB Retriever
+   - 분류된 라벨 메타데이터 기반 대처 문서 RAG 검색
+4. **[llm]** OpenAI Agent (gpt-3.5-turbo)
+   - 근거 기반 최종 verdict(위험/주의/안전) 및 행동 가이드 생성
+5. **[backend/frontend]** FastAPI 및 Express Web UI를 거쳐 화면 출력
+
+---
+
+## 프로젝트 구조
+
+- **common/**: [SSOT] 라벨 정의 및 공통 환경 설정 (전체 모듈 참조)
+- **data/**: 학습용 raw 데이터셋 및 유형별 대처방법 지식 문서
+- **ml_model/**: KLUE-BERT 파인튜닝(train.py) 및 추론 인터페이스(classifier.py)
+- **vector_db/**: 지식 문서 청킹, 임베딩, ChromaDB 색인/검색 래퍼
+- **llm/**: OpenAI 에이전트 및 프롬프트 템플릿
+- **backend/**: FastAPI 기반 REST API 서버
+- **frontend/**: Node.js Web UI
+- **artifacts/**: 학습된 BERT 모델 및 ChromaDB 저장소 (Git 제외)
+
+---
+
+## Start
+
+### 1. 환경 설정 및 패키지 설치
+
+`ash
 python -m venv .venv
-.venv\Scripts\activate          
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-# 이후 .env 확인
-```
+# .env 파일 생성 및 OPENAI_API_KEY 설정
+`
 
-## 2. BERT 학습 (ml_model)
+### 2. BERT 모델 학습
 
-`data/raw/smishing_dataset.csv` 로 `klue/bert-base`를 파인튜닝합니다.
+data/raw/smishing_dataset.csv 데이터를 기반으로 klue/bert-base를 파인튜닝합니다.
 
-```bash
+`ash
 python -m ml_model.train
-```
+`
 
-완료되면 `artifacts/bert-smishing/` 에 모델이 저장됩니다. 확인:
+학습 완료 후 추론 테스트:
 
-```bash
+`ash
 python -m ml_model.classifier
-```
+`
 
-## 3. ChromaDB 색인 (vector_db)
+### 3. ChromaDB 지식베이스 색인
 
-`data/knowledge/*.md` 를 청킹해 임베딩 모델(`jhgan/ko-sroberta-multitask`)로 벡터화 후 저장합니다.
+data/knowledge/*.md 대처 문서를 청킹하여 임베딩(jhgan/ko-sroberta-multitask) 후 저장합니다.
 
-```bash
+`ash
 python -m vector_db.build_index
-```
+`
 
-확인:
+### 4. 백엔드 및 프론트엔드 실행
 
-```bash
-python -m vector_db.retriever
-```
+**백엔드 실행 (FastAPI)**
 
-지식 문서를 추가/수정한 뒤에는 위 색인 명령을 다시 실행해야 반영됩니다.
-
-## 4. LLM 에이전트 단독 테스트 (llm)
-
-`.env` 에 `OPENAI_API_KEY` 을 확인한 뒤:
-
-```bash
-python -m llm.agent
-```
-
-## 5. 백엔드 실행 (backend)
-
-```bash
+`ash
 python -m backend.main
-```
+`
 
-- `GET /health` : 서버/모델 준비 상태
-- `GET /labels` : 지원하는 사기 유형 목록
-- `POST /analyze` : `{"text": "..."}` → 판단 결과 JSON
+**프론트엔드 실행 (Node.js)**
 
-## 6. 프론트엔드 실행 (frontend)
-
-```bash
+`ash
 cd frontend
 npm install
 npm start
-```
+`
 
-`http://127.0.0.1:3000` 접속 후 문자 내용을 입력하면 결과를 확인할 수 있습니다.
-(`frontend/server.js` 가 `/api/*` 요청을 백엔드로 프록시합니다. 백엔드 주소는 `.env` 의 `BACKEND_URL` 로 설정.)
+접속: http://127.0.0.1:3000 
 
-## 라벨/지식 확장하기
+---
 
-1. `common/labels.py` 의 `LABELS` 에 새 유형 추가
-2. `data/raw/smishing_dataset.csv` 에 해당 라벨 샘플 문장 추가
-3. `data/knowledge/<label_key>.md` 대처방법 문서 작성 (H2 섹션 단위로 작성)
-4. `python -m ml_model.train` 재학습, `python -m vector_db.build_index` 재색인
+## 사기 라벨 / 지식베이스 확장 방법 (추후 확장법)
 
-
-
+1. common/labels.py 내 LABELS에 신규 라벨 정의 추가
+2. data/raw/smishing_dataset.csv에 해당 라벨의 훈련 샘플 추가
+3. data/knowledge/<label_key>.md 파일 생성 후 대처 가이드 작성 (H2 ## 섹션 단위)
+4. 재학습 및 재색인 진행:
+   `ash
+   python -m ml_model.train
+   python -m vector_db.build_index
+   `
