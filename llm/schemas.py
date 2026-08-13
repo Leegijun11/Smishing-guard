@@ -1,6 +1,6 @@
 from typing import List, Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class SmishingVerdict(BaseModel):
@@ -8,6 +8,6 @@ class SmishingVerdict(BaseModel):
     scam_type: str
     scam_type_ko: str
     summary: str
-    reasons: List[str]
-    action_guide: List[str]
+    reasons: List[str] = Field(min_length=1)
+    action_guide: List[str] = Field(min_length=1)
     used_sources: List[str]
