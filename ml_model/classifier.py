@@ -77,5 +77,5 @@ def get_classifier() -> SmishingClassifier:
 
 if __name__ == "__main__":
     clf = get_classifier()
-    sample = "[Web발신] CJ대한통운 고객님의 택배가 주소지 불명으로 보관중입니다. 주소 재확인 http://cj-parcel.info/kr"
+    sample = "고객님의 카드론 연체건이 검찰 송치 대상으로 분류되었습니다. 즉시 상환 확인이 없을 경우 법적 조치가 진행됩니다. 상담원 연결 02-XXX-XXXX"
     print(clf.predict(sample))
