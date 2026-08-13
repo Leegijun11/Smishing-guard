@@ -39,15 +39,17 @@ class SmishingAgent:
 
         bert_result = self.classifier.predict(text)
 
+        distribution = bert_result["distribution"]
+        ambiguous = is_ambiguous(distribution)
+        secondary_label = distribution[1]["label"] if len(distribution) > 1 else None
+
         reference_chunks = []
         if bert_result["label"] != "normal":
-            if is_ambiguous(bert_result["distribution"]):
-                primary_label = bert_result["distribution"][0]["label"]
-                secondary_label = bert_result["distribution"][1]["label"]
+            if ambiguous and secondary_label is not None:
                 primary_k = max(top_k - top_k // 2, 1)
                 secondary_k = max(top_k // 2, 1)
                 reference_chunks = self.retriever.search(
-                    query_text=text, label=primary_label, top_k=primary_k
+                    query_text=text, label=bert_result["label"], top_k=primary_k
                 ) + self.retriever.search(
                     query_text=text, label=secondary_label, top_k=secondary_k
                 )
@@ -55,6 +57,12 @@ class SmishingAgent:
                 reference_chunks = self.retriever.search(
                     query_text=text, label=bert_result["label"], top_k=top_k
                 )
+        elif ambiguous and secondary_label is not None and secondary_label != "normal":
+            # 1순위는 normal이지만 2순위 사기 유형과 근소한 차이인 경우.
+            # normal 라벨은 knowledge base에 참고자료가 없으므로 2순위 라벨만 검색한다.
+            reference_chunks = self.retriever.search(
+                query_text=text, label=secondary_label, top_k=top_k
+            )
 
         user_prompt = build_user_prompt(text, bert_result, reference_chunks)
         messages: List[Dict[str, str]] = [
