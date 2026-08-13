@@ -8,6 +8,7 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 from openai import OpenAI
 from pydantic import ValidationError
 
+from common.classification import is_ambiguous
 from common.settings import (
     OPENAI_API_KEY,
     OPENAI_MAX_TOKENS,
@@ -40,9 +41,20 @@ class SmishingAgent:
 
         reference_chunks = []
         if bert_result["label"] != "normal":
-            reference_chunks = self.retriever.search(
-                query_text=text, label=bert_result["label"], top_k=top_k
-            )
+            if is_ambiguous(bert_result["distribution"]):
+                primary_label = bert_result["distribution"][0]["label"]
+                secondary_label = bert_result["distribution"][1]["label"]
+                primary_k = max(top_k - top_k // 2, 1)
+                secondary_k = max(top_k // 2, 1)
+                reference_chunks = self.retriever.search(
+                    query_text=text, label=primary_label, top_k=primary_k
+                ) + self.retriever.search(
+                    query_text=text, label=secondary_label, top_k=secondary_k
+                )
+            else:
+                reference_chunks = self.retriever.search(
+                    query_text=text, label=bert_result["label"], top_k=top_k
+                )
 
         user_prompt = build_user_prompt(text, bert_result, reference_chunks)
         messages: List[Dict[str, str]] = [
