@@ -22,6 +22,7 @@ def load_dataframe() -> pd.DataFrame:
         )
 
     df["label_id"] = df["label"].map(LABEL2ID)
+    # ml 모델 학습용 숫자
     return df
 
 
