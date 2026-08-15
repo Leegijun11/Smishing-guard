@@ -15,19 +15,18 @@ KNOWLEDGE_DIR = DATA_DIR / "knowledge"
 ARTIFACTS_DIR = ROOT_DIR / "artifacts"
 
 
-def _path(env_key: str, default: str) -> Path:
-    raw = os.getenv(env_key, default)
-    p = Path(raw)
+def _path(default: str) -> Path:
+    p = Path(default)
     return p if p.is_absolute() else (ROOT_DIR / p)
 
 
 # ---- ML model ----
 BASE_BERT_MODEL = os.getenv("BASE_BERT_MODEL", "klue/bert-base")
-BERT_MODEL_DIR = _path("BERT_MODEL_DIR", "artifacts/bert-smishing")
+BERT_MODEL_DIR = _path("artifacts/bert-smishing")
 MAX_SEQ_LEN = int(os.getenv("MAX_SEQ_LEN", "128"))
 
 # ---- Vector DB ----
-CHROMA_DIR = _path("CHROMA_DIR", "artifacts/chroma")
+CHROMA_DIR = _path("artifacts/chroma")
 CHROMA_COLLECTION = os.getenv("CHROMA_COLLECTION", "smishing_playbook")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "jhgan/ko-sroberta-multitask")
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", "450"))
