@@ -15,8 +15,12 @@ from common.settings import BASE_BERT_MODEL, BERT_MODEL_DIR, MAX_SEQ_LEN
 class SmishingClassifier:
     """스미싱 문자 -> 유형 라벨 + 확률 분포."""
 
-    def __init__(self, model_dir: Optional[str] = None, device: Optional[str] = None):
-        model_path = model_dir or str(BERT_MODEL_DIR)
+    def __init__(
+        self,
+        model_dir: str = str(BERT_MODEL_DIR),
+        device: str = "cuda" if torch.cuda.is_available() else "cpu",
+    ):
+        model_path = model_dir
         if not Path(model_path).exists():
             raise FileNotFoundError(
                 f"파인튜닝된 모델을 찾을 수 없습니다: {model_path}\n"
@@ -24,7 +28,7 @@ class SmishingClassifier:
                 f"(베이스 모델: {BASE_BERT_MODEL})"
             )
 
-        self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
         self.model = AutoModelForSequenceClassification.from_pretrained(model_path)
         self.model.to(self.device)
