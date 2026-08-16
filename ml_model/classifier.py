@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
@@ -62,10 +62,6 @@ class SmishingClassifier:
             "confidence": top["score"],
             "distribution": ranked,
         }
-
-    @torch.no_grad()
-    def predict_batch(self, texts: List[str]) -> List[Dict]:
-        return [self.predict(t) for t in texts]
 
 
 _singleton: Optional[SmishingClassifier] = None
