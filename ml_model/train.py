@@ -50,9 +50,7 @@ def main():
 
     tokenized = dataset.map(tokenize, batched=True)
     tokenized = tokenized.rename_column("label_id", "labels")
-    keep_cols = ["input_ids", "attention_mask", "labels"]
-    if "token_type_ids" in tokenized["train"].column_names:
-        keep_cols.append("token_type_ids")
+    keep_cols = ["input_ids", "attention_mask", "labels", "token_type_ids"]
     tokenized = tokenized.remove_columns(
         [c for c in tokenized["train"].column_names if c not in keep_cols]
     )
