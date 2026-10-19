@@ -66,6 +66,7 @@
 - **vector_db/**: 지식 문서 청킹, 임베딩, ChromaDB 색인/검색 래퍼
 - **llm/**: OpenAI 에이전트 및 프롬프트 템플릿
 - **backend/**: FastAPI 기반 REST API 서버
+- **evaluation/**: 파이프라인 구성 비교 벤치마크 (정확도 · 비용 · 속도)
 - **frontend/**: Node.js Web UI
 - **artifacts/**: 학습된 BERT 모델 및 ChromaDB 저장소 (Git 제외)
 
@@ -85,7 +86,8 @@ pip install -r requirements.txt
 
 ### 2. BERT 모델 학습
 
-`data/raw/smishing_dataset.csv` 데이터를 기반으로 `klue/bert-base`를 파인튜닝합니다.
+`data/raw/Smishing_dataset.csv` 데이터를 기반으로 `klue/bert-base`를 파인튜닝합니다.
+데이터는 train 70% / validation 15% / test 15%로 분할되며(seed 고정, 라벨 비율 유지), validation은 best model 선택에만 쓰이고 최종 성능은 학습에 쓰이지 않은 test로만 보고합니다.
 
 ```bash
 python -m ml_model.train
@@ -126,6 +128,34 @@ npm start
 ```
 http://127.0.0.1:3000
 ```
+
+---
+
+## 파이프라인 비교 벤치마크
+
+"BERT를 앞단에 두면 비용·속도를 줄이면서 정확도를 유지한다"는 설계 주장을 검증하기 위해, 운영 코드(`SmishingAgent.analyze`)의 `PipelineOptions` 스위치로 부품을 하나씩 끄며 비교합니다.
+
+| 구성 | BERT | RAG | LLM | 확인하려는 것 |
+|---|---|---|---|---|
+| A. LLM only | ✗ | ✗ | ✓ | 비용·속도 baseline |
+| B. BERT only | ✓ | ✗ | ✗ | 판별 baseline (대처방법을 만들 수 없어 서비스 구성은 아님) |
+| C. BERT + LLM | ✓ | ✗ | ✓ | RAG가 판별에 기여하는가 |
+| D. BERT + RAG + LLM | ✓ | ✓ | ✓ | 현재 서비스 구성 |
+| E. D − 애매함 분기 | ✓ | ✓ | ✓ | 1·2순위 근소 시 2순위 검색 분기의 효과 |
+| F. Fast Path | ✓ | ✓ | 조건부 | BERT가 정상 문자를 임계값 이상 확신하면 LLM 호출을 생략 |
+
+- **평가 세트**: test(학습에 쓰이지 않은 hold-out) + hard set(`data/eval/hard_set.csv`, 경계 사례·링크가 있는 정상 문자·신종 수법·프롬프트 인젝션·글자 변형 36건, 직접 작성)
+- **지표**: 정확도(95% 신뢰구간), macro-F1, **사기→안전 오판 건수**, 정상 오탐, LLM 호출률, 지연시간 p50/p95, 토큰·비용
+- Fast Path 임계값별 trade-off는 D의 샘플별 결과에서 계산하므로 API를 추가 호출하지 않습니다.
+
+```bash
+python -m evaluation.run_benchmark              # test + hard, A~E 실행 (샘플별로 캐시되어 재실행해도 API 비용이 중복되지 않음)
+python -m evaluation.run_benchmark --configs B  # BERT only는 OpenAI 키 없이 실행 가능
+python -m evaluation.run_benchmark --configs F --fast-path-threshold 0.9   # Fast Path 실측 검증
+python -m evaluation.report                     # evaluation/results/report.md 생성
+```
+
+Fast Path를 서비스에 적용하려면 벤치마크로 임계값을 정한 뒤 `.env`에 `FAST_PATH_NORMAL_THRESHOLD=0.9`처럼 설정합니다. 기본값은 비활성입니다. 사기 라벨은 확신도와 무관하게 항상 LLM을 거칩니다.
 
 ---
 
