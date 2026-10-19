@@ -1,5 +1,7 @@
 import json
 import sys
+import time
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -9,7 +11,9 @@ from openai import OpenAI
 from pydantic import ValidationError
 
 from common.classification import is_ambiguous
+from common.labels import ko_name
 from common.settings import (
+    FAST_PATH_NORMAL_THRESHOLD,
     OPENAI_API_KEY,
     OPENAI_MAX_TOKENS,
     OPENAI_MODEL,
@@ -22,6 +26,22 @@ from vector_db.retriever import get_retriever
 
 MAX_RETRIES = 3
 
+
+@dataclass(frozen=True)
+class PipelineOptions:
+    """파이프라인 구성 스위치. 기본값은 운영(서비스) 구성이며,
+    evaluation/ 벤치마크가 같은 코드 경로에서 부품을 하나씩 끄며 비교할 때 쓴다."""
+
+    use_bert: bool = True
+    use_rag: bool = True
+    # 1·2순위가 근소할 때 2순위 라벨도 검색하는 분기 (README 트러블슈팅 1, 2번)
+    use_ambiguity_branch: bool = True
+    # BERT가 normal을 이 확신도 이상으로 판단하면 LLM 호출을 생략. None이면 비활성화.
+    fast_path_threshold: Optional[float] = FAST_PATH_NORMAL_THRESHOLD
+    # None이면 settings.OPENAI_TEMPERATURE 사용
+    temperature: Optional[float] = None
+
+
 class SmishingAgent:
     def __init__(self):
         if not OPENAI_API_KEY:
@@ -32,45 +52,61 @@ class SmishingAgent:
         self.classifier = get_classifier()
         self.retriever = get_retriever()
 
-    def analyze(self, text: str, top_k: int = 4) -> Dict:
+    def analyze(
+        self,
+        text: str,
+        top_k: int = 4,
+        options: Optional[PipelineOptions] = None,
+    ) -> Dict:
+        options = options or PipelineOptions()
+
         text = text.strip()
         if not text:
             raise ValueError("분석할 텍스트가 비어 있습니다.")
+        if options.use_rag and not options.use_bert:
+            raise ValueError("RAG 검색은 BERT 분류 라벨이 필요합니다 (use_bert=True).")
 
-        bert_result = self.classifier.predict(text)
+        started = time.perf_counter()
+        metrics: Dict = {
+            "bert_ms": 0.0,
+            "retrieval_ms": 0.0,
+            "llm_ms": 0.0,
+            "total_ms": 0.0,
+            "llm_calls": 0,
+            "prompt_tokens": 0,
+            "completion_tokens": 0,
+        }
 
-        distribution = bert_result["distribution"]
-        ambiguous = is_ambiguous(distribution)
-        secondary_label = distribution[1]["label"] if len(distribution) > 1 else None
+        bert_result: Optional[Dict] = None
+        if options.use_bert:
+            t0 = time.perf_counter()
+            bert_result = self.classifier.predict(text)
+            metrics["bert_ms"] = (time.perf_counter() - t0) * 1000
 
-        reference_chunks = []
-        if bert_result["label"] != "normal":
-            if ambiguous and secondary_label is not None:
-                primary_k = max(top_k - top_k // 2, 1)
-                secondary_k = max(top_k // 2, 1)
-                reference_chunks = self.retriever.search(
-                    query_text=text, label=bert_result["label"], top_k=primary_k
-                ) + self.retriever.search(
-                    query_text=text, label=secondary_label, top_k=secondary_k
-                )
-            else:
-                reference_chunks = self.retriever.search(
-                    query_text=text, label=bert_result["label"], top_k=top_k
-                )
-        elif ambiguous and secondary_label is not None and secondary_label != "normal":
-            # 1순위는 normal이지만 2순위 사기 유형과 근소한 차이인 경우.
-            # normal 라벨은 knowledge base에 참고자료가 없으므로 2순위 라벨만 검색한다.
-            reference_chunks = self.retriever.search(
-                query_text=text, label=secondary_label, top_k=top_k
+            if self._is_fast_path(bert_result, options):
+                metrics["total_ms"] = (time.perf_counter() - started) * 1000
+                return self._fast_path_response(text, bert_result, metrics)
+
+        reference_chunks: List[Dict] = []
+        if options.use_rag:
+            t0 = time.perf_counter()
+            reference_chunks = self._retrieve(
+                text, bert_result, top_k, options.use_ambiguity_branch
             )
+            metrics["retrieval_ms"] = (time.perf_counter() - t0) * 1000
 
-        user_prompt = build_user_prompt(text, bert_result, reference_chunks)
+        user_prompt = build_user_prompt(
+            text, bert_result, reference_chunks, rag_enabled=options.use_rag
+        )
         messages: List[Dict[str, str]] = [
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ]
 
-        llm_result = self._call_llm_with_retry(messages)
+        t0 = time.perf_counter()
+        llm_result = self._call_llm_with_retry(messages, metrics, options.temperature)
+        metrics["llm_ms"] = (time.perf_counter() - t0) * 1000
+        metrics["total_ms"] = (time.perf_counter() - started) * 1000
 
         return {
             "input_text": text,
@@ -83,19 +119,94 @@ class SmishingAgent:
             "used_sources": llm_result.used_sources,
             "bert_prediction": bert_result,
             "reference_chunks": reference_chunks,
+            "fast_path": False,
+            "metrics": metrics,
         }
 
-    def _call_llm_with_retry(self, messages: List[Dict[str, str]]) -> SmishingVerdict:
+    @staticmethod
+    def _is_fast_path(bert_result: Dict, options: PipelineOptions) -> bool:
+        # 사기 라벨은 확신도가 아무리 높아도 LLM을 거친다 (사기를 안전으로 놓치는 오류만 막으면 된다).
+        return (
+            options.fast_path_threshold is not None
+            and bert_result["label"] == "normal"
+            and bert_result["confidence"] >= options.fast_path_threshold
+        )
+
+    @staticmethod
+    def _fast_path_response(text: str, bert_result: Dict, metrics: Dict) -> Dict:
+        return {
+            "input_text": text,
+            "verdict": "안전",
+            "scam_type": "normal",
+            "scam_type_ko": ko_name("normal"),
+            "summary": (
+                f"분석 모델이 정상 문자로 {bert_result['confidence']:.1%} 확신도로 판단했습니다. "
+                "스미싱 의심 패턴이 발견되지 않았습니다."
+            ),
+            "reasons": ["BERT 분류 모델이 정상 문자로 매우 높은 확신도로 판단했습니다."],
+            "action_guide": [
+                "링크 클릭이나 개인정보 입력 전에는 발신처가 공식 번호·도메인인지 한 번 더 확인하세요."
+            ],
+            "used_sources": [],
+            "bert_prediction": bert_result,
+            "reference_chunks": [],
+            "fast_path": True,
+            "metrics": metrics,
+        }
+
+    def _retrieve(
+        self,
+        text: str,
+        bert_result: Dict,
+        top_k: int,
+        use_ambiguity_branch: bool,
+    ) -> List[Dict]:
+        distribution = bert_result["distribution"]
+        ambiguous = use_ambiguity_branch and is_ambiguous(distribution)
+        secondary_label = distribution[1]["label"] if len(distribution) > 1 else None
+
+        if bert_result["label"] != "normal":
+            if ambiguous and secondary_label is not None:
+                primary_k = max(top_k - top_k // 2, 1)
+                secondary_k = max(top_k // 2, 1)
+                return self.retriever.search(
+                    query_text=text, label=bert_result["label"], top_k=primary_k
+                ) + self.retriever.search(
+                    query_text=text, label=secondary_label, top_k=secondary_k
+                )
+            return self.retriever.search(
+                query_text=text, label=bert_result["label"], top_k=top_k
+            )
+
+        if ambiguous and secondary_label is not None and secondary_label != "normal":
+            # 1순위는 normal이지만 2순위 사기 유형과 근소한 차이인 경우.
+            # normal 라벨은 knowledge base에 참고자료가 없으므로 2순위 라벨만 검색한다.
+            return self.retriever.search(
+                query_text=text, label=secondary_label, top_k=top_k
+            )
+        return []
+
+    def _call_llm_with_retry(
+        self,
+        messages: List[Dict[str, str]],
+        metrics: Dict,
+        temperature: Optional[float] = None,
+    ) -> SmishingVerdict:
         last_error: Optional[str] = None
+        temperature = OPENAI_TEMPERATURE if temperature is None else temperature
 
         for _ in range(MAX_RETRIES):
             response = self.client.chat.completions.create(
                 model=OPENAI_MODEL,
-                temperature=OPENAI_TEMPERATURE,
+                temperature=temperature,
                 max_tokens=OPENAI_MAX_TOKENS,
                 response_format={"type": "json_object"},
                 messages=messages,
             )
+            metrics["llm_calls"] += 1
+            if response.usage is not None:
+                metrics["prompt_tokens"] += response.usage.prompt_tokens
+                metrics["completion_tokens"] += response.usage.completion_tokens
             raw_content = response.choices[0].message.content
 
             try:
