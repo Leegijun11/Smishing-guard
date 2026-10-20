@@ -1,0 +1,37 @@
+text,label,category
+"[서울중앙지검] 귀하 명의가 대출 사기 사건에 연루되었습니다. 무혐의 입증을 위해 대출금 전액을 국가안전계좌로 이체하세요. 담당 검사 02-3480-1100",institution,boundary
+"[금융위원회 지정] 햇살론 정부지원 대출 대상자로 선정되셨습니다. 금융감독원 확인번호 7741 입력 후 보증료 입금 시 당일 지급 http://hope-loan.kr",financial,boundary
+"[DHL] 통관 수수료 4,500원 결제 확인 후 배송됩니다. 미결제 시 해외 반송 처리 http://dhl-clearance.top",delivery,boundary
+"[건강보험공단] 건강보험료 이중 납부 환불금이 발생했습니다. 환불 계좌 확인 및 카드 승인 취소 http://nhis-return.cc",institution,boundary
+"형 나야 폰 바꿨어. 대출이 안 돼서 그런데 급전 300만원만 빌려줘 이번 달 안에 갚을게. 계좌는 문자로 보낼게",acquaintance,boundary
+"OO아 나 코인으로 3배 벌었어 너도 같이 해. 내가 알려주는 거래소 가입하고 100만원만 넣어봐 http://coin-x2.kr",investment,boundary
+"[금융감독원 인가] 해외주식 공모주 청약 안내. 원금보장 연 28% 확정 수익. 입금 계좌 안내를 위해 담당자에게 회신 바랍니다",investment,boundary
+"[신규 대출상품] 마이너스통장 연계 주식 투자 레버리지 3배, 무담보 즉시 승인. 지금 신청하세요 http://lev-loan.cc",financial,boundary
+"[카드사] 연체금 120만원 미납으로 신용점수 하락 예정입니다. 카드론 대환으로 즉시 해결 가능 http://card-fix.top",financial,boundary
+"택배 기사입니다. 아드님이 주문하신 물건 배송했는데 부재중이라 문자 드려요. 문 앞 사진 확인 http://pic-door.xyz",delivery,boundary
+"[인천세관] 귀하 앞으로 마약류 의심 국제우편물이 적발되었습니다. 수사관 직통 070-4412-9087 로 즉시 연락 바랍니다",institution,boundary
+"[한국도로공사] 통행료 미납 3건이 확인되었습니다. 미납 시 과태료 부과 및 차량 압류 예정, 납부 http://toll-pay.top",payment,boundary
+"엄마 나 장학금 환급 신청해야 하는데 엄마 계좌로 먼저 받을게. 문자로 가는 인증번호 알려줘",acquaintance,boundary
+"[핀테크] 소액 후불결제 한도 상향 심사 통과! 수수료 9,900원 선납 시 한도 100만원 즉시 적용 http://limit-up.cc",financial,boundary
+"안녕하세요 지난 세미나에서 만난 박 팀장입니다. 비상장 주식 우선배정 단톡방 초대드립니다 http://invite-pre.kr",investment,boundary
+"[경찰청] 택배 분실 신고가 접수되었습니다. 본인 확인을 위해 신분증 사진을 전송해 주세요 http://police-id.xyz",institution,boundary
+"[카카오톡 선물] 지인께서 선물을 보냈습니다. 수령하려면 본인 인증이 필요합니다 http://kakao-gift.top",acquaintance,boundary
+"[중소벤처기업부] 소상공인 긴급 경영안정자금 대출 신청 접수. 신용보증 수수료 입금 후 당일 지급 http://sbiz-fund.kr",financial,boundary
+"[대법원] 전자소송 송달 문서가 도착했습니다. 미확인 시 송달 간주됩니다. 열람 http://ecourt-notice.xyz",institution,boundary
+"[삼성카드] 해외 승인 신청 대기 중 650,000원. 본인이 아니면 금융감독원 민원센터로 즉시 연결 http://card-fss.top",payment,boundary
+"[토스뱅크] 이체 완료: 김민수님에게 50,000원 (10/19 21:14)",normal,normal_tricky
+"[현대카드] 해외 승인 USD 12.99 NETFLIX.COM 10/19. 본인 사용이 아니면 현대카드 앱에서 이용정지 하세요",normal,normal_tricky
+"[CU] 모바일 상품권 아이스 아메리카노 유효기간이 11/10까지입니다. CU 앱에서 확인하세요",normal,normal_tricky
+"[한국도로공사] 하이패스 카드 충전 완료 50,000원. 잔액은 하이패스 앱에서 확인 가능합니다",normal,normal_tricky
+"[롯데택배] 고객님 상품이 금일 배송 예정입니다. 배송기사 010-5521-0033 / 송장 6021-3322-1109",normal,normal_tricky
+"[대한항공] 예약번호 K7X2LP 탑승 24시간 전 체크인이 가능합니다. 대한항공 앱 또는 koreanair.com 에서 체크인하세요",normal,normal_tricky
+아빠 나 도착했어. 저녁에 통화하자,normal,normal_tricky
+"[KB국민은행] 정기예금(만기 11/15)이 곧 만기됩니다. 재예치는 KB스타뱅킹 앱 또는 영업점에서 가능합니다",normal,normal_tricky
+"[우 체 국] 고 객 님 의 소 포 가 주 소 오 류 로 반 송 대 기 중 입 니 다 → http://epost-re.cc",delivery,obfuscated
+"★국★세★청★ 환급금 52,300원 발생 확인 후 신청 ☞ me2.do/xYzAb1",institution,obfuscated
+"저 금 리 대 출 가 능 !! 무 서 류 당 일 입 금 !! 상 담 ▶ 카 톡 ID : loan_kim01",financial,obfuscated
+"엄. 마. 나 핸 드 폰 물 에 빠 졌 어 ㅠㅠ 새 번 호 야 문 상 사 줘",acquaintance,obfuscated
+"[국민연금공단] 연금 수급 자격 재확인 안내. 미확인 시 지급이 정지됩니다 http://nps-check.top",institution,novel
+"[알리익스프레스] 주문하신 상품의 결제 오류가 발생했습니다. 결제정보 재입력 http://ali-pay.cc",payment,novel
+"[OO증권] 카카오톡 주식 리딩방 신규 회원 한정 모집. 이번 주 급등 예정 종목 5개 무료 공개 https://open.kakao.com/o/xYz9",investment,novel
+"[동창회] 졸업 20주년 모임 및 회비 안내. 모바일 초대장 확인 http://reunion-2026.kr",acquaintance,novel
