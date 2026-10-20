@@ -9,8 +9,14 @@ load_dotenv(ROOT_DIR / ".env")
 # ---- 데이터 ----
 DATA_DIR = ROOT_DIR / "data"
 RAW_DATASET = DATA_DIR / "raw" / "Smishing_dataset.csv"
+# 학습 보강 데이터(선택). 원본 CSV에 직접 추가하면 train/validation/test 분할이 바뀌어 test가 오염되므로
+# 별도 파일에 두고, 분할 이후 train에만 합친다 (ml_model/dataset.py).
+AUGMENT_DATASET = DATA_DIR / "raw" / "augment.csv"
 KNOWLEDGE_DIR = DATA_DIR / "knowledge"
 HARD_SET = DATA_DIR / "eval" / "hard_set.csv"
+# 학습 보강 때 절대 보지 않는 최종 평가용 (hard set은 오류 유형 파악에 쓴 개발용)
+CHALLENGE_SET = DATA_DIR / "eval" / "challenge_set.csv"
+INJECTION_SET = DATA_DIR / "eval" / "injection_set.csv"
 
 # ---- 산출물 ----
 ARTIFACTS_DIR = ROOT_DIR / "artifacts"
@@ -28,7 +34,8 @@ def _optional_float(name: str):
 
 # ---- ML model ----
 BASE_BERT_MODEL = os.getenv("BASE_BERT_MODEL", "klue/bert-base")
-BERT_MODEL_DIR = _path("artifacts/bert-smishing")
+# 재학습 시 이전 모델을 덮어쓰지 않도록 BERT_MODEL_DIR로 저장·로드 위치를 바꿀 수 있다.
+BERT_MODEL_DIR = _path(os.getenv("BERT_MODEL_DIR", "artifacts/bert-smishing"))
 MAX_SEQ_LEN = int(os.getenv("MAX_SEQ_LEN", "128"))
 
 # ---- Vector DB ----
