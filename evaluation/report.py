@@ -1,6 +1,7 @@
 """run_benchmark 결과를 읽어 비교 리포트(evaluation/results/report.md)를 만든다.
 
     python -m evaluation.report
+    python -m evaluation.report --raw-dir raw_g_test --out report_g_test.md   # 시험 실행 결과를 따로 보기
 
 API 호출 없이 저장된 결과만 사용한다. Fast Path 임계값 곡선은 D의 샘플별 결과에서
 "BERT가 normal을 t 이상 확신하면 LLM을 생략했을 때"를 계산한 값이다.
@@ -8,6 +9,7 @@ API 호출 없이 저장된 결과만 사용한다. Fast Path 임계값 곡선�
 
 리포트 맨 위의 "수용 기준 대조"는 evaluation/ACCEPTANCE.md 에 결과를 보기 전에 정해 둔 기준을 자동 채점한다.
 """
+import argparse
 import csv
 import json
 import sys
@@ -507,7 +509,18 @@ def build_set_section(set_name: str, data: Dict) -> str:
     return "\n".join(parts)
 
 
-def main() -> None:
+def main(argv: Optional[List[str]] = None) -> None:
+    global RAW_DIR, REPORT_PATH
+    parser = argparse.ArgumentParser(description="벤치마크 결과로 비교 리포트를 만든다.")
+    parser.add_argument("--raw-dir", default=None,
+                        help="읽을 결과 폴더 이름 (evaluation/results/ 아래, 기본 raw). 시험 실행 결과를 따로 볼 때 사용")
+    parser.add_argument("--out", default=None, help="리포트 파일 이름 (evaluation/results/ 아래, 기본 report.md)")
+    args = parser.parse_args(argv)
+    if args.raw_dir:
+        RAW_DIR = RESULTS_DIR / args.raw_dir
+    if args.out:
+        REPORT_PATH = RESULTS_DIR / args.out
+
     data = {s: d for s in SET_ORDER if (d := load_set(s))}
     if not data:
         print("결과가 없습니다. 먼저 `python -m evaluation.run_benchmark` 를 실행하세요.")
