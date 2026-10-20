@@ -1,0 +1,1533 @@
+[
+ {
+  "schema": 2,
+  "text": "[서울중앙지검] 귀하 명의가 대출 사기 사건에 연루되었습니다. 무혐의 입증을 위해 대출금 전액을 국가안전계좌로 이체하세요. 담당 검사 02-3480-1100",
+  "gold": "institution",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.6614686250686646,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.10406464338302612,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 공공기관·수사기관 사칭으로 판단됩니다. 대출금을 국가안전계좌로 이체하도록 요구하며, 이는 사기 의심이 높은 내용입니다.",
+  "reasons": [
+   "문자 내용에서 대출금 전액을 국가안전계좌로 이체하도록 요구함",
+   "참고자료에서 어떤 공공기관도 '안전계좌'로 돈을 이체하도록 요구하지 않는다는 원칙을 언급함"
+  ],
+  "action_guide": [
+   "즉시 해당 금융사 전 계좌에 대해 지급정지를 신청하고, 공동인증서를 폐기하고 재발급하는 등의 조치를 취한다.",
+   "경찰에 신고하고, 금융감독원 '개인정보 노출자 사고예방 시스템'에 등록하여 신규 계좌 개설 및 대출 차단을 요청한다."
+  ],
+  "used_sources": [
+   "참고자료 3 | 공공기관·수사기관 사칭 - 절대 기억할 원칙"
+  ],
+  "reference_sections": [
+   "institution:이미 정보를 알려주었거나 앱을 설치했다면",
+   "institution:송금까지 했다면",
+   "institution:절대 기억할 원칙",
+   "institution:유형 개요"
+  ],
+  "metrics": {
+   "bert_ms": 94.87490000901744,
+   "retrieval_ms": 64.83139999909326,
+   "llm_ms": 4472.628099960275,
+   "total_ms": 4632.368699996732,
+   "llm_calls": 1,
+   "prompt_tokens": 3172,
+   "completion_tokens": 410
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[금융위원회 지정] 햇살론 정부지원 대출 대상자로 선정되셨습니다. 금융감독원 확인번호 7741 입력 후 보증료 입금 시 당일 지급 http://hope-loan.kr",
+  "gold": "financial",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.8029183149337769,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.06424206495285034,
+  "pred_label": "financial",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자는 '햇살론 정부지원 대출'을 속이는 사칭 문자로, 링크를 통해 보증료를 요구하고 있습니다. 이는 선입금 사기의 전형적인 유형이며 즉시 조치가 필요합니다.",
+  "reasons": [
+   "문자 내용에서 정부지원 대출 대상자로 선정되었다는 미끼를 던지고 보증료 입금을 유도함",
+   "참고자료에서 언급된 선입금 요구, 개인정보 수집 등 선입금 사기의 판별 포인트가 일치함"
+  ],
+  "action_guide": [
+   "링크를 클릭하지 말고 금융감독원 파인 사이트에서 해당 업체를 조회해 실제 정식 대부업체인지 확인",
+   "문자를 캡처하여 118(불법스팸신고) 또는 경찰청 사이버수사국에 신고하여 피해를 최소화"
+  ],
+  "used_sources": [
+   "금융·대출 사기 - 즉시 해야 할 일",
+   "금융·대출 사기 - 유형 개요",
+   "금융·대출 사기 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "financial:즉시 해야 할 일",
+   "financial:유형 개요",
+   "financial:이미 입금했다면",
+   "financial:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 88.90989999054,
+   "retrieval_ms": 56.110800011083484,
+   "llm_ms": 4779.916399973445,
+   "total_ms": 4924.970299995039,
+   "llm_calls": 1,
+   "prompt_tokens": 3006,
+   "completion_tokens": 406
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[DHL] 통관 수수료 4,500원 결제 확인 후 배송됩니다. 미결제 시 해외 반송 처리 http://dhl-clearance.top",
+  "gold": "delivery",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.8740721940994263,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.04678522050380707,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 택배 수수료 결제를 요구하며, 링크를 통한 해외 반송 처리를 유도하고 있습니다. 발신번호가 국제 발신 표시가 있고, 낯선 도메인을 사용하며 소액 결제를 요구하는 특징이 있습니다.",
+  "reasons": [
+   "발신번호가 국제 발신 표시가 있어 의심스럽습니다.",
+   "문자에 낯선 도메인인 'http://dhl-clearance.top'이 사용되었고, 소액 결제를 요구하고 있습니다."
+  ],
+  "action_guide": [
+   "링크를 절대 클릭하지 말고 해당 문자를 삭제해 주세요.",
+   "배송 여부 확인은 택배사의 공식 앱 또는 대표번호로 직접 조회해야 합니다."
+  ],
+  "used_sources": [
+   "택배사칭 - 판별 포인트",
+   "택배사칭 - 즉시 해야 할 일 (링크를 아직 누르지 않았다면)"
+  ],
+  "reference_sections": [
+   "delivery:판별 포인트",
+   "delivery:금전 피해가 발생했다면",
+   "delivery:즉시 해야 할 일 (링크를 아직 누르지 않았다면)",
+   "delivery:유형 개요"
+  ],
+  "metrics": {
+   "bert_ms": 93.3031000313349,
+   "retrieval_ms": 53.412500012200326,
+   "llm_ms": 6285.201999999117,
+   "total_ms": 6431.951700011268,
+   "llm_calls": 1,
+   "prompt_tokens": 3004,
+   "completion_tokens": 349
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[건강보험공단] 건강보험료 이중 납부 환불금이 발생했습니다. 환불 계좌 확인 및 카드 승인 취소 http://nhis-return.cc",
+  "gold": "institution",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.46078822016716003,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.2356499433517456,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 건강보험공단을 사칭하여 환불금을 미끼로 하여 사칭 메시지를 보냈습니다. 이는 공공기관·수사기관 사칭 사기의 전형적인 유형입니다.",
+  "reasons": [
+   "문자 내용에서 건강보험료 이중 납부 환불금을 미끼로 하여 개인 정보(환불 계좌 확인 및 카드 승인 취소)를 요구함",
+   "참고자료에서 언급된 공공기관·수사기관 사칭 유형에 부합"
+  ],
+  "action_guide": [
+   "통화를 즉시 끊고, 문자·통화 내용을 캡처하여 증거로 보관",
+   "직접 검색한 공식 대표번호로 해당 공공기관의 사실 여부를 확인"
+  ],
+  "used_sources": [
+   "공공기관·수사기관 사칭 - 유형 개요",
+   "공공기관·수사기관 사칭 - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "institution:송금까지 했다면",
+   "institution:이미 정보를 알려주었거나 앱을 설치했다면",
+   "institution:유형 개요",
+   "institution:즉시 해야 할 일"
+  ],
+  "metrics": {
+   "bert_ms": 121.78260000655428,
+   "retrieval_ms": 90.2081000385806,
+   "llm_ms": 4905.137500027195,
+   "total_ms": 5117.159900022671,
+   "llm_calls": 1,
+   "prompt_tokens": 3196,
+   "completion_tokens": 373
+  }
+ },
+ {
+  "schema": 2,
+  "text": "형 나야 폰 바꿨어. 대출이 안 돼서 그런데 급전 300만원만 빌려줘 이번 달 안에 갚을게. 계좌는 문자로 보낼게",
+  "gold": "acquaintance",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.910060465335846,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.021692074835300446,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 지인·가족을 사칭하여 급전을 요구하는 내용으로, 송금 전에 반드시 확인해야 합니다.",
+  "reasons": [
+   "문자 내용에서 급한 상황을 만들어 송금을 요구하고 있음",
+   "계좌로 송금을 요청하며 금전을 요구하는 내용"
+  ],
+  "action_guide": [
+   "송금하지 말고, 알고 있는 원래 번호로 직접 전화를 걸어 사실 확인",
+   "가족 구성원에게 별도로 연락하여 사실 확인을 요청",
+   "경찰에 신고하고 은행에 피해구제 신청서를 제출"
+  ],
+  "used_sources": [
+   "지인·가족 사칭 (메신저피싱) - 즉시 해야 할 일",
+   "지인·가족 사칭 (메신저피싱) - 판별 포인트"
+  ],
+  "reference_sections": [
+   "acquaintance:이미 송금했다면",
+   "acquaintance:즉시 해야 할 일",
+   "acquaintance:판별 포인트",
+   "acquaintance:예방 습관"
+  ],
+  "metrics": {
+   "bert_ms": 65.49219996668398,
+   "retrieval_ms": 81.08400000492111,
+   "llm_ms": 4163.86590001639,
+   "total_ms": 4310.526599991135,
+   "llm_calls": 1,
+   "prompt_tokens": 3121,
+   "completion_tokens": 341
+  }
+ },
+ {
+  "schema": 2,
+  "text": "OO아 나 코인으로 3배 벌었어 너도 같이 해. 내가 알려주는 거래소 가입하고 100만원만 넣어봐 http://coin-x2.kr",
+  "gold": "investment",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.2893160581588745,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.19925330579280853,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자는 투자·리딩방 사기 유형으로, 코인으로 3배 벌었다는 미끼를 통해 가입과 100만원 입금을 유도하고 있습니다. 이는 원금보장과 확정 고수익을 약속하며 추가 입금을 유도하는 전형적인 사기 행위입니다.",
+  "reasons": [
+   "문자 내용에서 '3배 벌었다', '가입하고 100만원만 넣어봐'와 같이 높은 수익과 입금 유도 요구가 있음",
+   "검색된 대처방법에 따르면 투자 사기의 특징인 원금보장과 추가 입금 유도가 일치함"
+  ],
+  "action_guide": [
+   "업체·운영자가 정식 금융투자업자인지 금융감독원 파인 또는 금융투자협회에서 조회하세요.",
+   "원금보장·확정수익 문구가 있다면 더 이상 대화하지 말고 채팅방을 나가세요.",
+   "이미 입금했다면 추가 입금 요구에 절대 응하지 말고 캡처 자료를 보관해 신고에 대비하세요."
+  ],
+  "used_sources": [
+   "투자·리딩방 사기 - 유형 개요",
+   "투자·리딩방 사기 - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "investment:유형 개요",
+   "investment:즉시 해야 할 일",
+   "payment:유형 개요",
+   "payment:링크를 눌러 정보를 입력했거나 전화로 카드정보를 알려줬다면"
+  ],
+  "metrics": {
+   "bert_ms": 107.16199997114018,
+   "retrieval_ms": 160.75709997676313,
+   "llm_ms": 5671.329699980561,
+   "total_ms": 5939.282800012734,
+   "llm_calls": 1,
+   "prompt_tokens": 3025,
+   "completion_tokens": 475
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[금융감독원 인가] 해외주식 공모주 청약 안내. 원금보장 연 28% 확정 수익. 입금 계좌 안내를 위해 담당자에게 회신 바랍니다",
+  "gold": "investment",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.5703510642051697,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.12354946881532669,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에는 원금보장과 확정 수익을 약속하며 입금 계좌 안내를 요구하는 내용이 포함되어 있습니다. 이는 투자·리딩방 사기의 전형적인 모범 사례로 판단됩니다.",
+  "reasons": [
+   "문자에 '원금보장', '확정 수익'과 같은 수익 약속이 포함되어 있어 사기 의심",
+   "금융감독원을 사칭하여 신뢰를 유도하고 추가 입금을 요구하는 행위가 확인됨"
+  ],
+  "action_guide": [
+   "업체·운영자의 신분을 확인하기 위해 금융감독원이나 금융투자협회에서 조회해야 합니다.",
+   "원금보장과 확정 수익을 약속하는 경우, 채팅방을 즉시 나가고 추가 입금을 요구하는 경우 응하지 않아야 합니다.",
+   "이미 입금한 경우, 은행이나 112에 즉시 신고하여 지급정지를 요청하고 경찰 또는 금융감독원에 신고해야 합니다."
+  ],
+  "used_sources": [
+   "투자·리딩방 사기 - 즉시 해야 할 일",
+   "투자·리딩방 사기 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "investment:즉시 해야 할 일",
+   "investment:이미 입금했다면",
+   "investment:판별 포인트",
+   "investment:유형 개요"
+  ],
+  "metrics": {
+   "bert_ms": 117.04270000336692,
+   "retrieval_ms": 97.01810003025457,
+   "llm_ms": 4167.463699996006,
+   "total_ms": 4381.557099986821,
+   "llm_calls": 1,
+   "prompt_tokens": 3142,
+   "completion_tokens": 450
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[신규 대출상품] 마이너스통장 연계 주식 투자 레버리지 3배, 무담보 즉시 승인. 지금 신청하세요 http://lev-loan.cc",
+  "gold": "financial",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.9071465134620667,
+  "bert_second_label": "investment",
+  "bert_second_score": 0.035635050386190414,
+  "pred_label": "financial",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 '무담보 즉시 승인'과 '선입금'을 앞세워 사기성 대출을 유도하고 있습니다. 이는 금융·대출 사기의 전형적인 피싱 문자입니다.",
+  "reasons": [
+   "문자에 '무담보 즉시 승인'과 '신용등급 무관'이라는 과장된 내용이 포함되어 있음",
+   "금융·대출 사기 유형에 해당하는 선입금(보증금, 작업비) 요구가 있음"
+  ],
+  "action_guide": [
+   "링크를 클릭하지 말고, 해당 업체명을 금융감독원 파인(fine.fsc.or.kr)에서 확인해야 함",
+   "금융 상품이 필요하다면 공식 창구를 통해 직접 문의하고, 선입금 요구 시 즉시 중단해야 함",
+   "문자를 캡처하여 118(불법스팸신고) 또는 경찰청 사이버수사국에 신고해야 함"
+  ],
+  "used_sources": [
+   "금융·대출 사기 - 유형 개요",
+   "금융·대출 사기 - 즉시 해야 할 일",
+   "금융·대출 사기 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "financial:유형 개요",
+   "financial:즉시 해야 할 일",
+   "financial:판별 포인트",
+   "financial:예방 습관"
+  ],
+  "metrics": {
+   "bert_ms": 78.30330001888797,
+   "retrieval_ms": 81.835700024385,
+   "llm_ms": 5215.455099998508,
+   "total_ms": 5375.625200045761,
+   "llm_calls": 1,
+   "prompt_tokens": 2940,
+   "completion_tokens": 432
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[카드사] 연체금 120만원 미납으로 신용점수 하락 예정입니다. 카드론 대환으로 즉시 해결 가능 http://card-fix.top",
+  "gold": "financial",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.8578020334243774,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.03772900253534317,
+  "pred_label": "financial",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 신용점수 하락을 협박하며 대환대출을 유도하고 있으며, 링크를 통한 해결 제안은 사기 가능성이 높습니다.",
+  "reasons": [
+   "문자 내용에서 연체금을 미납하여 신용점수 하락을 협박하고 있음",
+   "의심스러운 링크인 'http://card-fix.top'을 통해 즉시 해결 가능하다는 유도"
+  ],
+  "action_guide": [
+   "링크를 클릭하지 말고 해당 업체명을 금융감독원 파인(fine.fsc.or.kr)에서 조회하여 정품 여부를 확인",
+   "문자를 캡처하여 118(불법스팸신고) 또는 경찰청 사이버수사국에 신고"
+  ],
+  "used_sources": [
+   "금융·대출 사기 - 즉시 해야 할 일",
+   "금융·대출 사기 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "financial:즉시 해야 할 일",
+   "financial:이미 입금했다면",
+   "financial:판별 포인트",
+   "financial:유형 개요"
+  ],
+  "metrics": {
+   "bert_ms": 75.38990001194179,
+   "retrieval_ms": 56.46880000131205,
+   "llm_ms": 3802.6334999594837,
+   "total_ms": 3934.525999997277,
+   "llm_calls": 1,
+   "prompt_tokens": 2994,
+   "completion_tokens": 336
+  }
+ },
+ {
+  "schema": 2,
+  "text": "택배 기사입니다. 아드님이 주문하신 물건 배송했는데 부재중이라 문자 드려요. 문 앞 사진 확인 http://pic-door.xyz",
+  "gold": "delivery",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.8740911483764648,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.04192839190363884,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에 부재중 배송물품 확인을 유도하며 알 수 없는 도메인의 링크가 포함되어 있어 스미싱 의심됩니다.",
+  "reasons": [
+   "부재중 배송물품 확인을 위해 알 수 없는 도메인인 'http://pic-door.xyz' 링크가 제공됨",
+   "택배사칭 문자에서 주문 내역 대조, 발신번호 형태, 낯선 도메인 등의 판별 포인트가 일치함"
+  ],
+  "action_guide": [
+   "링크를 절대 클릭하지 말고 문자를 삭제합니다.",
+   "배송 여부는 택배사 공식 앱 또는 대표번호로 직접 조회하고, 문자를 '스팸 신고' 처리하며 불법스팸대응센터에 신고합니다."
+  ],
+  "used_sources": [
+   "택배사칭 - 판별 포인트",
+   "택배사칭 - 즉시 해야 할 일 (링크를 아직 누르지 않았다면)"
+  ],
+  "reference_sections": [
+   "delivery:판별 포인트",
+   "delivery:즉시 해야 할 일 (링크를 아직 누르지 않았다면)",
+   "delivery:유형 개요",
+   "delivery:예방 습관"
+  ],
+  "metrics": {
+   "bert_ms": 84.38790001673624,
+   "retrieval_ms": 53.45959996338934,
+   "llm_ms": 5329.377899994142,
+   "total_ms": 5467.255799972918,
+   "llm_calls": 1,
+   "prompt_tokens": 2868,
+   "completion_tokens": 359
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[인천세관] 귀하 앞으로 마약류 의심 국제우편물이 적발되었습니다. 수사관 직통 070-4412-9087 로 즉시 연락 바랍니다",
+  "gold": "institution",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.7898747324943542,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.061689697206020355,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 검찰을 사칭하여 마약류 의심 국제우편물을 이유로 연락을 요청하고 있으며, 이는 공포심과 시간 압박을 활용한 사칭 유형에 해당합니다.",
+  "reasons": [
+   "문자 내용에서 '마약류 의심 국제우편물이 적발되었습니다'라는 공포심을 유발하는 내용 확인",
+   "전화번호가 직통번호인 070으로 시작하여 공식 대표번호와 다르다는 점"
+  ],
+  "action_guide": [
+   "통화를 즉시 끊고, 검찰의 공식 대표번호(1301)로 직접 확인 전화를 걸어 사실 여부를 확인한다.",
+   "문자 내용과 통화 내용을 캡처하여 증거로 보관하고, 112나 경찰에 신고한다."
+  ],
+  "used_sources": [
+   "참고자료 1 | 공공기관·수사기관 사칭 - 즉시 해야 할 일",
+   "참고자료 2 | 공공기관·수사기관 사칭 - 유형 개요",
+   "참고자료 4 | 공공기관·수사기관 사칭 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "institution:즉시 해야 할 일",
+   "institution:유형 개요",
+   "institution:송금까지 했다면",
+   "institution:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 887.7352999988943,
+   "retrieval_ms": 872.1874000038952,
+   "llm_ms": 5126.22370000463,
+   "total_ms": 6886.325000028592,
+   "llm_calls": 1,
+   "prompt_tokens": 3076,
+   "completion_tokens": 435
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[한국도로공사] 통행료 미납 3건이 확인되었습니다. 미납 시 과태료 부과 및 차량 압류 예정, 납부 http://toll-pay.top",
+  "gold": "payment",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.5103354454040527,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.23094159364700317,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 공공기관·수사기관을 사칭하고 있으며, 송금을 유도하고 있습니다. 공포심과 시간 압박으로 판단력을 약화시키고 안전계좌 이체를 요구하는 전형적인 유형입니다.",
+  "reasons": [
+   "문자 내용이 '통행료 미납 3건이 확인되었습니다. 미납 시 과태료 부과 및 차량 압류 예정, 납부'와 같이 공포심을 유발하고 있음",
+   "의심스러운 링크인 'http://toll-pay.top'을 통해 송금을 유도하고 있음"
+  ],
+  "action_guide": [
+   "즉시 해당 금융사 전 계좌에 대해 지급정지를 신청하고, 112에 신고하여 사실 여부를 확인하세요.",
+   "문자 내용과 관련하여 경찰에 신고하고, 문자 내용을 캡처하여 증거로 보관하세요."
+  ],
+  "used_sources": [
+   "참고자료 3 | 공공기관·수사기관 사칭 - 유형 개요",
+   "참고자료 4 | 공공기관·수사기관 사칭 - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "institution:송금까지 했다면",
+   "institution:이미 정보를 알려주었거나 앱을 설치했다면",
+   "institution:유형 개요",
+   "institution:즉시 해야 할 일"
+  ],
+  "metrics": {
+   "bert_ms": 86.1049999948591,
+   "retrieval_ms": 73.25890002539381,
+   "llm_ms": 5454.4239999959245,
+   "total_ms": 5613.82109997794,
+   "llm_calls": 1,
+   "prompt_tokens": 3191,
+   "completion_tokens": 433
+  }
+ },
+ {
+  "schema": 2,
+  "text": "엄마 나 장학금 환급 신청해야 하는데 엄마 계좌로 먼저 받을게. 문자로 가는 인증번호 알려줘",
+  "gold": "acquaintance",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.9293339848518372,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.015402955003082752,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 가족을 사칭하여 긴급한 송금을 요구하고 있으며, 이는 메신저피싱의 전형적인 패턴입니다.",
+  "reasons": [
+   "문자 내용에서 긴급한 송금을 요구하고 있음",
+   "인증번호를 요구하면서 계좌로 송금할 것을 요청함"
+  ],
+  "action_guide": [
+   "송금하지 말고 즉시 가족 구성원에게 직접 전화를 걸어 사실 여부를 확인한다.",
+   "경찰에 신고하고 은행에 지급정지를 요청한다."
+  ],
+  "used_sources": [
+   "지인·가족 사칭 (메신저피싱) - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "acquaintance:이미 송금했다면",
+   "acquaintance:즉시 해야 할 일",
+   "acquaintance:예방 습관",
+   "acquaintance:원격제어 앱을 설치했거나 정보를 넘겼다면"
+  ],
+  "metrics": {
+   "bert_ms": 56.30689999088645,
+   "retrieval_ms": 59.07429999206215,
+   "llm_ms": 3482.14919999009,
+   "total_ms": 3597.719600016717,
+   "llm_calls": 1,
+   "prompt_tokens": 3070,
+   "completion_tokens": 290
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[핀테크] 소액 후불결제 한도 상향 심사 통과! 수수료 9,900원 선납 시 한도 100만원 즉시 적용 http://limit-up.cc",
+  "gold": "financial",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.6862205862998962,
+  "bert_second_label": "investment",
+  "bert_second_score": 0.11482886970043182,
+  "pred_label": "financial",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 소액 후불결제 한도 상향을 미리 심사했다는 내용이며, 링크를 통한 수수료 선납을 유도하고 있습니다. 이는 금융·대출 사기 의심을 높이는 요소입니다.",
+  "reasons": [
+   "문자 내용에서 소액 후불결제 한도 상향을 심사했다는데 미리 수수료를 선납해야 한다는 요구가 있음",
+   "수수료를 선납하고 한도가 즉시 적용된다는 약속은 일반적인 금융 서비스에서는 보이지 않는 형태"
+  ],
+  "action_guide": [
+   "링크를 클릭하지 말고 해당 업체명을 금융감독원 파인(fine.fsc.or.kr)에서 확인해보세요.",
+   "금융 서비스를 이용할 때는 공식 창구를 통해 직접 문의하고 선입금을 요구받으면 중단하세요."
+  ],
+  "used_sources": [
+   "금융·대출 사기 - 즉시 해야 할 일",
+   "금융·대출 사기 - 유형 개요"
+  ],
+  "reference_sections": [
+   "financial:즉시 해야 할 일",
+   "financial:유형 개요",
+   "financial:이미 입금했다면",
+   "financial:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 67.95719999354333,
+   "retrieval_ms": 80.36029996583238,
+   "llm_ms": 3090.759400045499,
+   "total_ms": 3239.105600048788,
+   "llm_calls": 1,
+   "prompt_tokens": 2997,
+   "completion_tokens": 389
+  }
+ },
+ {
+  "schema": 2,
+  "text": "안녕하세요 지난 세미나에서 만난 박 팀장입니다. 비상장 주식 우선배정 단톡방 초대드립니다 http://invite-pre.kr",
+  "gold": "investment",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.7101705074310303,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.08131994307041168,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "수신된 문자는 투자·리딩방 사기 유형으로, 비상장 주식 우선배정을 미끼로 한 원금보장과 확정 고수익을 약속하며 금전을 요구할 가능성이 높습니다.",
+  "reasons": [
+   "수신된 문자에는 비상장 주식 우선배정을 미끼로 한 초대 링크가 포함되어 있음",
+   "BERT 모델이 투자·리딩방 사기로 71.0%의 확신도로 예측함"
+  ],
+  "action_guide": [
+   "문자에 포함된 링크는 클릭하지 말고 즉시 삭제합니다.",
+   "금융투자업자 여부를 확인하고, 이미 피해를 입은 경우에는 관련 기관에 신고하고 캡처 자료를 보관하세요."
+  ],
+  "used_sources": [
+   "투자·리딩방 사기 - 유형 개요",
+   "투자·리딩방 사기 - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "investment:유형 개요",
+   "investment:즉시 해야 할 일",
+   "investment:예방 습관",
+   "investment:회복이 어려운 경우 대비"
+  ],
+  "metrics": {
+   "bert_ms": 197.50559999374673,
+   "retrieval_ms": 125.28689997270703,
+   "llm_ms": 2991.6507999878377,
+   "total_ms": 3314.5309000392444,
+   "llm_calls": 1,
+   "prompt_tokens": 2914,
+   "completion_tokens": 357
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[경찰청] 택배 분실 신고가 접수되었습니다. 본인 확인을 위해 신분증 사진을 전송해 주세요 http://police-id.xyz",
+  "gold": "institution",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.5809653997421265,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.29087767004966736,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 택배 분실을 주장하며 본인 확인을 위해 신분증 사진을 요구하고 악성 링크를 제공하고 있습니다. 이는 택배사칭 스미싱의 전형적인 유형입니다.",
+  "reasons": [
+   "문자 내용이 택배 분실을 주장하며 본인 확인을 위해 신분증 사진을 전송하도록 유도함",
+   "악성 링크인 'http://police-id.xyz'를 통해 개인정보를 탈취하려는 의도가 있음"
+  ],
+  "action_guide": [
+   "링크를 결코 클릭하지 말고 즉시 문자를 삭제합니다.",
+   "택배 분실 여부를 확인하기 위해서는 해당 택배사의 공식 앱 또는 대표번호를 통해 직접 조회해야 합니다."
+  ],
+  "used_sources": [
+   "택배사칭 - 유형 개요",
+   "택배사칭 - 즉시 해야 할 일 (링크를 아직 누르지 않았다면)"
+  ],
+  "reference_sections": [
+   "delivery:금전 피해가 발생했다면",
+   "delivery:유형 개요",
+   "delivery:즉시 해야 할 일 (링크를 아직 누르지 않았다면)",
+   "delivery:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 100.25780001888052,
+   "retrieval_ms": 99.01790000731125,
+   "llm_ms": 4165.283400041517,
+   "total_ms": 4364.5894000073895,
+   "llm_calls": 1,
+   "prompt_tokens": 3005,
+   "completion_tokens": 362
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[카카오톡 선물] 지인께서 선물을 보냈습니다. 수령하려면 본인 인증이 필요합니다 http://kakao-gift.top",
+  "gold": "acquaintance",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.6873939633369446,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.09502831101417542,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "수령을 위해 본인 인증을 요구하는 문자는 택배사칭으로 의심되며, 악성 앱 설치 및 개인정보 유출 가능성이 높습니다.",
+  "reasons": [
+   "문자 내용에 '지인께서 선물을 보냈습니다'라는 감성적인 문구와 본인 인증을 위한 링크가 포함되어 있어 유심히 살펴봐야 합니다.",
+   "택배사칭 유형에서 주로 사용되는 단축 URL 클릭이나 앱 설치를 유도하는 전형적인 수법이 적용되었습니다."
+  ],
+  "action_guide": [
+   "링크를 절대 클릭하지 말고 문자를 삭제해 주세요.",
+   "배송 여부는 해당 택배사의 공식 앱 또는 대표번호로 직접 확인하고, 문자를 '스팸 신고' 처리하고 불법스팸대응센터에 신고해 주세요."
+  ],
+  "used_sources": [
+   "택배사칭 - 유형 개요",
+   "택배사칭 - 즉시 해야 할 일 (링크를 아직 누르지 않았다면)"
+  ],
+  "reference_sections": [
+   "delivery:유형 개요",
+   "delivery:금전 피해가 발생했다면",
+   "delivery:즉시 해야 할 일 (링크를 아직 누르지 않았다면)",
+   "delivery:예방 습관"
+  ],
+  "metrics": {
+   "bert_ms": 63.07459995150566,
+   "retrieval_ms": 59.552600025199354,
+   "llm_ms": 4449.3744999635965,
+   "total_ms": 4572.029799979646,
+   "llm_calls": 1,
+   "prompt_tokens": 2930,
+   "completion_tokens": 400
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[중소벤처기업부] 소상공인 긴급 경영안정자금 대출 신청 접수. 신용보증 수수료 입금 후 당일 지급 http://sbiz-fund.kr",
+  "gold": "financial",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.8725739121437073,
+  "bert_second_label": "investment",
+  "bert_second_score": 0.03269285708665848,
+  "pred_label": "financial",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 금융·대출 사기 유형에 속하며, 신용보증 수수료 입금 후 당일 지급을 유도하고 있습니다.",
+  "reasons": [
+   "문자에서 긴급 경영안정자금 대출 신청을 위해 신용보증 수수료를 미리 입금하도록 유도하고 있음",
+   "금융·대출 사기의 특징인 선입금 요구가 있음"
+  ],
+  "action_guide": [
+   "링크를 클릭하지 말고, 해당 업체명을 금융감독원 파인(fine.fsc.or.kr)에서 정식 등록 여부를 확인하세요.",
+   "금융기관 공식 창구를 통해 직접 문의하여 상황을 확인하고, 선입금 요구 시 즉시 중단하세요."
+  ],
+  "used_sources": [
+   "금융·대출 사기 - 유형 개요",
+   "금융·대출 사기 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "financial:즉시 해야 할 일",
+   "financial:이미 입금했다면",
+   "financial:유형 개요",
+   "financial:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 58.22270002681762,
+   "retrieval_ms": 71.32139999885112,
+   "llm_ms": 4566.875200020149,
+   "total_ms": 4696.446700021625,
+   "llm_calls": 1,
+   "prompt_tokens": 3011,
+   "completion_tokens": 339
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[대법원] 전자소송 송달 문서가 도착했습니다. 미확인 시 송달 간주됩니다. 열람 http://ecourt-notice.xyz",
+  "gold": "institution",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.63666170835495,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.19607143104076385,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 대법원 송달 문서를 사칭하고 있으며, 사칭된 링크를 클릭하면 개인정보 유출이 발생할 수 있습니다.",
+  "reasons": [
+   "문자 내용이 실제 공식 송달 방식과 다르게 링크를 통한 열람을 유도하고 있음",
+   "사칭된 도메인인 'ecourt-notice.xyz'는 대법원 공식 도메인이 아님"
+  ],
+  "action_guide": [
+   "통화를 끊고 문자 내용을 즉시 삭제합니다.",
+   "대법원 공식 홈페이지나 대표번호를 직접 검색하여 사실 여부를 확인하고, 118이나 경찰에 신고합니다."
+  ],
+  "used_sources": [
+   "참고자료 1 | 공공기관·수사기관 사칭 - 즉시 해야 할 일",
+   "참고자료 3 | 공공기관·수사기관 사칭 - 절대 기억할 원칙"
+  ],
+  "reference_sections": [
+   "institution:즉시 해야 할 일",
+   "institution:송금까지 했다면",
+   "institution:절대 기억할 원칙",
+   "institution:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 52.51709994627163,
+   "retrieval_ms": 85.75239998754114,
+   "llm_ms": 3420.8787999814376,
+   "total_ms": 3559.1858999687247,
+   "llm_calls": 1,
+   "prompt_tokens": 3145,
+   "completion_tokens": 346
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[삼성카드] 해외 승인 신청 대기 중 650,000원. 본인이 아니면 금융감독원 민원센터로 즉시 연결 http://card-fss.top",
+  "gold": "payment",
+  "category": "boundary",
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.5703323483467102,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.1505165547132492,
+  "pred_label": "payment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자는 해외 승인을 허위로 통보하고 본인이 아니면 금융감독원 민원센터로 연결하도록 유도하고 있습니다. 이는 결제·청구 사칭 사기의 전형적인 유형입니다.",
+  "reasons": [
+   "문자 내용이 해외 승인을 허위로 통보하고 본인이 아니면 금융감독원 민원센터로 연결하도록 유도하고 있음",
+   "사기 유형 카탈로그에 따르면 해외 결제 승인을 허위로 통보하고 '본인이 아닐 경우' 연락하도록 유도하는 것은 결제·청구 사칭에 해당"
+  ],
+  "action_guide": [
+   "즉시 카드사 고객센터에 전화해 카드 사용정지 및 재발급을 신청하고, 승인 내역을 확인하여 이의제기(승인취소)를 요청해야 합니다.",
+   "경찰서에서 사건사고사실확인원을 발급받아 카드사에 피해구제 신청서를 제출하고, 여신금융협회 또는 금융감독원에 부정사용 피해 신고 절차를 따라야 합니다."
+  ],
+  "used_sources": [
+   "결제·청구 사칭 - 유형 개요",
+   "결제·청구 사칭 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "payment:금전 피해가 발생했다면",
+   "payment:링크를 눌러 정보를 입력했거나 전화로 카드정보를 알려줬다면",
+   "payment:유형 개요",
+   "payment:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 255.609399988316,
+   "retrieval_ms": 102.4745999602601,
+   "llm_ms": 5959.4638000126,
+   "total_ms": 6317.580200033262,
+   "llm_calls": 1,
+   "prompt_tokens": 2964,
+   "completion_tokens": 485
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[토스뱅크] 이체 완료: 김민수님에게 50,000원 (10/19 21:14)",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.37894976139068604,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.22363950312137604,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 토스뱅크에서의 이체 완료 안내로, 실제로 이체를 한 내용이므로 정상 문자로 판단했습니다.",
+  "reasons": [
+   "이체 내용이 실제로 발생한 거래를 안내하고 있음"
+  ],
+  "action_guide": [
+   "문자 내용이 의심스러운 경우에도 직접 은행 앱 또는 공식 웹사이트를 통해 거래 내역을 확인하는 것이 안전합니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [
+   "financial:개인정보(신분증·계좌정보)까지 전달했다면",
+   "financial:이미 입금했다면",
+   "financial:유형 개요",
+   "financial:판별 포인트"
+  ],
+  "metrics": {
+   "bert_ms": 64.17199998395517,
+   "retrieval_ms": 81.02500002132729,
+   "llm_ms": 2055.0251999520697,
+   "total_ms": 2200.2505999989808,
+   "llm_calls": 1,
+   "prompt_tokens": 2993,
+   "completion_tokens": 187
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[현대카드] 해외 승인 USD 12.99 NETFLIX.COM 10/19. 본인 사용이 아니면 현대카드 앱에서 이용정지 하세요",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.4864954948425293,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.17032644152641296,
+  "pred_label": "normal",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 해외 결제 내역 안내로 보이며, 본인 사용이 아닐 경우 앱에서 이용정지할 것을 안내하고 있습니다.",
+  "reasons": [
+   "해외 승인 내역 및 결제일이 명시되어 있어 실제 결제 내용을 안내하는 것으로 보임",
+   "본인 사용이 아닐 경우의 대처 방법을 안내하고 있어 신속한 대응이 필요함을 강조함"
+  ],
+  "action_guide": [
+   "문자 내용을 확인한 후, 만약 본인이 실제 결제한 거래라면 무시해도 되지만, 의심스러운 경우 현대카드 앱을 통해 결제 내역을 확인하고 이용정지할 수 있음"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 69.43229999160394,
+   "retrieval_ms": 0.002400018274784088,
+   "llm_ms": 3002.4095999542624,
+   "total_ms": 3071.8681000289507,
+   "llm_calls": 1,
+   "prompt_tokens": 2005,
+   "completion_tokens": 266
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[CU] 모바일 상품권 아이스 아메리카노 유효기간이 11/10까지입니다. CU 앱에서 확인하세요",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.7902969121932983,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.05103779956698418,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 상품권 유효기간 안내로 이상한 요구나 위협이 없으며, CU 앱에서 확인하라는 안내도 일반적이므로 정상 문자로 판단합니다.",
+  "reasons": [
+   "문자 내용이 일반적인 상품권 유효기간 안내이며, 이상한 요구나 위협이 없음",
+   "CU 앱에서 확인하라는 안내는 일반적인 안내일 수 있음"
+  ],
+  "action_guide": [
+   "문자에 포함된 링크를 클릭하지 말고, CU 앱을 통해 상품권 유효기간을 확인하는 것이 안전합니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 74.88369999919087,
+   "retrieval_ms": 0.0025999615900218487,
+   "llm_ms": 2744.932000001427,
+   "total_ms": 2819.8442999855615,
+   "llm_calls": 1,
+   "prompt_tokens": 1999,
+   "completion_tokens": 236
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[한국도로공사] 하이패스 카드 충전 완료 50,000원. 잔액은 하이패스 앱에서 확인 가능합니다",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.7233824729919434,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.08135509490966797,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 하이패스 카드 충전 완료를 안내하고, 개인정보나 추가 조치를 요구하지 않습니다.",
+  "reasons": [
+   "문자 내용이 실제 하이패스 카드 충전 완료를 안내하는 것으로 수상한 요소가 없습니다."
+  ],
+  "action_guide": [
+   "문자 내용이 실제 충전 내역과 일치하는지 확인하고, 개인정보나 금전을 요구하는 링크는 클릭하지 말고 공식 앱을 통해 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 63.5234999936074,
+   "retrieval_ms": 0.0025999615900218487,
+   "llm_ms": 2545.2567000174895,
+   "total_ms": 2608.8097999454476,
+   "llm_calls": 1,
+   "prompt_tokens": 2005,
+   "completion_tokens": 194
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[롯데택배] 고객님 상품이 금일 배송 예정입니다. 배송기사 010-5521-0033 / 송장 6021-3322-1109",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.5290822386741638,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.25203612446784973,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 일반적인 택배 배송 안내로 이상한 점이 없습니다.",
+  "reasons": [
+   ""
+  ],
+  "action_guide": [
+   "배송 예정인 상품이 있었다면 해당 송장번호와 함께 배송을 기다리시면 됩니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 90.10400000261143,
+   "retrieval_ms": 0.002500019036233425,
+   "llm_ms": 2871.087900013663,
+   "total_ms": 2961.219999997411,
+   "llm_calls": 2,
+   "prompt_tokens": 4273,
+   "completion_tokens": 252,
+   "retry_errors": [
+    {
+     "error": "1 validation error for SmishingVerdict\nreasons\n  List should have at least 1 item after validation, not 0 [type=too_short, input_value=[], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.8/v/too_short",
+     "raw": "{\n  \"verdict\": \"안전\",\n  \"scam_type\": \"normal\",\n  \"scam_type_ko\": \"정상 문자\",\n  \"summary\": \"문자 내용이 일반적인 택배 배송 안내로 이상한 점이 없습니다.\",\n  \"reasons\": [],\n  \"action_guide\": [\"배송 예정인 상품이 있었다면 해당 송장번호와 함께 배송을 기다리시면 됩니다.\"],\n  \"used_sources\": []\n}"
+    }
+   ]
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[대한항공] 예약번호 K7X2LP 탑승 24시간 전 체크인이 가능합니다. 대한항공 앱 또는 koreanair.com 에서 체크인하세요",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.6994026303291321,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.08034489303827286,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 대한항공의 예약번호와 24시간 전 체크인 안내로 일반적인 안내 문자로 보입니다.",
+  "reasons": [
+   "문자 내용이 대한항공과 관련된 예약번호와 체크인 안내로 이상한 요구나 링크가 없습니다."
+  ],
+  "action_guide": [
+   "문자 내용을 확인하고, 대한항공 공식 앱이나 웹사이트를 통해 체크인을 진행하시면 됩니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 67.29600002290681,
+   "retrieval_ms": 0.0023999600671231747,
+   "llm_ms": 1816.2592999869958,
+   "total_ms": 1883.5804999689572,
+   "llm_calls": 1,
+   "prompt_tokens": 2014,
+   "completion_tokens": 184
+  }
+ },
+ {
+  "schema": 2,
+  "text": "아빠 나 도착했어. 저녁에 통화하자",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.8856772780418396,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.03353907912969589,
+  "pred_label": "acquaintance",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 가족을 사칭하고 급한 송금을 요구하지는 않았지만, 가족을 사칭하는 경우가 많으므로 주의가 필요합니다.",
+  "reasons": [
+   "문자 내용이 가족을 사칭하고 있음",
+   "급한 송금을 요구하지는 않지만, 사기범이 여러 명에게 동시에 접근하는 경우가 많음"
+  ],
+  "action_guide": [
+   "문자를 보낸 가족의 원래 번호로 직접 전화를 걸어 사실 확인",
+   "다른 가족 구성원에게 별도로 연락해 사실 확인을 요청"
+  ],
+  "used_sources": [
+   "지인·가족 사칭 (메신저피싱) - 예방 습관",
+   "지인·가족 사칭 (메신저피싱) - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "acquaintance:예방 습관",
+   "acquaintance:즉시 해야 할 일",
+   "acquaintance:판별 포인트",
+   "acquaintance:이미 송금했다면"
+  ],
+  "metrics": {
+   "bert_ms": 39.94450002210215,
+   "retrieval_ms": 40.894700039643794,
+   "llm_ms": 2925.636800006032,
+   "total_ms": 3006.5171000314876,
+   "llm_calls": 1,
+   "prompt_tokens": 3077,
+   "completion_tokens": 328
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[KB국민은행] 정기예금(만기 11/15)이 곧 만기됩니다. 재예치는 KB스타뱅킹 앱 또는 영업점에서 가능합니다",
+  "gold": "normal",
+  "category": "normal_tricky",
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.790235698223114,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.08616281300783157,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 은행의 정기예금 만기 안내로 일반적인 안내 문자로 보입니다.",
+  "reasons": [
+   "은행의 이름과 정기예금 만기 안내로 특이한 요구나 수상한 링크가 없음"
+  ],
+  "action_guide": [
+   "특별한 조치가 필요하지 않습니다. 단순히 예금 만기 안내이므로 신경 쓰실 필요는 없습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 75.95889997901395,
+   "retrieval_ms": 0.0025999615900218487,
+   "llm_ms": 1851.6744000371546,
+   "total_ms": 1927.6621000026353,
+   "llm_calls": 1,
+   "prompt_tokens": 2020,
+   "completion_tokens": 173
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[우 체 국] 고 객 님 의 소 포 가 주 소 오 류 로 반 송 대 기 중 입 니 다 → http://epost-re.cc",
+  "gold": "delivery",
+  "category": "obfuscated",
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.39884117245674133,
+  "bert_second_label": "investment",
+  "bert_second_score": 0.176285058259964,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 우체국을 사칭하여 주소 오류로 소포가 반송된다는 내용으로, 단축 URL을 통한 클릭 유도가 의심됩니다.",
+  "reasons": [
+   "발신번호가 없고, 단축 URL을 통한 링크 클릭 유도가 일반적인 택배사칭 유형과 부합합니다.",
+   "택배 회사는 주로 문자로 APK 파일 설치를 요구하지 않으며, 주소 오류로 소포 반송을 통한 불안 조성이 일반적인 사칭 유형입니다."
+  ],
+  "action_guide": [
+   "의심스러운 링크는 절대 클릭하지 말고, 발신자를 확인하여 공식 채널을 통해 직접 확인해야 합니다.",
+   "택배 관련 업체로부터 온 문자인지 확인하기 위해 해당 택배사의 공식 웹사이트나 고객센터로 문의해보세요."
+  ],
+  "used_sources": [
+   "택배사칭 - 유형 개요",
+   "택배사칭 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "delivery:유형 개요",
+   "delivery:판별 포인트",
+   "investment:유형 개요",
+   "investment:즉시 해야 할 일"
+  ],
+  "metrics": {
+   "bert_ms": 77.76240003295243,
+   "retrieval_ms": 105.70100002223626,
+   "llm_ms": 3790.650299983099,
+   "total_ms": 3974.147600005381,
+   "llm_calls": 1,
+   "prompt_tokens": 2988,
+   "completion_tokens": 375
+  }
+ },
+ {
+  "schema": 2,
+  "text": "★국★세★청★ 환급금 52,300원 발생 확인 후 신청 ☞ me2.do/xYzAb1",
+  "gold": "institution",
+  "category": "obfuscated",
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.26691028475761414,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.20239579677581787,
+  "pred_label": "payment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 국세청 환급금을 이용하여 사칭한 결제·청구 사기 유형으로 판단됩니다.",
+  "reasons": [
+   "문자 내용에 '환급금'이라는 유형적인 사기 수법이 포함되어 있음",
+   "의심스러운 링크가 제공되어 개인정보를 요구할 가능성이 있음"
+  ],
+  "action_guide": [
+   "즉시 카드사 고객센터에 전화하여 카드 사용정지 및 재발급을 요청하세요.",
+   "카드 사용 내역을 확인하고 모르는 결제가 있다면 이의를 제기하여 승인 취소를 요청하세요."
+  ],
+  "used_sources": [
+   "결제·청구 사칭 - 금전 피해가 발생했다면",
+   "결제·청구 사칭 - 링크를 눌러 정보를 입력했거나 전화로 카드정보를 알려줬다면"
+  ],
+  "reference_sections": [
+   "payment:금전 피해가 발생했다면",
+   "payment:링크를 눌러 정보를 입력했거나 전화로 카드정보를 알려줬다면",
+   "institution:송금까지 했다면",
+   "institution:유형 개요"
+  ],
+  "metrics": {
+   "bert_ms": 70.23300003493205,
+   "retrieval_ms": 99.59960001287982,
+   "llm_ms": 2630.396099993959,
+   "total_ms": 2800.260199990589,
+   "llm_calls": 1,
+   "prompt_tokens": 2951,
+   "completion_tokens": 329
+  }
+ },
+ {
+  "schema": 2,
+  "text": "저 금 리 대 출 가 능 !! 무 서 류 당 일 입 금 !! 상 담 ▶ 카 톡 ID : loan_kim01",
+  "gold": "financial",
+  "category": "obfuscated",
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.2753157615661621,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.22616088390350342,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에서 '저 금 리 대 출', '무 서 류 당 일 입 금'과 같은 원금보장, 확정 고수익을 약속하며 상담을 유도하고 있습니다. 이는 투자·리딩방 사기의 전형적인 수법으로, 추가 입금을 유도하거나 출금 시점에 다양한 비용을 요구할 가능성이 높습니다.",
+  "reasons": [
+   "문자에 '원금보장', '확정 고수익'과 같은 수익 약속이 포함되어 있음",
+   "상담을 위해 카톡 ID를 제공하고 있으며, 투자 사기의 특징과 부합"
+  ],
+  "action_guide": [
+   "상담 및 투자를 즉시 중단하고 해당 카톡 ID를 차단합니다.",
+   "금융감독원 파인 또는 금융투자협회에서 업체·운영자의 정품 여부를 확인하고, 이미 피해를 입은 경우 경찰에 신고하고 피해를 최소화하기 위해 조치합니다."
+  ],
+  "used_sources": [
+   "투자·리딩방 사기 - 유형 개요",
+   "투자·리딩방 사기 - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "investment:유형 개요",
+   "investment:즉시 해야 할 일",
+   "payment:유형 개요",
+   "payment:금전 피해가 발생했다면"
+  ],
+  "metrics": {
+   "bert_ms": 90.08549997815862,
+   "retrieval_ms": 110.77839997597039,
+   "llm_ms": 3839.1492999508046,
+   "total_ms": 4040.0440999655984,
+   "llm_calls": 1,
+   "prompt_tokens": 2948,
+   "completion_tokens": 439
+  }
+ },
+ {
+  "schema": 2,
+  "text": "엄. 마. 나 핸 드 폰 물 에 빠 졌 어 ㅠㅠ 새 번 호 야 문 상 사 줘",
+  "gold": "acquaintance",
+  "category": "obfuscated",
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.7200385332107544,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.08480915427207947,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 가족이나 지인을 사칭하여 급한 사정을 이유로 송금이나 상품권 구매를 요구하고 있습니다. 이는 사기범의 행위일 가능성이 높습니다.",
+  "reasons": [
+   "문자 내용에서 '폰이 고장나서 새 번호로 연락한다'는 긴급한 이유로 송금을 요구하고 있음",
+   "급한 사정을 이유로 송금이나 상품권 구매를 유도하며 신분증·인증번호 요구, 원격제어 앱 설치를 시도함"
+  ],
+  "action_guide": [
+   "휴대폰을 즉시 비행기 모드로 전환하고 원격제어 앱을 삭제하세요.",
+   "경찰서에 연락하여 사실 확인원을 발급받고 은행에 피해구제 신청서를 제출하세요."
+  ],
+  "used_sources": [
+   "지인·가족 사칭 (메신저피싱) - 유형 개요",
+   "지인·가족 사칭 (메신저피싱) - 판별 포인트"
+  ],
+  "reference_sections": [
+   "acquaintance:유형 개요",
+   "acquaintance:원격제어 앱을 설치했거나 정보를 넘겼다면",
+   "acquaintance:판별 포인트",
+   "acquaintance:이미 송금했다면"
+  ],
+  "metrics": {
+   "bert_ms": 86.64160000625998,
+   "retrieval_ms": 159.73959997063503,
+   "llm_ms": 2982.274200010579,
+   "total_ms": 3228.6854999838397,
+   "llm_calls": 1,
+   "prompt_tokens": 3127,
+   "completion_tokens": 407
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[국민연금공단] 연금 수급 자격 재확인 안내. 미확인 시 지급이 정지됩니다 http://nps-check.top",
+  "gold": "institution",
+  "category": "novel",
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.748367428779602,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.10042332112789154,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 국민연금공단을 사칭하여 연금 수급 자격 재확인을 요청하고, 알 수 없는 링크를 통해 개인정보를 빼내려는 시도일 가능성이 높습니다.",
+  "reasons": [
+   "문자 내용에서 연금 수급 자격 재확인을 위해 미확인 시 지급이 정지된다는 협박이 있음",
+   "의심스러운 링크인 'http://nps-check.top'이 포함되어 있음"
+  ],
+  "action_guide": [
+   "즉시 해당 금융사 전 계좌에 대해 지급정지를 신청하고, 공동인증서를 폐기하고 재발급하세요.",
+   "휴대폰을 초기화하고, 계좌정보통합관리서비스와 엠세이퍼를 통해 본인 명의 계좌 및 휴대폰 개통 내역을 확인하세요."
+  ],
+  "used_sources": [
+   "참고자료 1 | 공공기관·수사기관 사칭 - 이미 정보를 알려주었거나 앱을 설치했다면",
+   "참고자료 3 | 공공기관·수사기관 사칭 - 유형 개요"
+  ],
+  "reference_sections": [
+   "institution:이미 정보를 알려주었거나 앱을 설치했다면",
+   "institution:송금까지 했다면",
+   "institution:유형 개요",
+   "institution:절대 기억할 원칙"
+  ],
+  "metrics": {
+   "bert_ms": 77.42790004704148,
+   "retrieval_ms": 60.705200012307614,
+   "llm_ms": 4836.333799990825,
+   "total_ms": 4974.495399976149,
+   "llm_calls": 1,
+   "prompt_tokens": 3142,
+   "completion_tokens": 425
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[알리익스프레스] 주문하신 상품의 결제 오류가 발생했습니다. 결제정보 재입력 http://ali-pay.cc",
+  "gold": "payment",
+  "category": "novel",
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.486558198928833,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.3449575901031494,
+  "pred_label": "delivery",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 결제 오류를 주장하며 이상한 링크를 안내하고 있어 의심스럽습니다. 택배사칭의 가능성이 높습니다.",
+  "reasons": [
+   "문자에 이상한 도메인인 'http://ali-pay.cc'가 포함되어 있음",
+   "실제 주문한 내역이 없는데 택배 관련 문자가 온 것으로 보임"
+  ],
+  "action_guide": [
+   "받은 문자의 링크는 클릭하지 말고 해당 택배사의 공식 웹사이트나 앱을 통해 주문 상태를 확인해보세요.",
+   "만약 이미 링크를 클릭했거나 개인 정보를 입력했다면 즉시 은행이나 카드사에 연락하여 피해를 막아보세요."
+  ],
+  "used_sources": [
+   "택배사칭 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "delivery:판별 포인트",
+   "delivery:금전 피해가 발생했다면",
+   "payment:판별 포인트",
+   "payment:링크를 눌러 정보를 입력했거나 전화로 카드정보를 알려줬다면"
+  ],
+  "metrics": {
+   "bert_ms": 98.68609998375177,
+   "retrieval_ms": 295.0979999732226,
+   "llm_ms": 2823.4145999886096,
+   "total_ms": 3217.231000016909,
+   "llm_calls": 1,
+   "prompt_tokens": 3049,
+   "completion_tokens": 301
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[OO증권] 카카오톡 주식 리딩방 신규 회원 한정 모집. 이번 주 급등 예정 종목 5개 무료 공개 https://open.kakao.com/o/xYz9",
+  "gold": "investment",
+  "category": "novel",
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.9000424742698669,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.024001646786928177,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자는 주식 리딩방을 통해 급등 예정 종목을 공개하고 무료로 회원을 모집하는 내용이며, 이는 투자·리딩방 사기의 전형적인 유형으로 판단됩니다.",
+  "reasons": [
+   "문자에 '급등 예정 종목 5개 무료 공개'라는 유인적인 내용이 포함되어 있음",
+   "참고자료에서 언급된 '원금보장', '확정수익률'과 같은 사기 유형의 판별 포인트가 문자에 해당 내용이 있음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 채팅방을 나가는 것이 안전합니다.",
+   "금융감독원 파인 또는 금융투자협회에서 업체·운영자의 등록 여부를 확인하는 것이 중요합니다."
+  ],
+  "used_sources": [
+   "투자·리딩방 사기 - 유형 개요",
+   "투자·리딩방 사기 - 판별 포인트"
+  ],
+  "reference_sections": [
+   "investment:유형 개요",
+   "investment:판별 포인트",
+   "investment:즉시 해야 할 일",
+   "investment:예방 습관"
+  ],
+  "metrics": {
+   "bert_ms": 76.49360003415495,
+   "retrieval_ms": 63.16440005321056,
+   "llm_ms": 3390.99449996138,
+   "total_ms": 3530.6839999975637,
+   "llm_calls": 1,
+   "prompt_tokens": 3079,
+   "completion_tokens": 376
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[동창회] 졸업 20주년 모임 및 회비 안내. 모바일 초대장 확인 http://reunion-2026.kr",
+  "gold": "acquaintance",
+  "category": "novel",
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.2903714179992676,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.2307307869195938,
+  "pred_label": "investment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에는 주식 리딩방 모임 초대장이라는 내용이 있으나, 유형적으로 투자·리딩방 사기로 의심됩니다. 특히 '원금보장', '확정 고수익'과 같은 수익 약속이 있어 신뢰를 유도하고 추가 입금을 유도할 가능성이 있습니다.",
+  "reasons": [
+   "문자에 투자 관련 용어인 '코인 선물', '수익률 인증'이 포함되어 있음",
+   "투자 사기의 전형적인 수법인 '원금보장', '확정 고수익'과 같은 수익 약속이 있음"
+  ],
+  "action_guide": [
+   "문자에 포함된 링크는 클릭하지 말고 해당 문자를 무시합니다.",
+   "금융투자업자 여부를 확인하기 위해 금융감독원 파인 또는 금융투자협회에서 조회해야 합니다."
+  ],
+  "used_sources": [
+   "투자·리딩방 사기 - 유형 개요",
+   "투자·리딩방 사기 - 즉시 해야 할 일"
+  ],
+  "reference_sections": [
+   "investment:유형 개요",
+   "investment:즉시 해야 할 일",
+   "payment:유형 개요",
+   "payment:링크를 눌러 정보를 입력했거나 전화로 카드정보를 알려줬다면"
+  ],
+  "metrics": {
+   "bert_ms": 67.30520003475249,
+   "retrieval_ms": 104.62050000205636,
+   "llm_ms": 4345.24389996659,
+   "total_ms": 4517.203599971253,
+   "llm_calls": 1,
+   "prompt_tokens": 3018,
+   "completion_tokens": 399
+  }
+ }
+]
