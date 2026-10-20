@@ -99,6 +99,8 @@ def summarize(records: List[Dict]) -> Dict:
         "false_alarms": sum(r["flagged"] for r in normals),
         "n_normals": len(normals),
         "llm_call_rate": sum(c > 0 for c in llm_calls) / n if n else 0.0,
+        # LLM을 부른 건 중 스키마 검증 실패로 재호출한 비율 (재시도는 비용·지연을 그대로 늘린다)
+        "retry_rate": sum(c > 1 for c in llm_calls) / max(sum(c > 0 for c in llm_calls), 1),
         "lat_mean": mean(latencies),
         "lat_p50": percentile(latencies, 50),
         "lat_p95": percentile(latencies, 95),
@@ -130,12 +132,13 @@ def main_table(by_config: Dict[str, List[Dict]]) -> str:
             f"{s['missed_scams']}/{s['n_scams']}",
             f"{s['false_alarms']}/{s['n_normals']}",
             pct(s["llm_call_rate"]),
+            pct(s["retry_rate"]),
             f"{s['lat_p50']:.0f} / {s['lat_p95']:.0f}",
             f"{s['tokens_mean']:.0f}",
             f"${s['cost_per_1k']:.3f}",
         ])
     return md_table(
-        ["구성", "정확도 (95% CI)", "macro-F1", "사기 놓침", "정상 오탐", "LLM 호출률",
+        ["구성", "정확도 (95% CI)", "macro-F1", "사기 놓침", "정상 오탐", "LLM 호출률", "재시도율",
          "지연 p50 / p95 (ms)", "평균 토큰", "1,000건당 비용"],
         rows,
     )
