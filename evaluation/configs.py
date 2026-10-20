@@ -41,11 +41,12 @@ class BenchConfig:
 def build_configs(fast_path_threshold: float = DEFAULT_FAST_PATH_THRESHOLD) -> Dict[str, BenchConfig]:
     from llm.agent import PipelineOptions  # 무거운 의존성(openai, torch)은 실제로 실행할 때만 로드
 
+    # 모든 구성이 환경변수(.env)에 따라 달라지지 않도록 fast_path_threshold와 injection_guard를 명시적으로 고정한다.
     return {
         "A": BenchConfig(
             "A", "LLM only", "BERT·RAG 없이 LLM만 호출 (비용·속도 baseline)", True,
             PipelineOptions(use_bert=False, use_rag=False, use_ambiguity_branch=False,
-                            fast_path_threshold=None, temperature=_T),
+                            fast_path_threshold=None, temperature=_T, injection_guard=False),
         ),
         "B": BenchConfig(
             "B", "BERT only", "LLM·RAG 없이 BERT 1순위 라벨만 사용 (판별 baseline, 서비스 불가)", False,
@@ -54,22 +55,28 @@ def build_configs(fast_path_threshold: float = DEFAULT_FAST_PATH_THRESHOLD) -> D
         "C": BenchConfig(
             "C", "BERT+LLM", "RAG 없이 BERT 예측을 LLM에 전달", True,
             PipelineOptions(use_bert=True, use_rag=False, use_ambiguity_branch=False,
-                            fast_path_threshold=None, temperature=_T),
+                            fast_path_threshold=None, temperature=_T, injection_guard=False),
         ),
         "D": BenchConfig(
-            "D", "BERT+RAG+LLM", "현재 서비스 구성 (Fast Path 없음)", True,
+            "D", "BERT+RAG+LLM", "현재 서비스 구성 (Fast Path·인젝션 방어 없음)", True,
             PipelineOptions(use_bert=True, use_rag=True, use_ambiguity_branch=True,
-                            fast_path_threshold=None, temperature=_T),
+                            fast_path_threshold=None, temperature=_T, injection_guard=False),
         ),
         "E": BenchConfig(
             "E", "D − 애매함 분기", "D에서 1·2순위 근소 시 2순위 검색 분기를 제거", True,
             PipelineOptions(use_bert=True, use_rag=True, use_ambiguity_branch=False,
-                            fast_path_threshold=None, temperature=_T),
+                            fast_path_threshold=None, temperature=_T, injection_guard=False),
         ),
         "F": BenchConfig(
             "F", f"Fast Path(≥{fast_path_threshold})",
             "D + BERT가 정상을 임계값 이상 확신하면 LLM 생략 (실측 검증용)", True,
             PipelineOptions(use_bert=True, use_rag=True, use_ambiguity_branch=True,
-                            fast_path_threshold=fast_path_threshold, temperature=_T),
+                            fast_path_threshold=fast_path_threshold, temperature=_T, injection_guard=False),
+        ),
+        "G": BenchConfig(
+            "G", "D + 인젝션 방어",
+            "D + 문자 격리 프롬프트 + 인젝션 문구 탐지 시 \"위험\" 강제 (D와 이 한 가지만 다름)", True,
+            PipelineOptions(use_bert=True, use_rag=True, use_ambiguity_branch=True,
+                            fast_path_threshold=None, temperature=_T, injection_guard=True),
         ),
     }
