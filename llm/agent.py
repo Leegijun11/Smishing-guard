@@ -213,6 +213,10 @@ class SmishingAgent:
                 return self._parse_and_validate(raw_content)
             except (json.JSONDecodeError, ValidationError) as e:
                 last_error = str(e)
+                # 재시도 원인을 벤치마크 결과에서 볼 수 있게 남긴다 (재시도는 비용·지연을 그대로 늘린다)
+                metrics.setdefault("retry_errors", []).append(
+                    {"error": last_error[:300], "raw": (raw_content or "")[:300]}
+                )
                 messages.append({"role": "assistant", "content": raw_content or ""})
                 messages.append(
                     {
