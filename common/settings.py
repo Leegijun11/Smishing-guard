@@ -17,6 +17,8 @@ HARD_SET = DATA_DIR / "eval" / "hard_set.csv"
 # 학습 보강 때 절대 보지 않는 최종 평가용 (hard set은 오류 유형 파악에 쓴 개발용)
 CHALLENGE_SET = DATA_DIR / "eval" / "challenge_set.csv"
 INJECTION_SET = DATA_DIR / "eval" / "injection_set.csv"
+# 인젝션 탐지기·방어를 만든 뒤에 따로 쓴 사례. 탐지기를 이 파일에 맞춰 고치지 않는다 (일반화 확인용).
+INJECTION_HOLDOUT_SET = DATA_DIR / "eval" / "injection_holdout.csv"
 
 # ---- 산출물 ----
 ARTIFACTS_DIR = ROOT_DIR / "artifacts"
@@ -55,6 +57,11 @@ OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "900"))
 # BERT가 "정상 문자"를 이 확신도 이상으로 판단하면 LLM 호출 없이 바로 "안전"을 반환한다.
 # 비어 있으면(기본값) 비활성화. 벤치마크(evaluation/)로 임계값을 정한 뒤 .env에 설정한다.
 FAST_PATH_NORMAL_THRESHOLD = _optional_float("FAST_PATH_NORMAL_THRESHOLD")
+
+# ---- 프롬프트 인젝션 방어 ----
+# 켜면 문자 격리 프롬프트 + 인젝션 문구 탐지 시 "위험" 강제 + Fast Path 차단 (llm/injection.py).
+# 기본은 꺼져 있고, 벤치마크(구성 G)로 효과와 부작용을 확인한 뒤 .env에 INJECTION_GUARD=true 로 켠다.
+INJECTION_GUARD = os.getenv("INJECTION_GUARD", "").strip().lower() in ("1", "true", "yes", "on")
 
 # ---- Backend ----
 BACKEND_HOST = os.getenv("BACKEND_HOST", "0.0.0.0")
