@@ -39,6 +39,7 @@ class AnalyzeResponse(BaseModel):
     used_sources: List[str]
     bert_prediction: BertPrediction
     reference_chunks: List[ReferenceChunk]
+    fast_path: bool = False  # True면 BERT가 정상으로 확신해 LLM 호출 없이 응답한 경우
 # /analyze 엔드포인트가 클라이언트에 돌려줄 최종 응답 구조
 
 class LabelInfo(BaseModel):
