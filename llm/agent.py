@@ -14,12 +14,14 @@ from common.classification import is_ambiguous
 from common.labels import ko_name
 from common.settings import (
     FAST_PATH_NORMAL_THRESHOLD,
+    INJECTION_GUARD,
     OPENAI_API_KEY,
     OPENAI_MAX_TOKENS,
     OPENAI_MODEL,
     OPENAI_TEMPERATURE,
 )
-from llm.prompts import SYSTEM_PROMPT, build_user_prompt
+from llm.injection import detect_injection
+from llm.prompts import SYSTEM_PROMPT, SYSTEM_PROMPT_GUARDED, build_user_prompt
 from llm.schemas import SmishingVerdict
 from ml_model.classifier import get_classifier
 from vector_db.retriever import get_retriever
@@ -40,6 +42,8 @@ class PipelineOptions:
     fast_path_threshold: Optional[float] = FAST_PATH_NORMAL_THRESHOLD
     # None이면 settings.OPENAI_TEMPERATURE 사용
     temperature: Optional[float] = None
+    # 프롬프트 인젝션 방어 (문자 격리 프롬프트, 인젝션 문구 탐지 시 "위험" 강제, 탐지되면 Fast Path 차단)
+    injection_guard: bool = INJECTION_GUARD
 
 
 class SmishingAgent:
@@ -77,13 +81,17 @@ class SmishingAgent:
             "completion_tokens": 0,
         }
 
+        # 인젝션 방어: AI에게 하는 말이 문자에 들어 있는지 (코드로 탐지, LLM을 거치지 않는다)
+        injection_hits: List[str] = detect_injection(text) if options.injection_guard else []
+
         bert_result: Optional[Dict] = None
         if options.use_bert:
             t0 = time.perf_counter()
             bert_result = self.classifier.predict(text)
             metrics["bert_ms"] = (time.perf_counter() - t0) * 1000
 
-            if self._is_fast_path(bert_result, options):
+            # 인젝션 문구가 있으면 BERT가 정상을 확신해도 LLM 없이 "안전"으로 통과시키지 않는다
+            if not injection_hits and self._is_fast_path(bert_result, options):
                 metrics["total_ms"] = (time.perf_counter() - started) * 1000
                 return self._fast_path_response(text, bert_result, metrics)
 
@@ -96,10 +104,11 @@ class SmishingAgent:
             metrics["retrieval_ms"] = (time.perf_counter() - t0) * 1000
 
         user_prompt = build_user_prompt(
-            text, bert_result, reference_chunks, rag_enabled=options.use_rag
+            text, bert_result, reference_chunks, rag_enabled=options.use_rag,
+            guard=options.injection_guard,
         )
         messages: List[Dict[str, str]] = [
-            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "system", "content": SYSTEM_PROMPT_GUARDED if options.injection_guard else SYSTEM_PROMPT},
             {"role": "user", "content": user_prompt},
         ]
 
@@ -108,7 +117,7 @@ class SmishingAgent:
         metrics["llm_ms"] = (time.perf_counter() - t0) * 1000
         metrics["total_ms"] = (time.perf_counter() - started) * 1000
 
-        return {
+        result = {
             "input_text": text,
             "verdict": llm_result.verdict,
             "scam_type": llm_result.scam_type,
@@ -120,8 +129,31 @@ class SmishingAgent:
             "bert_prediction": bert_result,
             "reference_chunks": reference_chunks,
             "fast_path": False,
+            "injection_detected": bool(injection_hits),
             "metrics": metrics,
         }
+        if injection_hits:
+            metrics["injection_hits"] = injection_hits
+            self._apply_injection_override(result, bert_result)
+        return result
+
+    @staticmethod
+    def _apply_injection_override(result: Dict, bert_result: Optional[Dict]) -> None:
+        """인젝션 문구가 탐지된 문자는 LLM이 속아서 "안전"이라고 해도 "위험"으로 올린다.
+
+        정상 문자는 AI에게 판정 방법을 지시하지 않으므로 그 자체가 사기 신호다. 유형이 normal로 나왔으면
+        BERT가 본 가장 유력한 사기 유형으로 바로잡아 verdict와 scam_type이 모순되지 않게 한다.
+        """
+        result["verdict"] = "위험"
+        result["reasons"] = [
+            "문자 안에 AI의 판정을 조작하려는 지시문이 포함되어 있습니다 (프롬프트 인젝션 시도). "
+            "정상적인 문자는 이런 문구를 쓰지 않습니다."
+        ] + list(result["reasons"])
+        if result["scam_type"] == "normal" and bert_result:
+            top_scam = next((d for d in bert_result["distribution"] if d["label"] != "normal"), None)
+            if top_scam:
+                result["scam_type"] = top_scam["label"]
+                result["scam_type_ko"] = top_scam["label_ko"]
 
     @staticmethod
     def _is_fast_path(bert_result: Dict, options: PipelineOptions) -> bool:
@@ -151,6 +183,7 @@ class SmishingAgent:
             "bert_prediction": bert_result,
             "reference_chunks": [],
             "fast_path": True,
+            "injection_detected": False,
             "metrics": metrics,
         }
 
