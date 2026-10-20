@@ -7,6 +7,7 @@ const resultSection = document.getElementById("resultSection");
 const healthStatus = document.getElementById("healthStatus");
 
 const verdictBadge = document.getElementById("verdictBadge");
+const injectionWarning = document.getElementById("injectionWarning");
 const summaryText = document.getElementById("summaryText");
 const scamTypeText = document.getElementById("scamTypeText");
 const reasonsList = document.getElementById("reasonsList");
@@ -81,6 +82,9 @@ function renderBertBars(distribution = []) {
 function renderResult(data) {
   verdictBadge.textContent = data.verdict;
   verdictBadge.className = `result__badge ${VERDICT_STYLE[data.verdict] || ""}`;
+
+  // 문자 안에서 AI에게 하는 말(인젝션 시도)이 탐지되면 사용자가 원문을 직접 확인하도록 안내한다
+  injectionWarning.hidden = !data.injection_detected;
 
   summaryText.textContent = data.summary || "";
 

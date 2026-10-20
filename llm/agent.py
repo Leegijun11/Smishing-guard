@@ -14,6 +14,7 @@ from common.classification import is_ambiguous
 from common.labels import ko_name
 from common.settings import (
     FAST_PATH_NORMAL_THRESHOLD,
+    INJECTION_CODE_GUARD,
     INJECTION_GUARD,
     OPENAI_API_KEY,
     OPENAI_MAX_TOKENS,
@@ -42,7 +43,9 @@ class PipelineOptions:
     fast_path_threshold: Optional[float] = FAST_PATH_NORMAL_THRESHOLD
     # None이면 settings.OPENAI_TEMPERATURE 사용
     temperature: Optional[float] = None
-    # 프롬프트 인젝션 방어 (문자 격리 프롬프트, 인젝션 문구 탐지 시 "위험" 강제, 탐지되면 Fast Path 차단)
+    # 인젝션 방어 - 코드 계층: 인젝션 문구를 탐지하면 판정을 "위험"으로 강제하고 Fast Path를 막는다 (LLM 호출과 무관)
+    injection_code_guard: bool = INJECTION_CODE_GUARD
+    # 인젝션 방어 - 프롬프트 계층: 문자 격리 프롬프트 + 규칙. 켜면 코드 계층도 함께 켜진다
     injection_guard: bool = INJECTION_GUARD
     # 방어 프롬프트 스타일: "strong"(인젝션 문구를 강한 사기 근거로 봄, 구성 G) / "light"(따르지 말 것만, 구성 H)
     injection_prompt: str = "strong"
@@ -84,7 +87,8 @@ class SmishingAgent:
         }
 
         # 인젝션 방어: AI에게 하는 말이 문자에 들어 있는지 (코드로 탐지, LLM을 거치지 않는다)
-        injection_hits: List[str] = detect_injection(text) if options.injection_guard else []
+        code_guard = options.injection_code_guard or options.injection_guard
+        injection_hits: List[str] = detect_injection(text) if code_guard else []
 
         bert_result: Optional[Dict] = None
         if options.use_bert:

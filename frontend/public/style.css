@@ -180,6 +180,34 @@ body {
   background: var(--safe);
 }
 
+/* 인젝션 시도 경고: hidden 속성이 display 지정에 덮이지 않도록 명시한다 */
+.result__warning {
+  margin-bottom: 24px;
+  padding: 14px 16px;
+
+  border: 1px solid var(--danger);
+  border-left-width: 5px;
+  border-radius: 8px;
+
+  background: #fef2f2;
+  color: var(--text);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+
+.result__warning[hidden] {
+  display: none;
+}
+
+.result__warning strong {
+  color: var(--danger);
+}
+
+.result__warning p {
+  margin-top: 6px;
+  color: var(--sub-text);
+}
+
 .result__block {
   margin-bottom: 24px;
 }

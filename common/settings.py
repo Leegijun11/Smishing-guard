@@ -61,9 +61,13 @@ OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "900"))
 # 비어 있으면(기본값) 비활성화. 벤치마크(evaluation/)로 임계값을 정한 뒤 .env에 설정한다.
 FAST_PATH_NORMAL_THRESHOLD = _optional_float("FAST_PATH_NORMAL_THRESHOLD")
 
-# ---- 프롬프트 인젝션 방어 ----
-# 켜면 문자 격리 프롬프트 + 인젝션 문구 탐지 시 "위험" 강제 + Fast Path 차단 (llm/injection.py).
-# 기본은 꺼져 있고, 벤치마크(구성 G)로 효과와 부작용을 확인한 뒤 .env에 INJECTION_GUARD=true 로 켠다.
+# ---- 프롬프트 인젝션 방어 (두 계층, llm/injection.py) ----
+# 코드 계층: 문자에 "AI에게 하는 말"이 있으면 탐지 -> 판정을 "위험"으로 강제 + Fast Path 차단 + 화면에 경고 표시.
+#   정상·사기 문자 445건과 hard 정상 문자에서 오탐이 없어 기본으로 켠다. 끄려면 INJECTION_CODE_GUARD=false.
+#   한계: 정규식이라 처음 보는 표현은 놓친다 (holdout2에서 0/8 탐지).
+INJECTION_CODE_GUARD = os.getenv("INJECTION_CODE_GUARD", "true").strip().lower() in ("1", "true", "yes", "on")
+# 프롬프트 계층: 문자 격리 프롬프트 + 규칙. 처음 보는 공격은 줄이지만 정상 문자에 과민해지는 부작용이 측정되어
+# (hard 정상 문자 "위험" 판정 0/10 -> 3/10) 기본은 꺼짐. 켜면 코드 계층도 함께 켜진다 (벤치마크 구성 G).
 INJECTION_GUARD = os.getenv("INJECTION_GUARD", "").strip().lower() in ("1", "true", "yes", "on")
 
 # ---- Backend ----

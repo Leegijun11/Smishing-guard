@@ -30,6 +30,7 @@ from common.settings import (
 )
 from evaluation.configs import CONFIG_TITLES
 from evaluation.guide_check import check_guide, load_corpus_entities
+from llm.injection import detect_injection
 from evaluation.metrics import (
     accuracy,
     confusion_matrix,
@@ -47,7 +48,7 @@ TEST_SPLIT_CSV = DATA_DIR / "eval" / "test_split.csv"
 # gpt-3.5-turbo 기준 단가(USD / 100만 토큰). 다른 모델을 쓰면 OpenAI 요금표를 확인해 수정할 것.
 PRICE_PER_1M = {"input": 0.50, "output": 1.50}
 
-CONFIG_ORDER = "ABCDEFGH"
+CONFIG_ORDER = "ABCDEFGH"  # (구성 I는 파일이 아니라 D 결과에서 load_set이 계산해 덧붙인다)
 SET_ORDER = ["test", "hard", "challenge", "injection", "injection_holdout", "injection_holdout2"]
 INJECTION_SETS = ("injection", "injection_holdout", "injection_holdout2")
 CORE_SETS = ["test", "hard", "challenge"]  # 수용 기준 1·2·5번을 합산하는 세트 (인젝션은 별도 기준)
@@ -96,11 +97,10 @@ def load_set(set_name: str) -> Optional[Dict]:
     if not loaded:
         return None
     common = set.intersection(*(set(r) for r in loaded.values()))
-    return {
-        "texts": texts,
-        "common": common,
-        "by_config": {c: [r[t] for t in texts if t in common] for c, r in loaded.items()},
-    }
+    by_config = {c: [r[t] for t in texts if t in common] for c, r in loaded.items()}
+    if "D" in by_config:  # 구성 I: 서비스 기본값(D + 코드 계층). D 결과에서 계산하므로 별도 실행이 필요 없다
+        by_config["I"] = [as_code_guard(r) for r in by_config["D"]]
+    return {"texts": texts, "common": common, "by_config": by_config}
 
 
 def pooled(data: Dict[str, Dict], config: str, sets: List[str]) -> List[Dict]:
@@ -129,6 +129,21 @@ def as_fast_path(record: Dict, threshold: float) -> Dict:
                         "llm_calls": 0, "prompt_tokens": 0, "completion_tokens": 0},
         }
     return record
+
+
+def as_code_guard(record: Dict) -> Dict:
+    """D의 샘플 결과에 인젝션 방어의 코드 계층만 적용한 결과 (구성 I, API를 다시 부르지 않는다).
+
+    코드 계층은 LLM 프롬프트를 바꾸지 않으므로 인젝션 문구가 탐지되지 않은 문자는 D와 똑같다.
+    탐지된 문자만 llm/agent.py의 _apply_injection_override와 같은 규칙으로 "위험"으로 올린다
+    (유형이 normal이면 BERT가 본 가장 유력한 사기 유형으로 바로잡는다).
+    """
+    if not detect_injection(record["text"]):
+        return record
+    scam_type = record["pred_label"]
+    if scam_type == "normal":
+        scam_type = record["bert_label"] if record["bert_label"] != "normal" else record["bert_second_label"]
+    return {**record, "verdict": "위험", "flagged": True, "pred_label": scam_type, "injection_detected": True}
 
 
 def is_danger(record: Dict) -> bool:
@@ -217,7 +232,7 @@ def cfg_label(name: str) -> str:
 # ---------------------------------------------------------------- 수용 기준 대조
 def acceptance_table(data: Dict[str, Dict], corpus) -> str:
     """결과를 보기 전에 정한 기준(evaluation/ACCEPTANCE.md)을 D(서비스 구성)와 G(인젝션 방어)에 대조한다."""
-    cols = [c for c in ["D", "G", "H"] if any(c in d["by_config"] for d in data.values())]
+    cols = [c for c in ["D", "I", "G", "H"] if any(c in d["by_config"] for d in data.values())]
     if not cols:
         return ""
 
