@@ -480,27 +480,32 @@ def guide_section(data: Dict[str, Dict], corpus) -> str:
 
 
 def model_compare_table() -> str:
-    """재학습 전(raw_v1, BERT only)과 현재 BERT only의 전후 비교."""
+    """재학습 전(raw_v1)과 현재(raw)의 전후 비교. BERT only(B)와 서비스 전체(D = BERT+RAG+LLM)를 함께 본다.
+
+    D는 --out-dir raw_v1 으로 옛 BERT(BERT_MODEL_DIR=artifacts/bert-smishing)를 따로 돌려 둔 경우에만 나온다.
+    """
     v1_dir = RESULTS_DIR / "raw_v1"
     if not v1_dir.exists():
         return ""
     rows = []
-    for set_name in SET_ORDER:
-        texts = _read_texts(SET_PATHS[set_name])
-        valid = set(texts)
-        v1 = load_results(set_name, "B", valid, v1_dir)
-        v2 = load_results(set_name, "B", valid, RAW_DIR)
-        common = set(v1) & set(v2)
-        if not common:
-            continue
-        s1 = summarize([v1[t] for t in texts if t in common])
-        s2 = summarize([v2[t] for t in texts if t in common])
-        rows.append([set_name, str(len(common)), pct(s1["accuracy"]), pct(s2["accuracy"]),
-                     f"{s1['missed_scams']} → {s2['missed_scams']}",
-                     f"{s1['false_alarms']} → {s2['false_alarms']}"])
+    for config in ("B", "D"):
+        for set_name in SET_ORDER:
+            texts = _read_texts(SET_PATHS[set_name])
+            valid = set(texts)
+            v1 = load_results(set_name, config, valid, v1_dir)
+            v2 = load_results(set_name, config, valid, RAW_DIR)
+            common = set(v1) & set(v2)
+            if not common:
+                continue
+            s1 = summarize([v1[t] for t in texts if t in common])
+            s2 = summarize([v2[t] for t in texts if t in common])
+            rows.append([cfg_label(config), set_name, str(len(common)), pct(s1["accuracy"]), pct(s2["accuracy"]),
+                         f"{s1['missed_scams']} → {s2['missed_scams']}",
+                         f"{s1['false_alarms']} → {s2['false_alarms']}",
+                         f"{s1['danger_false_alarms']} → {s2['danger_false_alarms']}"])
     if not rows:
         return ""
-    return md_table(["세트", "건수", "v1 정확도", "현재 정확도", "사기 놓침", "정상 오탐"], rows)
+    return md_table(["구성", "세트", "건수", "v1 정확도", "현재 정확도", "사기 놓침", "정상 오탐(경고)", "정상→위험"], rows)
 
 
 def build_set_section(set_name: str, data: Dict) -> str:
@@ -567,7 +572,7 @@ def main(argv: Optional[List[str]] = None) -> None:
         sections.append("## 수용 기준 대조\n\n" + acceptance + "\n")
     compare = model_compare_table()
     if compare:
-        sections.append("## BERT 전후 비교 (BERT only, 재학습 전 v1 → 현재)\n\n" + compare + "\n")
+        sections.append("## BERT 재학습 전후 비교 (v1 → 현재, B=BERT only / D=서비스 전체)\n\n" + compare + "\n")
     guide = guide_section(data, corpus)
     if guide:
         sections.append("## 가이드 근거 검사 (환각)\n\n" + guide + "\n")
