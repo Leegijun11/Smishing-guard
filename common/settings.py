@@ -19,6 +19,9 @@ CHALLENGE_SET = DATA_DIR / "eval" / "challenge_set.csv"
 INJECTION_SET = DATA_DIR / "eval" / "injection_set.csv"
 # 인젝션 탐지기·방어를 만든 뒤에 따로 쓴 사례. 탐지기를 이 파일에 맞춰 고치지 않는다 (일반화 확인용).
 INJECTION_HOLDOUT_SET = DATA_DIR / "eval" / "injection_holdout.csv"
+# holdout은 방어 없이도 안 뚫려서 변별력이 없었다. 정규식을 피하면서 방어 없는 구성(D)을 실제로 속일 만한
+# 명시적 명령 형태로 새로 쓴 사례. 결과를 보기 전에 작성했고, 이 파일에 맞춰 방어를 고치지 않는다.
+INJECTION_HOLDOUT2_SET = DATA_DIR / "eval" / "injection_holdout2.csv"
 
 # ---- 산출물 ----
 ARTIFACTS_DIR = ROOT_DIR / "artifacts"
