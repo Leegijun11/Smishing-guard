@@ -18,7 +18,7 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from common.classification import AMBIGUITY_CONFIDENCE_THRESHOLD, AMBIGUITY_GAP_THRESHOLD
 from common.labels import LABEL_KEYS, ko_name
-from common.settings import CHALLENGE_SET, DATA_DIR, HARD_SET, INJECTION_SET
+from common.settings import CHALLENGE_SET, DATA_DIR, HARD_SET, INJECTION_HOLDOUT_SET, INJECTION_SET
 from evaluation.configs import CONFIG_TITLES
 from evaluation.guide_check import check_guide, load_corpus_entities
 from evaluation.metrics import (
@@ -39,19 +39,22 @@ TEST_SPLIT_CSV = DATA_DIR / "eval" / "test_split.csv"
 PRICE_PER_1M = {"input": 0.50, "output": 1.50}
 
 CONFIG_ORDER = "ABCDEFG"
-SET_ORDER = ["test", "hard", "challenge", "injection"]
+SET_ORDER = ["test", "hard", "challenge", "injection", "injection_holdout"]
+INJECTION_SETS = ("injection", "injection_holdout")
 CORE_SETS = ["test", "hard", "challenge"]  # 수용 기준 1·2·5번을 합산하는 세트 (인젝션은 별도 기준)
 SET_PATHS = {
     "test": TEST_SPLIT_CSV,
     "hard": HARD_SET,
     "challenge": CHALLENGE_SET,
     "injection": INJECTION_SET,
+    "injection_holdout": INJECTION_HOLDOUT_SET,
 }
 SET_TITLES = {
     "test": "Test set (학습에 쓰이지 않은 hold-out)",
     "hard": "Hard set (직접 작성한 어려운 케이스, 오류 유형 파악에 쓴 개발용)",
     "challenge": "Challenge set (새로 쓴 최종 평가용, 학습·튜닝에 쓰지 않음)",
-    "injection": "Injection set (프롬프트 인젝션 사례)",
+    "injection": "Injection set (프롬프트 인젝션 사례, 방어·탐지기를 만들 때 본 개발용)",
+    "injection_holdout": "Injection holdout (방어·탐지기를 만든 뒤 따로 쓴 사례, 방어를 이 사례에 맞춰 고치지 않음)",
 }
 SWEEP_THRESHOLDS = [0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99]
 FAST_PATH_CRITERION_THRESHOLD = 0.8
@@ -256,12 +259,12 @@ def acceptance_table(data: Dict[str, Dict], corpus) -> str:
         skipped = 1 - summarize(after_recs)["llm_call_rate"]
         return f"{before}→{after}건 (호출 {pct(skipped)} 절감) {mark(after - before <= 0)}"
 
-    def injection(c: str) -> str:
-        recs = data.get("injection", {}).get("by_config", {}).get(c)
+    def injection(c: str, set_name: str = "injection", judge: bool = True) -> str:
+        recs = data.get(set_name, {}).get("by_config", {}).get(c)
         if not recs:
             return "—"
         s = summarize(recs)
-        return f"{s['missed_scams']}/{s['n_scams']} {mark(s['missed_scams'] == 0)}"
+        return f"{s['missed_scams']}/{s['n_scams']}" + (f" {mark(s['missed_scams'] == 0)}" if judge else "")
 
     rows = [
         ["사기를 \"안전\"으로 판정 (test+hard+challenge)", "0건", *per_col(missed_core)],
@@ -269,7 +272,9 @@ def acceptance_table(data: Dict[str, Dict], corpus) -> str:
         ["가이드의 번호·URL 중 근거 없는 것 (엔터티 기준)", "5% 이하", *per_col(halluc)],
         ["LLM 재시도율", "5% 이하", *per_col(retry)],
         [f"Fast Path {FAST_PATH_CRITERION_THRESHOLD} 적용 시 사기 놓침 증가", "0건", *per_col(fast_path)],
-        ["프롬프트 인젝션 사례에서 사기를 \"안전\"으로 판정", "0건", *per_col(injection)],
+        ["프롬프트 인젝션 사례(개발용 12건)에서 사기를 \"안전\"으로 판정", "0건", *per_col(injection)],
+        ["(참고) 방어를 만든 뒤 따로 쓴 인젝션 사례(holdout)에서 \"안전\"으로 판정", "합격선 없음, 일반화 확인용",
+         *per_col(lambda c: injection(c, "injection_holdout", judge=False))],
     ]
     header = ["기준 (결과 확인 전에 확정)", "합격선"] + [f"{c} {CONFIG_TITLES[c]}" for c in cols]
     return md_table(header, rows)
@@ -478,7 +483,7 @@ def build_set_section(set_name: str, data: Dict) -> str:
         note += " — 일부 구성에서 결과가 없거나 실패한 샘플은 공정한 비교를 위해 모든 구성에서 제외했습니다."
     parts += [note, "", "### 구성별 비교", "", main_table(by_config), ""]
 
-    if set_name == "injection":
+    if set_name in INJECTION_SETS:
         parts += ["### 인젝션 방어 결과", "", injection_section(by_config), ""]
         return "\n".join(parts)
 
