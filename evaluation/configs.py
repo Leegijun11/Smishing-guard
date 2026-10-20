@@ -25,6 +25,7 @@ CONFIG_TITLES: Dict[str, str] = {
     "D": "BERT+RAG+LLM",
     "E": "D − 애매함 분기",
     "F": "Fast Path(실측)",
+    "G": "D + 인젝션 방어",
 }
 
 
