@@ -98,6 +98,10 @@ def main():
     metrics = trainer.evaluate()
     print("최종 검증 결과:", metrics)
 
+    # 학습·모델 선택에 쓰이지 않은 test로만 최종 성능을 보고한다.
+    test_metrics = trainer.evaluate(tokenized["test"], metric_key_prefix="test")
+    print("최종 테스트 결과:", test_metrics)
+
     trainer.save_model(str(BERT_MODEL_DIR))
     tokenizer.save_pretrained(str(BERT_MODEL_DIR))
     print(f"모델 저장 완료 -> {BERT_MODEL_DIR}")
