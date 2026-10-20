@@ -9,7 +9,7 @@ from datasets import Dataset, DatasetDict
 from sklearn.model_selection import train_test_split
 
 from common.labels import LABEL2ID
-from common.settings import RAW_DATASET
+from common.settings import AUGMENT_DATASET, CHALLENGE_SET, HARD_SET, INJECTION_SET, RAW_DATASET
 
 SPLIT_SEED = 42
 
@@ -59,8 +59,46 @@ def split_dataframes(
     )
 
 
+def _protected_texts(valid_df: pd.DataFrame, test_df: pd.DataFrame) -> set:
+    """학습 보강 데이터에 들어오면 안 되는 문자: validation/test와 모든 평가셋(hard, challenge, injection)."""
+    texts = set(valid_df["text"]) | set(test_df["text"])
+    for path in (HARD_SET, CHALLENGE_SET, INJECTION_SET):
+        if Path(path).exists():
+            texts |= set(pd.read_csv(path)["text"].dropna())
+    return texts
+
+
+def load_augmentation(protected: set) -> pd.DataFrame:
+    """data/raw/augment.csv(text,label)가 있으면 읽는다. 평가용 문자와 겹치면 오류로 막는다.
+
+    원본 CSV와 분리해 두는 이유: 원본에 행을 추가하면 train/validation/test 분할 자체가 바뀌어,
+    기존 test 문자가 train으로 들어가거나 새 문자가 test로 들어가 평가가 오염된다.
+    """
+    columns = ["text", "label", "label_id"]
+    if not Path(AUGMENT_DATASET).exists():
+        return pd.DataFrame(columns=columns)
+
+    aug = pd.read_csv(AUGMENT_DATASET).dropna(subset=["text", "label"]).drop_duplicates("text")
+    unknown = set(aug["label"]) - set(LABEL2ID)
+    if unknown:
+        raise ValueError(f"augment.csv에 common/labels.py 에 정의되지 않은 라벨이 있습니다: {unknown}")
+    overlap = protected & set(aug["text"])
+    if overlap:
+        raise ValueError(
+            f"augment.csv에 평가·검증용 문자와 똑같은 문자가 {len(overlap)}건 있습니다 "
+            f"(학습에 쓰면 평가가 오염됩니다): {sorted(overlap)[:3]}"
+        )
+    aug["label_id"] = aug["label"].map(LABEL2ID)
+    return aug[columns].reset_index(drop=True)
+
+
 def load_dataset_dict(seed: int = SPLIT_SEED) -> DatasetDict:
     train_df, valid_df, test_df = split_dataframes(seed=seed)
+    aug_df = load_augmentation(_protected_texts(valid_df, test_df))
+    if len(aug_df):
+        # 분할 '이후' train에만 합친다. validation/test는 보강 여부와 무관하게 항상 같다.
+        train_df = pd.concat([train_df, aug_df], ignore_index=True)
+        print(f"학습 보강 데이터 {len(aug_df)}건을 train에 추가 (train {len(train_df)}건)")
     return DatasetDict(
         {
             "train": Dataset.from_pandas(train_df),
