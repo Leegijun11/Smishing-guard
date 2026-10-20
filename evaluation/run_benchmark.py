@@ -1,6 +1,7 @@
 """파이프라인 구성 A~G를 평가 세트에 돌려 샘플별 결과를 저장한다.
 
-    python -m evaluation.run_benchmark                       # test+hard+challenge+injection, A~E 전체
+    python -m evaluation.run_benchmark                       # 모든 평가 세트, A~E 전체
+    python -m evaluation.run_benchmark --configs G --sets injection injection_holdout   # 인젝션 방어 구성
     python -m evaluation.run_benchmark --configs B           # BERT only (API 키 불필요)
     python -m evaluation.run_benchmark --configs D --limit 5 # 스모크 테스트
     python -m evaluation.run_benchmark --configs F --fast-path-threshold 0.8
@@ -21,14 +22,19 @@ from typing import Dict, List
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from common.labels import LABEL_KEYS
-from common.settings import CHALLENGE_SET, DATA_DIR, HARD_SET, INJECTION_SET
+from common.settings import CHALLENGE_SET, DATA_DIR, HARD_SET, INJECTION_HOLDOUT_SET, INJECTION_SET
 from evaluation.configs import DEFAULT_FAST_PATH_THRESHOLD, BenchConfig, build_configs
 
 RESULTS_DIR = Path(__file__).resolve().parent / "results" / "raw"
 TEST_SPLIT_CSV = DATA_DIR / "eval" / "test_split.csv"
 DEFAULT_CONFIGS = ["A", "B", "C", "D", "E"]
-EVAL_SETS = ["test", "hard", "challenge", "injection"]
-CSV_SETS = {"hard": HARD_SET, "challenge": CHALLENGE_SET, "injection": INJECTION_SET}
+EVAL_SETS = ["test", "hard", "challenge", "injection", "injection_holdout"]
+CSV_SETS = {
+    "hard": HARD_SET,
+    "challenge": CHALLENGE_SET,
+    "injection": INJECTION_SET,
+    "injection_holdout": INJECTION_HOLDOUT_SET,
+}
 
 
 def _read_csv(path: Path) -> List[Dict[str, str]]:
@@ -105,6 +111,7 @@ def run_one(cfg: BenchConfig, item: Dict[str, str], agent, classifier, top_k: in
         verdict=result["verdict"],
         flagged=result["verdict"] != "안전",
         fast_path=result["fast_path"],
+        injection_detected=result.get("injection_detected", False),
         summary=result["summary"],
         reasons=result["reasons"],
         action_guide=result["action_guide"],
