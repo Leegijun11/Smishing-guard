@@ -9,6 +9,7 @@ from datasets import Dataset, DatasetDict
 from sklearn.model_selection import train_test_split
 
 from common.labels import LABEL2ID
+from common.similarity import NEAR_DUPLICATE_BLOCK, near_duplicates
 from common.settings import (
     AUGMENT_DATASET,
     CHALLENGE_SET,
@@ -95,6 +96,14 @@ def load_augmentation(protected: set) -> pd.DataFrame:
         raise ValueError(
             f"augment.csv에 평가·검증용 문자와 똑같은 문자가 {len(overlap)}건 있습니다 "
             f"(학습에 쓰면 평가가 오염됩니다): {sorted(overlap)[:3]}"
+        )
+    # 글자가 똑같지는 않지만 한두 글자만 바꾼(띄어쓰기·기호 변형 포함) 사실상 같은 문자도 막는다
+    near = near_duplicates(aug["text"], {t: "평가·검증" for t in protected}, NEAR_DUPLICATE_BLOCK)
+    if near:
+        examples = [f"{score:.2f} 보강:{cand[:30]!r} ~ 평가:{match[:30]!r}" for score, cand, match, _ in near[:3]]
+        raise ValueError(
+            f"augment.csv에 평가·검증용 문자와 사실상 같은 문자가 {len(near)}건 있습니다 "
+            f"(유사도 {NEAR_DUPLICATE_BLOCK} 이상, 학습에 쓰면 평가가 오염됩니다): {examples}"
         )
     aug["label_id"] = aug["label"].map(LABEL2ID)
     return aug[columns].reset_index(drop=True)
