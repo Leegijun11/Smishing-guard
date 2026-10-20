@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
@@ -43,29 +43,41 @@ SYSTEM_PROMPT = f"""당신은 한국의 스미싱(문자 사기) 피해를 막�
 """
 
 
-def build_user_prompt(text: str, bert_result: Dict, reference_chunks: List[Dict]) -> str:
-    distribution_lines = "\n".join(
-        f"  - {d['label_ko']}({d['label']}): {d['score']:.1%}"
-        for d in bert_result["distribution"][:3]
-    )
+def build_user_prompt(
+    text: str,
+    bert_result: Optional[Dict],
+    reference_chunks: List[Dict],
+    rag_enabled: bool = True,
+) -> str:
+    """bert_result가 None이면 BERT 예측 섹션을 생략한다 (벤치마크의 LLM-only 구성)."""
+    if bert_result is not None:
+        distribution_lines = "\n".join(
+            f"  - {d['label_ko']}({d['label']}): {d['score']:.1%}"
+            for d in bert_result["distribution"][:3]
+        )
+        bert_section = f"""# BERT 모델 예측 (참고용, 최종 판단은 당신이 내립니다)
+1순위: {bert_result['label_ko']} ({bert_result['label']}), 확신도 {bert_result['confidence']:.1%}
+상위 3개 분포:
+{distribution_lines}
+
+"""
+    else:
+        bert_section = ""
 
     if reference_chunks:
         reference_lines = "\n\n".join(
             f"[참고자료 {i + 1} | {c['label_ko']} - {c['section']}]\n{c['text']}"
             for i, c in enumerate(reference_chunks)
         )
+    elif not rag_enabled:
+        reference_lines = "(참고 자료가 제공되지 않음)"
     else:
         reference_lines = "(해당 유형에 대한 참고 자료 없음 - 정상 문자로 추정되는 경우)"
 
     return f"""# 사용자가 받은 문자
 \"\"\"{text}\"\"\"
 
-# BERT 모델 예측 (참고용, 최종 판단은 당신이 내립니다)
-1순위: {bert_result['label_ko']} ({bert_result['label']}), 확신도 {bert_result['confidence']:.1%}
-상위 3개 분포:
-{distribution_lines}
-
-# 검색된 대처방법 참고 자료
+{bert_section}# 검색된 대처방법 참고 자료
 {reference_lines}
 
 위 정보를 종합해 지정된 JSON 스키마로만 답변하세요.
