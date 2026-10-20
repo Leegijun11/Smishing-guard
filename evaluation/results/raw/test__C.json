@@ -1,0 +1,1778 @@
+[
+ {
+  "schema": 2,
+  "text": "나 지금 밖이라 은행 못가 계좌번호 보낼테니까 500만 넣어줘 저녁에 갚을게",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.8973026871681213,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.035722121596336365,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 의심스럽고 계좌번호를 요구하는 것은 사기 의심 요소입니다. 또한 BERT 모델이 지인·가족 사칭으로 분류하였습니다.",
+  "reasons": [
+   "문자 내용이 긴급한 상황을 이유로 금전을 요구하고 있음",
+   "계좌번호를 제공하고 500만원을 요구하는 것은 사칭의 가능성이 높음"
+  ],
+  "action_guide": [
+   "발신자의 신원을 확실히 확인해보세요.",
+   "의심스러운 문자는 절대로 답장하거나 요구사항에 응하지 마세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 48.21440001251176,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2216.0988000105135,
+   "total_ms": 2264.340399997309,
+   "llm_calls": 1,
+   "prompt_tokens": 2024,
+   "completion_tokens": 265
+  }
+ },
+ {
+  "schema": 2,
+  "text": "대부업 등록업체 정식 저금리 상품 안내드립니다 http://registered-loan.cc",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.6302059888839722,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.16594670712947845,
+  "pred_label": "financial",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 대부업 등록업체를 사칭하여 저금리 상품을 홍보하고 있으며, 이는 금융·대출 사기의 특징과 일치합니다.",
+  "reasons": [
+   "문자에는 의심스러운 링크가 포함되어 있으며, 금융 사기의 전형적인 수법 중 하나인 '선입금'을 유도하는 가능성이 있습니다."
+  ],
+  "action_guide": [
+   "의심스러운 링크를 클릭하지 말고 해당 문자를 삭제해 주세요.",
+   "개인정보나 금전을 제공하지 말고, 해당 내용을 절대 믿지 마세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 86.65289997588843,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3418.3227999601513,
+   "total_ms": 3505.0018999609165,
+   "llm_calls": 1,
+   "prompt_tokens": 1995,
+   "completion_tokens": 251
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[교촌치킨] 주문하신 메뉴가 조리중입니다. 예상 배달시간 35분입니다.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.9546949863433838,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.011292700655758381,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "주문한 상품이 조리중이며 예상 배달시간이 안내되었습니다. 이는 실제로 주문한 상품에 대한 업데이트로 의심할 필요가 없습니다.",
+  "reasons": [
+   "문자 내용이 주문한 상품에 대한 업데이트를 안내하고 있어 스미싱 메시지가 아닌 것으로 판단됩니다."
+  ],
+  "action_guide": [
+   "주문한 상품이 조리중이라는 안내이므로 추가 조치가 필요하지 않습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 35.793099959846586,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3617.6011000061408,
+   "total_ms": 3653.417499968782,
+   "llm_calls": 2,
+   "prompt_tokens": 4243,
+   "completion_tokens": 351,
+   "retry_errors": [
+    {
+     "error": "1 validation error for SmishingVerdict\nreasons\n  List should have at least 1 item after validation, not 0 [type=too_short, input_value=[], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.8/v/too_short",
+     "raw": "{\n  \"verdict\": \"안전\",\n  \"scam_type\": \"normal\",\n  \"scam_type_ko\": \"정상 문자\",\n  \"summary\": \"주문한 상품이 조리중이며 예상 배달시간이 안내되었습니다. 이는 실제로 주문한 상품에 대한 업데이트로 의심할 필요가 없습니다.\",\n  \"reasons\": [],\n  \"action_guide\": [\"주문한 상품이 조리중이라는 안내이므로 추가 조치가 필요하지 않습니다.\"],\n  \"used_sources\": []\n}"
+    }
+   ]
+  }
+ },
+ {
+  "schema": 2,
+  "text": "고객님 대출 승인되었으나 신용등급 작업비 30만원 선입금이 필요합니다",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.6740252375602722,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.10251898318529129,
+  "pred_label": "financial",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 대출이 승인되었지만 선입금이 필요하다는 요구가 있어, 금융·대출 사기로 의심됩니다.",
+  "reasons": [
+   "대출이 승인되었다는 뜻이지만 선입금을 요구하는 것은 일반적이지 않음",
+   "30만원의 신용등급 작업비를 선입금으로 요구하는 것은 사기 의심 요소"
+  ],
+  "action_guide": [
+   "문자를 받은 즉시 해당 내용에 대한 응답이나 조치를 취하지 말고, 금융기관에 직접 문의하여 확인해보세요.",
+   "개인정보나 돈을 미리 전송하지 말고, 금융 사기로부터 자신을 보호하기 위해 신중하게 대응해야 합니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 57.338000042364,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2458.341300021857,
+   "total_ms": 2515.705300029367,
+   "llm_calls": 1,
+   "prompt_tokens": 1992,
+   "completion_tokens": 300
+  }
+ },
+ {
+  "schema": 2,
+  "text": "선물옵션 자동매매 봇 무료체험 이벤트 진행중 http://autobot-trade.top",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.8429831266403198,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.058233488351106644,
+  "pred_label": "investment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 투자 관련 사기로 의심되며, 링크를 통한 자동매매 봇 무료체험은 사기 가능성이 있습니다.",
+  "reasons": [
+   "문자 내용에 '무료체험 이벤트'와 같이 유혹적인 내용이 포함되어 있음",
+   "의심스러운 도메인인 'autobot-trade.top'이 포함되어 있음"
+  ],
+  "action_guide": [
+   "발신자를 확인하고, 절대 링크를 클릭하지 말고 해당 문자를 무시 또는 차단하세요.",
+   "금전이나 개인정보를 제공하지 말고, 투자 관련 사기에 대해 주변 사람들을 경고해주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 59.64990000938997,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2079.3488000053912,
+   "total_ms": 2139.0260999905877,
+   "llm_calls": 1,
+   "prompt_tokens": 1999,
+   "completion_tokens": 275
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 원티드 지원하신 공고에 서류 합격하셨습니다. 확인해주세요.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.9539396166801453,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.013178182765841484,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 구체적이지 않고, 원티드와 같은 실제 기업명이 포함되어 있어 정상 문자로 판단했습니다.",
+  "reasons": [
+   "문자 내용이 구체적이지 않고, 실제 기업명이 포함되어 있음"
+  ],
+  "action_guide": [
+   "문자 내용이 의심스러울 경우에는 문자에 포함된 링크를 클릭하지 말고, 발신자를 직접 확인해보세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 72.79960002051666,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2282.8691000468098,
+   "total_ms": 2355.694699974265,
+   "llm_calls": 1,
+   "prompt_tokens": 1981,
+   "completion_tokens": 180
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[CGV] 예매 확정 안내입니다. 상영 10분 전까지 입장해주세요.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.957120954990387,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.011169896461069584,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "CGV에서의 영화 예매 확정 안내로, 일반적인 상업적 문자로 보입니다.",
+  "reasons": [
+   "문자 내용이 CGV와 관련된 영화 예매 안내로 수상한 점이 없습니다."
+  ],
+  "action_guide": [
+   "영화 예매를 한 기억이 있는 경우에는 안심하고 상영 시간에 맞춰 입장하면 됩니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 60.51050004316494,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1421.7721999739297,
+   "total_ms": 1482.3136000195518,
+   "llm_calls": 1,
+   "prompt_tokens": 1978,
+   "completion_tokens": 158
+  }
+ },
+ {
+  "schema": 2,
+  "text": "택시호출앱 결제수단 오류 안내 및 재등록 요청 http://taxi-payerror.cc",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.8312237858772278,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.055614959448575974,
+  "pred_label": "payment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 결제·청구 사칭 유형에 속하며, 사기 가능성이 높습니다. 링크를 클릭하거나 개인 정보를 입력하지 말고 주의하세요.",
+  "reasons": [
+   "문자에는 택시호출앱 결제수단 오류 안내 및 재등록을 요청하는 링크가 포함되어 있음",
+   "사칭된 링크를 통해 개인 정보를 요구하거나 사기 행위를 유도할 가능성이 있음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 택시호출앱 공식 웹사이트를 직접 방문하여 결제수단을 확인해보세요.",
+   "개인 정보를 입력하거나 이체를 진행하기 전에 반드시 발신자를 확인하고, 의심스러운 사항이 있다면 해당 택시호출앱 고객센터에 문의하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 52.65490000601858,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3314.5541000412777,
+   "total_ms": 3367.232199991122,
+   "llm_calls": 1,
+   "prompt_tokens": 1990,
+   "completion_tokens": 327
+  }
+ },
+ {
+  "schema": 2,
+  "text": "친구야 급하게 쓸 데가 있어서 그런데 30만원만 빌려줄 수 있어?",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.8791046142578125,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.03889583796262741,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 급하게 돈을 요구하는 것으로, 지인이라고 속이는 메신저피싱의 가능성이 높습니다.",
+  "reasons": [
+   "급하게 돈을 요청하는 문구가 포함되어 있음",
+   "금전을 빌려달라는 요구가 갑작스럽고 이유가 명확히 제시되지 않음"
+  ],
+  "action_guide": [
+   "발신자에게 직접 연락하여 확인하고, 금전을 빌려주기 전에 신원을 확실히 확인해야 함",
+   "금전을 빌려주기 전에 다른 친구나 가족과도 상의하여 결정하는 것이 좋음"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 50.42949999915436,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2195.4399999813177,
+   "total_ms": 2245.8915999741293,
+   "llm_calls": 1,
+   "prompt_tokens": 2017,
+   "completion_tokens": 281
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 디즈니플러스 구독갱신 결제 9,900원 승인 http://disney-billing.cc",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.9273329973220825,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.019540058448910713,
+  "pred_label": "payment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 디즈니플러스 구독 갱신을 위한 결제를 요구하고 있으며, 수상한 링크가 포함되어 있습니다.",
+  "reasons": [
+   "문자에 수상한 단축 URL이 포함되어 있어서 사칭 문자로 의심됨"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 디즈니플러스 공식 웹사이트나 앱을 통해 구독 갱신 절차를 직접 확인해야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 50.48270005499944,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2376.1753999860957,
+   "total_ms": 2426.6805999795906,
+   "llm_calls": 1,
+   "prompt_tokens": 1990,
+   "completion_tokens": 213
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 한진택배 배송조회 오류 발생. 수취인 정보 확인 필요 http://hanjin-check.xyz",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.7977063059806824,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.1273369938135147,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 택배사를 사칭하고 수취인 정보 확인을 요구하며, 의심스러운 링크가 포함되어 있습니다.",
+  "reasons": [
+   "의심스러운 링크를 통한 개인정보 탈취 가능성",
+   "한진택배 공식 도메인이 아닌 'hanjin-check.xyz'와 같은 도메인 사용"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 해당 문자를 삭제해 주세요.",
+   "한진택배 공식 웹사이트나 고객센터를 통해 배송 조회를 진행해 주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 84.789999993518,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1831.3689000206068,
+   "total_ms": 1916.1836000275798,
+   "llm_calls": 1,
+   "prompt_tokens": 1988,
+   "completion_tokens": 241
+  }
+ },
+ {
+  "schema": 2,
+  "text": "정수기 렌탈료 결제 실패로 서비스 중단 예정 http://rental-fail.xyz",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.8109015822410583,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.0878065973520279,
+  "pred_label": "payment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 결제 사칭 유형에 속하며, 링크를 통한 개인정보 유출 가능성이 있어 위험으로 판단됩니다.",
+  "reasons": [
+   "문자에 렌탈료 결제 실패로 서비스 중단 예정이라는 위협적인 내용이 포함되어 있음",
+   "의심스러운 도메인 'rental-fail.xyz'을 통한 링크 제공으로 개인정보 유출 가능성이 높음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 기관의 공식 웹사이트나 고객센터로 직접 문의하여 결제 상태를 확인해야 함",
+   "개인정보 유출을 방지하기 위해 의심스러운 링크를 절대 클릭하거나 개인정보를 입력하지 말아야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 51.00979999406263,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2716.073400049936,
+   "total_ms": 2767.109500011429,
+   "llm_calls": 1,
+   "prompt_tokens": 1986,
+   "completion_tokens": 312
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 배송정보 확인 후 재발송 신청 부탁드립니다 http://cjdelivery-check.top",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.834128201007843,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.07785311341285706,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에는 배송사칭이 의심되는 악의적 링크가 포함되어 있습니다. 클릭하지 말고 삭제해야 합니다.",
+  "reasons": [
+   "의심스러운 도메인 'cjdelivery-check.top' 포함"
+  ],
+  "action_guide": [
+   "의심스러운 링크이므로 절대 클릭하지 말고 해당 메시지를 삭제해 주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 67.82310002017766,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1642.3333000275306,
+   "total_ms": 1710.1798999938183,
+   "llm_calls": 1,
+   "prompt_tokens": 1988,
+   "completion_tokens": 160
+  }
+ },
+ {
+  "schema": 2,
+  "text": "아빠 저 카드가 정지돼서 그런데 잠깐 결제 좀 대신 해주실 수 있어요?",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.8819894790649414,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.038904570043087006,
+  "pred_label": "acquaintance",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 가족을 사칭하여 긴급한 결제를 요청하는 메시지이므로 주의가 필요합니다.",
+  "reasons": [
+   "문자 내용에서 갑작스러운 결제 대신 부탁이 있어 의심스러움",
+   "카드가 정지되었다는 사실이 미리 알려진 적이 없음"
+  ],
+  "action_guide": [
+   "문자를 보낸 번호를 확인하고, 실제 가족 또는 지인인지 확인해보세요.",
+   "긴급한 결제를 요청하는 경우 신중히 판단하고 개인 정보나 금전을 미리 전달하지 마세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 50.77449994860217,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2048.21360000642,
+   "total_ms": 2099.0118000190705,
+   "llm_calls": 1,
+   "prompt_tokens": 2021,
+   "completion_tokens": 265
+  }
+ },
+ {
+  "schema": 2,
+  "text": "이모 저 인증 안돼서 그런데 신분증 사진 좀 보내주실 수 있어요?",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.9061130285263062,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.024527812376618385,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 지인이라고 속이는 내용이며, 신분증 사진을 요구하는 것은 사생활 침해의 가능성이 있어 위험으로 판단합니다.",
+  "reasons": [
+   "문자 내용에서 신분증 사진을 요구하는 것은 이상하고, 이는 개인정보 유출의 위험이 있음"
+  ],
+  "action_guide": [
+   "신분증 사진이나 개인 정보를 절대 전송하지 말고, 발신자의 신원을 확실히 확인해야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 67.13869998930022,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1758.2871000049636,
+   "total_ms": 1825.452300021425,
+   "llm_calls": 1,
+   "prompt_tokens": 2018,
+   "completion_tokens": 223
+  }
+ },
+ {
+  "schema": 2,
+  "text": "우체국택배 부재중 방문 안내입니다. 재배송 신청은 아래 링크에서 http://post-redeliver.cc",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.7911197543144226,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.057397592812776566,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 부재중 방문 안내를 하면서 재배송을 유도하는데, 의심스러운 링크가 포함되어 있습니다.",
+  "reasons": [
+   "부재중 방문 안내와 재배송 신청을 위한 링크가 이상하게 요구되고 있음",
+   "우체국택배 공식 문자가 아닌 도메인을 사용하고 있음"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 삭제하시기 바랍니다.",
+   "우체국 공식 웹사이트나 고객센터를 통해 실제 택배 상태를 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 70.86069998331368,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3219.7260999819264,
+   "total_ms": 3290.611600037664,
+   "llm_calls": 1,
+   "prompt_tokens": 1991,
+   "completion_tokens": 250
+  }
+ },
+ {
+  "schema": 2,
+  "text": "엄마 나 계좌 잠깐 막혀서 그런데 100만원만 이 계좌로 보내줄 수 있어?",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.9183381199836731,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.018389716744422913,
+  "pred_label": "acquaintance",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 가족을 사칭하여 긴급한 송금을 요구하고 있어 신뢰할 수 없습니다.",
+  "reasons": [
+   "문자 내용에서 갑작스러운 긴급한 상황 송금 요청",
+   "계좌 잠금과 같은 사유로 신속한 대응을 요구함"
+  ],
+  "action_guide": [
+   "가족의 의심스러운 요청일 경우 반드시 전화로 직접 확인",
+   "금전을 송금하기 전에 정확한 상황을 확인하기 위해 다른 연락 수단을 통해 가족과 소통"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 51.27999995602295,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3006.2058999901637,
+   "total_ms": 3057.509900012519,
+   "llm_calls": 1,
+   "prompt_tokens": 2034,
+   "completion_tokens": 259
+  }
+ },
+ {
+  "schema": 2,
+  "text": "보증보험 없이 진행되는 특별 신용대출 상품 안내 http://noguarantee-loan.top",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.9226220846176147,
+  "bert_second_label": "investment",
+  "bert_second_score": 0.019490186125040054,
+  "pred_label": "financial",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 보증보험 없이 진행되는 특별 신용대출을 속이는 의심스러운 내용이며, BERT 모델도 금융·대출 사기로 강하게 의심함",
+  "reasons": [
+   "문자에는 보증보험 없이 대출이 가능하다는 미끼가 포함되어 있음",
+   "의심스러운 링크인 'http://noguarantee-loan.top'이 제공되어 있음"
+  ],
+  "action_guide": [
+   "의심스러운 링크를 클릭하지 말고 해당 문자를 삭제하여 무시해야 함",
+   "개인정보나 금전을 제공하지 말고 신뢰할 수 있는 금융기관을 통해 대출 상담을 진행해야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 70.85090002510697,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2513.5649999720044,
+   "total_ms": 2584.4413000158966,
+   "llm_calls": 1,
+   "prompt_tokens": 2003,
+   "completion_tokens": 290
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 항공권 예약 결제 취소 수수료 안내드립니다 http://flight-cancel.cc",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.4143369197845459,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.39350074529647827,
+  "pred_label": "delivery",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에 항공권 예약 결제 취소 수수료 안내 링크가 포함되어 있어 스미싱 가능성이 있습니다.",
+  "reasons": [
+   "문자에 의심스러운 단축 URL이 포함되어 있음",
+   "실제 항공사에서는 결제 취소 수수료 안내를 문자로 보내지 않음"
+  ],
+  "action_guide": [
+   "의심스러운 링크를 클릭하지 말고 해당 문자를 삭제하세요.",
+   "항공권 예약 결제 취소에 관한 사항은 항공사 공식 웹사이트나 고객센터를 통해 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 62.1516999672167,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2747.5891999783926,
+   "total_ms": 2809.7671000286937,
+   "llm_calls": 1,
+   "prompt_tokens": 1989,
+   "completion_tokens": 237
+  }
+ },
+ {
+  "schema": 2,
+  "text": "택배보관함 이용안내 - 비밀번호 오류로 재설정이 필요합니다 http://locker-reset.top",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.7068983912467957,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.1635870784521103,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 택배보관함을 사칭하고 비밀번호 오류로 재설정을 유도하며, 수상한 링크가 포함되어 있습니다.",
+  "reasons": [
+   "문자에 수상한 링크가 포함되어 있음",
+   "택배보관함을 특정하여 개인 정보를 요구하는 것은 이상함"
+  ],
+  "action_guide": [
+   "받은 문자의 링크를 클릭하지 말고 해당 택배사의 공식 채널을 통해 직접 확인해보세요.",
+   "개인 정보나 비밀번호를 절대 입력하지 말고 해당 택배사에 문의하여 확인해보세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 68.88830004027113,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2058.703200018499,
+   "total_ms": 2127.6174999657087,
+   "llm_calls": 1,
+   "prompt_tokens": 1987,
+   "completion_tokens": 247
+  }
+ },
+ {
+  "schema": 2,
+  "text": "다음주 정기 건강검진 일정 안내드립니다. 공복상태로 방문해주세요.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.9331471920013428,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.020499279722571373,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자는 정기 건강검진 안내로 실제 기업이 보내는 정상 문자이며, 추가 조치가 필요하지 않습니다.",
+  "reasons": [
+   "문자 내용이 건강검진 일정 안내로 일상적이고 위협적이지 않음"
+  ],
+  "action_guide": [
+   "특별한 조치가 필요하지 않습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 63.048899988643825,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1511.5971000050195,
+   "total_ms": 1574.673100025393,
+   "llm_calls": 1,
+   "prompt_tokens": 1978,
+   "completion_tokens": 145
+  }
+ },
+ {
+  "schema": 2,
+  "text": "원금보장 월 15% 확정수익 상품 마감 임박. 상담 http://coin-vip.top",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.6889654397964478,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.21251080930233002,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에 원금보장과 확정수익을 약속하며 투자 상품을 홍보하고 있어 스미싱/사기 의심됨.",
+  "reasons": [
+   "문자에서 원금보장과 월 15% 확정수익을 약속하고 상담을 유도함",
+   "의심스러운 도메인인 'coin-vip.top'이 링크로 제공됨"
+  ],
+  "action_guide": [
+   "문자에 포함된 링크는 클릭하지 말고 해당 문자를 삭제하여 무시해야 함",
+   "금전 또는 개인정보를 제공하지 말고 해당 내용을 신고할 수 있는 기관에 알려야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 67.0657999580726,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2129.556200001389,
+   "total_ms": 2196.6470000334084,
+   "llm_calls": 1,
+   "prompt_tokens": 1995,
+   "completion_tokens": 268
+  }
+ },
+ {
+  "schema": 2,
+  "text": "해외 선물 자동매매 프로그램 무료배포. 설치하기 http://autotrade.apk",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.6664800643920898,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.11894994229078293,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "해외 선물 자동매매 프로그램을 무료로 배포한다는 내용은 투자 사기의 전형적인 유형이며, 링크를 통한 프로그램 설치는 개인정보 유출 및 금전 피해 가능성이 높습니다.",
+  "reasons": [
+   "문자 내용에 '해외 선물 자동매매 프로그램 무료배포'라는 유혹적인 내용이 포함되어 있음",
+   "의심스러운 링크인 'http://autotrade.apk'가 제공되어 있어 개인정보 유출 및 악성 프로그램 설치 가능성이 높음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 메시지를 삭제해 주세요.",
+   "의심스러운 문자가 계속 온다면 발신자를 차단하고 보안 솔루션을 통해 안전한 휴대전화 사용을 유지해주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 49.071600020397455,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2754.298999963794,
+   "total_ms": 2803.3944999915548,
+   "llm_calls": 1,
+   "prompt_tokens": 1996,
+   "completion_tokens": 353
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[금융감독원] 불법 자금세탁 계좌로 확인되어 자산 보호 절차가 필요합니다. 안전계좌로 이체하세요",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.5032387375831604,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.3987700939178467,
+  "pred_label": "institution",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 금융감독원을 사칭하여 불법 자금세탁 계좌로 확인된다는 내용으로, 개인정보를 요구할 가능성이 있어 주의가 필요합니다.",
+  "reasons": [
+   "문자 내용이 금융감독원을 사칭하고 불법 자금세탁 계좌로 확인된다는 위협적인 내용을 포함하고 있음"
+  ],
+  "action_guide": [
+   "문자를 받았을 경우 금융감독원 공식 웹사이트나 고객센터를 통해 확인하고 개인정보를 절대 제공하지 말아야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 62.83830001484603,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1931.6039999830537,
+   "total_ms": 1994.4661000045016,
+   "llm_calls": 1,
+   "prompt_tokens": 2000,
+   "completion_tokens": 246
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 경찰청 사이버안전국입니다. 명의도용 피해 신고건 확인 필요 http://cyber-police.top",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.8718944191932678,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.0395168662071228,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "수신된 문자가 경찰청을 사칭하고 명의도용 피해 신고를 유도하며 의심스러운 링크를 포함하고 있습니다.",
+  "reasons": [
+   "수신된 문자에는 경찰청을 사칭하는 내용이 포함되어 있음",
+   "의심스러운 링크를 통해 개인정보 유출 가능성이 있음"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 해당 문자를 삭제해 주세요.",
+   "경찰청 공식 홈페이지나 고객센터를 통해 직접 문의하여 해당 내용의 진위 여부를 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 56.22430000221357,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2184.1287999995984,
+   "total_ms": 2240.376700006891,
+   "llm_calls": 1,
+   "prompt_tokens": 2008,
+   "completion_tokens": 255
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 우리카드 포인트가 12월 31일 소멸 예정입니다. 앱에서 사용하세요.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.9584307670593262,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.009731561876833439,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 실제 우리카드의 포인트 만료 안내와 일치하며, 부가적인 요구나 수상한 링크가 없습니다.",
+  "reasons": [
+   "문자 내용이 실제 우리카드의 정책에 부합하며, 부가적인 사기 요소가 없음"
+  ],
+  "action_guide": [
+   "문자 내용이 실제 우리카드의 정책과 일치하므로 별다른 조치가 필요하지 않습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 57.811399979982525,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1670.4733000369743,
+   "total_ms": 1728.3118999912404,
+   "llm_calls": 1,
+   "prompt_tokens": 1983,
+   "completion_tokens": 182
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 배송중 상품파손 확인되었습니다. 보상절차 진행 http://damage-claim.top",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.7900851368904114,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.10210738331079483,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 상품 파손을 주장하며 보상을 받기 위한 링크를 제공하고 있어 스미싱 의심됩니다.",
+  "reasons": [
+   "문자에 상품 파손이 확인되었다는 내용이 있으며, 보상을 받기 위한 링크가 제공됨",
+   "의심스러운 도메인인 'damage-claim.top'이 사용되었음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 택배사의 공식 채널을 통해 직접 문의해 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 68.02090001292527,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2720.1610000338405,
+   "total_ms": 2788.207399949897,
+   "llm_calls": 1,
+   "prompt_tokens": 1989,
+   "completion_tokens": 229
+  }
+ },
+ {
+  "schema": 2,
+  "text": "택배 반송 3일 경과, 폐기 예정입니다. 즉시 확인 http://return-box.top",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.8417332172393799,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.0658087506890297,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 택배 반송을 주장하며 확인 링크를 제공하므로 스미싱 의심됨.",
+  "reasons": [
+   "택배 반송 및 폐기 예정을 주장하며 즉시 확인 링크를 통한 유도가 의심스러움"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 택배사의 공식 채널을 통해 직접 배송 상태를 확인해보세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 72.44429999263957,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1953.4496999694966,
+   "total_ms": 2025.9169000200927,
+   "llm_calls": 1,
+   "prompt_tokens": 1982,
+   "completion_tokens": 207
+  }
+ },
+ {
+  "schema": 2,
+  "text": "무직자 프리랜서 전용 소액대출 상담 가능합니다 010-XXXX-XXXX",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.9033445119857788,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.02377263829112053,
+  "pred_label": "financial",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 소액대출 상담을 유도하고 있으며, 이는 금융·대출 사기의 특징과 부합합니다.",
+  "reasons": [
+   "전문적인 금융 상담은 보통 공식 금융기관을 통해 이루어지므로 이상하게 느껴짐",
+   "무직자나 프리랜서를 대상으로 하는 소액대출 상담은 사기 가능성이 높음"
+  ],
+  "action_guide": [
+   "문자 내용에 포함된 전화번호는 절대로 연락하지 말고 삭제해 주세요.",
+   "개인정보나 금전을 요구하는 상담은 신뢰할 수 없으니 믿지 말고 무시해 주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 62.26930004777387,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2423.7094999989495,
+   "total_ms": 2486.004700011108,
+   "llm_calls": 1,
+   "prompt_tokens": 1979,
+   "completion_tokens": 278
+  }
+ },
+ {
+  "schema": 2,
+  "text": "선물옵션 초보 필승공식 무료전자책 신청하세요 http://ebook-free.top",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.5982362031936646,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.1303347796201706,
+  "pred_label": "investment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 '선물옵션 초보 필승공식'과 같은 확정적인 수익을 약속하며 무료 전자책을 유도하고 있어 사기 가능성이 있습니다.",
+  "reasons": [
+   "문자 내용에서 확정적인 수익을 약속하는 '필승공식'과 같은 용어가 사용되어 있음",
+   "무료 전자책을 통해 개인 정보를 수집하거나 피싱 사이트로 유도할 가능성이 있음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 문자를 삭제하세요.",
+   "의심스러운 문자는 발신자를 확인하고, 해당 내용을 믿지 말고 추가 조사를 진행하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 58.53570002363995,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2456.549399998039,
+   "total_ms": 2515.111299988348,
+   "llm_calls": 1,
+   "prompt_tokens": 1992,
+   "completion_tokens": 283
+  }
+ },
+ {
+  "schema": 2,
+  "text": "선배 저 후배인데요 번호 바뀌었습니다 잠깐 부탁 하나만 드려도 될까요",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.8582007884979248,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.043504711240530014,
+  "pred_label": "acquaintance",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 지인을 사칭하여 새 번호로 연락하며 부탁하는 내용으로, 메신저피싱의 가능성이 있습니다.",
+  "reasons": [
+   "문자 내용이 '선배'라는 친숙한 관계를 가정하고 새 번호로 연락하여 부탁하는 것은 메신저피싱의 전형적인 패턴이다."
+  ],
+  "action_guide": [
+   "문자를 보낸 사람의 정체를 확실히 확인하기 위해 이전에 사용하던 연락 수단으로 직접 연락해 확인해보세요.",
+   "급한 부탁이라고 하더라도 금전을 이체하거나 개인 정보를 제공하기 전에 신중히 생각하고, 사기 의심 시 관할 경찰서나 사이버안전센터에 신고하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 61.02720001945272,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3648.9825999597088,
+   "total_ms": 3710.035299998708,
+   "llm_calls": 1,
+   "prompt_tokens": 2023,
+   "completion_tokens": 326
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 서울회생법원 개인회생 관련 서류가 도달했습니다 http://court-doc2.cc",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.7362167239189148,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.09480040520429611,
+  "pred_label": "institution",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 서울회생법원을 사칭하고 있으며, 알 수 없는 링크를 통해 개인정보 유출 가능성이 있습니다.",
+  "reasons": [
+   "문자에 의심스러운 링크가 포함되어 있음",
+   "서울회생법원이 개인정보를 요구하지 않는 공식적인 절차가 아님"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 해당 문자를 삭제하세요.",
+   "서울회생법원에 직접 전화하여 해당 내용이 진실인지 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 53.503100003581494,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2116.5092999581248,
+   "total_ms": 2170.035899966024,
+   "llm_calls": 1,
+   "prompt_tokens": 2001,
+   "completion_tokens": 234
+  }
+ },
+ {
+  "schema": 2,
+  "text": "법원 지급명령 결정문이 송달되었습니다. 이의신청 기한 7일 http://court-kr.link",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.7351697683334351,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.10136185586452484,
+  "pred_label": "institution",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 법원 송달과 관련된 이의신청 기한을 강조하며 링크를 통한 송달 확인을 유도하므로 의심스러운 메시지입니다.",
+  "reasons": [
+   "문자에 나온 링크인 'court-kr.link'는 공식적인 법원 사이트가 아닌 도메인으로, 사칭 의심이 높음."
+  ],
+  "action_guide": [
+   "송달 확인이 필요하다면 직접 해당 법원에 전화하여 확인하는 것이 안전합니다.",
+   "의심스러운 링크는 클릭하지 말고 삭제하거나 차단하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 73.02589999744669,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2766.838399984408,
+   "total_ms": 2839.8877999861725,
+   "llm_calls": 1,
+   "prompt_tokens": 2001,
+   "completion_tokens": 249
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 금융감독원입니다. 귀하 명의 계좌가 대포통장으로 이용되고 있습니다. 즉시 연락요망",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.7942557334899902,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.11038311570882797,
+  "pred_label": "institution",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 금융감독원을 사칭하여 계좌 도용 등을 언급하고 있어 사기 가능성이 있습니다.",
+  "reasons": [
+   "문자 내용에서 금융감독원을 사칭하고 계좌 도용을 언급함",
+   "긴급하게 연락을 요구하는 문구가 포함되어 있음"
+  ],
+  "action_guide": [
+   "발신자 번호를 확인하고 금융감독원 공식 웹사이트나 고객센터를 통해 직접 연락하여 확인",
+   "문자에 포함된 링크나 전화번호는 클릭하거나 연락하지 말고 신뢰할 수 있는 경로로 확인"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 77.12760003050789,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3391.691000026185,
+   "total_ms": 3468.843500013463,
+   "llm_calls": 1,
+   "prompt_tokens": 2028,
+   "completion_tokens": 270
+  }
+ },
+ {
+  "schema": 2,
+  "text": "신용회복지원 대상자 채무조정 무료상담 신청하세요 http://credit-recovery.cc",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.8464959263801575,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.07471422106027603,
+  "pred_label": "financial",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 금융 혜택을 제공하며 링크를 통한 신청을 유도하고 있어 사기 가능성이 있습니다.",
+  "reasons": [
+   "문자에 '신용회복지원 대상자 채무조정 무료상담 신청하세요'라는 유혹적인 내용이 포함되어 있음",
+   "의심스러운 도메인인 'credit-recovery.cc'를 통한 링크 제공"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 내용을 무시하시기 바랍니다.",
+   "금융 및 대출 관련 상담이 필요한 경우, 공식적인 금융기관으로 직접 문의하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 67.56450003013015,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2447.8953000507317,
+   "total_ms": 2515.4857999878004,
+   "llm_calls": 1,
+   "prompt_tokens": 1991,
+   "completion_tokens": 270
+  }
+ },
+ {
+  "schema": 2,
+  "text": "국세청 홈택스 부가세 환급 대상자 조회 결과 도착 http://hometax-refund.cc",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.8012263774871826,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.06185734644532204,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 국세청을 사칭하여 부가세 환급 대상자 조회를 유도하고 있는데, 이는 사칭 문자로 의심됩니다.",
+  "reasons": [
+   "부가세 환급과 같은 형태의 환급금을 언급하며 링크를 통한 개인정보 입력을 요구함",
+   "공식적인 국세청 안내는 해당 공식 웹사이트를 통해 이뤄지며, 이와 같은 외부 링크는 사칭의 가능성이 높음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고, 국세청 공식 웹사이트를 직접 방문하여 부가세 환급 대상자 조회를 진행해야 함",
+   "의심스러운 문자는 삭제하거나 차단하여 향후 유사한 사기 문자로부터 안전해지세요"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 67.53050000406802,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2359.983899979852,
+   "total_ms": 2427.5432000285946,
+   "llm_calls": 1,
+   "prompt_tokens": 1999,
+   "completion_tokens": 332
+  }
+ },
+ {
+  "schema": 2,
+  "text": "달러선물 자동매매 프로그램 무료배포 이벤트 http://usd-autotrade.cc",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.833788275718689,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.06645268201828003,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 투자 사기를 유도하는 내용이며, 주소로 연결되는 링크가 포함되어 있습니다.",
+  "reasons": [
+   "문자 내용에 '무료배포 이벤트'와 같이 고수익을 약속하는 내용이 포함되어 있음",
+   "의심스러운 도메인인 'usd-autotrade.cc'로 연결되는 링크가 제공됨"
+  ],
+  "action_guide": [
+   "문자에서 제공된 링크는 클릭하지 말고 해당 문자를 삭제하여 무시해야 함",
+   "금전이나 개인정보를 제공하지 말고 이와 유사한 문자가 올 경우 무조건 의심해야 함"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 50.91069999616593,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3276.9532999955118,
+   "total_ms": 3327.888100000564,
+   "llm_calls": 1,
+   "prompt_tokens": 2012,
+   "completion_tokens": 264
+  }
+ },
+ {
+  "schema": 2,
+  "text": "제출하신 과제 피드백이 등록되었습니다. LMS에서 확인 바랍니다.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.8658720850944519,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.043755512684583664,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 일반적인 학사 안내로 이상한 점이 없어 정상 문자로 판단했습니다.",
+  "reasons": [
+   "문자 내용이 학사 안내와 일치하며 이상한 요구나 링크가 없습니다."
+  ],
+  "action_guide": [
+   "계속해서 학사 관련 안내를 받기를 원한다면 LMS에서 피드백을 확인해주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 59.811800019815564,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1707.7868000487797,
+   "total_ms": 1767.625299980864,
+   "llm_calls": 1,
+   "prompt_tokens": 1974,
+   "completion_tokens": 159
+  }
+ },
+ {
+  "schema": 2,
+  "text": "FX마진 거래 초보도 월 500 가능. 시연 영상 확인 http://fx-guide.cc",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.7568953037261963,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.08694632351398468,
+  "pred_label": "investment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "수신된 문자는 FX마진 거래를 통해 월 500을 벌 수 있다는 유형의 투자 사기로 의심됩니다. 링크를 클릭하거나 제공된 사이트에 개인 정보를 입력하는 것은 위험할 수 있습니다.",
+  "reasons": [
+   "문자에는 초보자도 월 500을 벌 수 있다는 과장된 약속이 포함되어 있습니다.",
+   "수상한 사이트 주소인 'fx-guide.cc'는 공식적인 금융 기관이나 플랫폼이 아닌 것으로 보입니다."
+  ],
+  "action_guide": [
+   "수상한 링크를 클릭하지 말고 해당 문자를 무시하거나 삭제해 주세요.",
+   "금융 투자나 거래를 할 때에는 공식적이고 신뢰할 수 있는 플랫폼을 이용해야 합니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 58.826499967835844,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3550.3911999985576,
+   "total_ms": 3609.2449000570923,
+   "llm_calls": 1,
+   "prompt_tokens": 1987,
+   "completion_tokens": 311
+  }
+ },
+ {
+  "schema": 2,
+  "text": "택배 파손 보상금 지급 안내입니다. 계좌확인 후 입금됩니다 http://compensate-pay.cc",
+  "gold": "delivery",
+  "category": null,
+  "error": null,
+  "bert_label": "delivery",
+  "bert_confidence": 0.6840682625770569,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.1251329481601715,
+  "pred_label": "delivery",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 택배 파손 보상금을 미리 알리고 계좌 확인을 유도하며, 의심스러운 링크가 포함되어 있어 스미싱으로 강하게 의심됩니다.",
+  "reasons": [
+   "문자 내용이 택배 파손 보상금을 미리 알리고 계좌 확인을 요구함",
+   "의심스러운 링크인 compensate-pay.cc가 포함되어 있음"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 해당 문자를 삭제해 주세요.",
+   "택배 파손 보상금과 관련된 사실 여부를 확인하기 위해 직접 택배사에 문의해 보시는 것이 좋습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 94.8851999710314,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3799.41829998279,
+   "total_ms": 3894.3288000300527,
+   "llm_calls": 1,
+   "prompt_tokens": 1992,
+   "completion_tokens": 275
+  }
+ },
+ {
+  "schema": 2,
+  "text": "가상자산 거래소 상장빔 사전정보 유료방 할인가 http://listing-info.cc",
+  "gold": "investment",
+  "category": null,
+  "error": null,
+  "bert_label": "investment",
+  "bert_confidence": 0.8509722352027893,
+  "bert_second_label": "payment",
+  "bert_second_score": 0.04634912684559822,
+  "pred_label": "investment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 가상자산 거래소 상장 정보를 유료방을 통해 할인가로 제공한다는 속임수적 내용이며, BERT 모델이 투자·리딩방 사기로 강하게 의심함",
+  "reasons": [
+   "문자에는 유료방을 통한 할인가 제공을 유도하는 링크가 포함되어 있음",
+   "가상자산 거래와 관련된 사전정보 유료방은 사기성이 높을 가능성이 있음"
+  ],
+  "action_guide": [
+   "받은 문자의 링크는 클릭하지 말고 해당 문자를 삭제해 주세요.",
+   "가상자산 거래와 관련된 정보는 신뢰할 수 있는 공식 채널을 통해 확인해야 합니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 56.81819998426363,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2682.983900012914,
+   "total_ms": 2739.8270000121556,
+   "llm_calls": 1,
+   "prompt_tokens": 1995,
+   "completion_tokens": 287
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[질병관리청] 역학조사 대상자로 확인되었습니다. 아래 링크에서 정보 입력 http://kdca-form.top",
+  "gold": "institution",
+  "category": null,
+  "error": null,
+  "bert_label": "institution",
+  "bert_confidence": 0.7527331709861755,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.1162353903055191,
+  "pred_label": "institution",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 질병관리청을 사칭하여 역학조사 대상자로 속이려는 시도임. 링크를 클릭하면 개인정보 유출 가능성이 있음.",
+  "reasons": [
+   "질병관리청은 개인정보를 문자 메시지를 통해 요구하지 않음.",
+   "의심스러운 도메인인 'kdca-form.top'을 통한 링크는 질병관리청 공식 사이트가 아닐 가능성이 높음."
+  ],
+  "action_guide": [
+   "받은 문자를 무시하고 해당 링크를 절대 클릭하지 말고 삭제해 주세요.",
+   "의심스러운 문자가 계속 온다면 해당 발신자를 차단하고 이를 해당 기관에 신고해 주세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 72.01060000807047,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2574.3775999872014,
+   "total_ms": 2646.4135000132956,
+   "llm_calls": 1,
+   "prompt_tokens": 2003,
+   "completion_tokens": 293
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 토스뱅크 카드가 정상적으로 발급되어 발송되었습니다.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.9473495483398438,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.018868746235966682,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 신용카드 발급 안내로 이상한 요구나 링크가 없으며, BERT 모델도 정상 문자로 예측했습니다.",
+  "reasons": [
+   "문자 내용에 이상한 요구나 사기적인 요소가 없음",
+   "BERT 모델이 정상 문자로 높은 확신도로 예측함"
+  ],
+  "action_guide": [
+   "문자 내용을 그대로 믿고 추가 조치가 필요하지 않습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 56.02959997486323,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1907.9466999974102,
+   "total_ms": 1964.0024999971502,
+   "llm_calls": 1,
+   "prompt_tokens": 1980,
+   "completion_tokens": 176
+  }
+ },
+ {
+  "schema": 2,
+  "text": "가스요금 미납 안내 및 공급중단 예고 http://gas-unpaid.top",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.6298080086708069,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.18132466077804565,
+  "pred_label": "payment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에 가스요금 미납 안내와 공급중단 예고가 있으며, 의심스러운 링크가 포함되어 있어 사기 가능성이 있습니다.",
+  "reasons": [
+   "의심스러운 링크인 'http://gas-unpaid.top'가 포함되어 있어 사기 의심",
+   "가스요금 미납과 공급중단 예고와 같은 위협적인 내용이 포함되어 있음"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 발신자를 확인하거나 해당 기관에 직접 문의하여 확인",
+   "개인정보나 결제 정보를 절대 입력하지 말고, 해당 기관의 공식 채널을 통해 문의"
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 62.38280003890395,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2419.988400011789,
+   "total_ms": 2482.3953000013717,
+   "llm_calls": 1,
+   "prompt_tokens": 1987,
+   "completion_tokens": 281
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[올리브영] 주문하신 상품이 출고되었습니다. 배송조회는 마이페이지에서.",
+  "gold": "normal",
+  "category": null,
+  "error": null,
+  "bert_label": "normal",
+  "bert_confidence": 0.9484981894493103,
+  "bert_second_label": "institution",
+  "bert_second_score": 0.011950275860726833,
+  "pred_label": "normal",
+  "verdict": "안전",
+  "flagged": false,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "주문한 상품 출고 안내로 실제 올리브영에서 보낸 정상 문자입니다.",
+  "reasons": [
+   "문자 내용에 주문한 상품 출고 안내가 있고, 올리브영의 공식 안내와 일치함"
+  ],
+  "action_guide": [
+   "배송조회가 필요하다면 올리브영 공식 웹사이트나 앱을 통해 확인하시기 바랍니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 47.60829999577254,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1625.4479000344872,
+   "total_ms": 1673.0796999763697,
+   "llm_calls": 1,
+   "prompt_tokens": 1981,
+   "completion_tokens": 172
+  }
+ },
+ {
+  "schema": 2,
+  "text": "카드 승인 알림: 해외가맹점 1,240,000원 이의제기 http://card-dispute.info",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.5981605052947998,
+  "bert_second_label": "delivery",
+  "bert_second_score": 0.13723376393318176,
+  "pred_label": "payment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 해외 결제 승인을 허위로 알리고 링크를 통해 이의제기를 유도하고 있습니다.",
+  "reasons": [
+   "문자에 해외가맹점에서의 이의제기 링크가 포함되어 있어 의심스럽습니다."
+  ],
+  "action_guide": [
+   "해당 링크를 클릭하지 말고 문자를 무시하거나 삭제해 주세요.",
+   "해외 결제 내역이 의심된다면 해당 카드사로 직접 문의하여 확인해 보시기 바랍니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 50.37589999847114,
+   "retrieval_ms": 0.0,
+   "llm_ms": 1851.0136000113562,
+   "total_ms": 1901.413000014145,
+   "llm_calls": 1,
+   "prompt_tokens": 1987,
+   "completion_tokens": 218
+  }
+ },
+ {
+  "schema": 2,
+  "text": "신용점수 낮아도 승인 가능합니다. 카톡 상담 ID: loanking77",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "financial",
+  "bert_confidence": 0.7917144894599915,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.06750380992889404,
+  "pred_label": "financial",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용에서 금융 상품을 홍보하며 '신용점수 낮아도 승인 가능'이라고 유인하고 있습니다. 이는 대출 사기 의심을 높일 수 있습니다.",
+  "reasons": [
+   "문자 내용에 금융 상품을 홍보하고 있음",
+   "카톡 상담 ID를 통한 상담은 신뢰할 수 없는 금융 사기의 가능성이 있음"
+  ],
+  "action_guide": [
+   "문자에서 제공된 카톡 상담 ID로 연락하지 말고 개인 정보를 제공하지 말아주세요.",
+   "금융 상품을 신청하기 전에 해당 기관의 공식 웹사이트나 고객센터를 통해 확인해보세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 45.888599997852,
+   "retrieval_ms": 0.0,
+   "llm_ms": 3786.3634999957867,
+   "total_ms": 3832.2784999618307,
+   "llm_calls": 1,
+   "prompt_tokens": 1978,
+   "completion_tokens": 282
+  }
+ },
+ {
+  "schema": 2,
+  "text": "형님 저 후배인데 번호 바뀌어서요 급한 부탁 하나만 드려도 될까요",
+  "gold": "acquaintance",
+  "category": null,
+  "error": null,
+  "bert_label": "acquaintance",
+  "bert_confidence": 0.9028355479240417,
+  "bert_second_label": "normal",
+  "bert_second_score": 0.025892172008752823,
+  "pred_label": "acquaintance",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자가 지인을 사칭하여 급한 부탁을 하고 있으므로 사카 가능성이 있습니다.",
+  "reasons": [
+   "문자 내용에서 급한 부탁을 하는데 구체적인 내용이 없습니다.",
+   "후배라는 호칭을 사용하면서 번호 변경으로 인한 급한 부탁을 한다는 것이 수상합니다."
+  ],
+  "action_guide": [
+   "발신자의 신원을 확실히 확인한 후 급한 부탁에 대해 신중하게 판단해야 합니다.",
+   "급한 부탁에 대해 사전에 전화나 다른 수단으로 확인을 요청하여 피싱 시도를 방지할 수 있습니다."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 60.8745000208728,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2248.066900006961,
+   "total_ms": 2308.967599994503,
+   "llm_calls": 1,
+   "prompt_tokens": 2019,
+   "completion_tokens": 267
+  }
+ },
+ {
+  "schema": 2,
+  "text": "쇼핑몰 포인트 현금전환 신청 결제확인 필요 http://point-cash.xyz",
+  "gold": "payment",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.434479296207428,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.3726014196872711,
+  "pred_label": "payment",
+  "verdict": "주의",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자 내용이 포인트 현금전환 신청을 유도하고 알 수 없는 도메인으로 이동을 요구하므로 사기 가능성이 있습니다.",
+  "reasons": [
+   "문자 내용에 현금전환 신청을 유도하는 링크가 포함되어 있음",
+   "도메인이 의심스러운 'point-cash.xyz'로 되어 있어 안전하지 않음"
+  ],
+  "action_guide": [
+   "받은 문자의 링크를 클릭하지 말고 해당 쇼핑몰 공식 웹사이트나 앱을 통해 직접 확인해보세요.",
+   "의심스러운 문자는 발신자를 확인하고 해당 기관에 직접 문의하여 사실 여부를 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 56.865000049583614,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2055.9131000190973,
+   "total_ms": 2112.8045999794267,
+   "llm_calls": 1,
+   "prompt_tokens": 1991,
+   "completion_tokens": 268
+  }
+ },
+ {
+  "schema": 2,
+  "text": "[Web발신] 마이너스통장 사전한도 조회 결과 도착 http://minus-check.cc",
+  "gold": "financial",
+  "category": null,
+  "error": null,
+  "bert_label": "payment",
+  "bert_confidence": 0.687345027923584,
+  "bert_second_label": "financial",
+  "bert_second_score": 0.10550864040851593,
+  "pred_label": "payment",
+  "verdict": "위험",
+  "flagged": true,
+  "fast_path": false,
+  "injection_detected": false,
+  "summary": "문자에는 마이너스통장 사전한도 조회 결과가 도착했다는 내용이 있으며, 이는 결제·청구 사칭(스미싱)의 특징과 부합합니다. 확실한 확인이 필요합니다.",
+  "reasons": [
+   "문자에 의심스러운 링크가 포함되어 있음",
+   "사전한도 조회와 같은 내용은 허위 정보로 이용될 가능성이 있음"
+  ],
+  "action_guide": [
+   "의심스러운 링크는 클릭하지 말고 해당 문자를 삭제하세요.",
+   "만약 마이너스통장 관련한 사항이 실제 필요하다면 해당 은행 공식 채널을 통해 확인하세요."
+  ],
+  "used_sources": [],
+  "reference_sections": [],
+  "metrics": {
+   "bert_ms": 60.078200011048466,
+   "retrieval_ms": 0.0,
+   "llm_ms": 2287.7558000036515,
+   "total_ms": 2347.8580999653786,
+   "llm_calls": 1,
+   "prompt_tokens": 1988,
+   "completion_tokens": 269
+  }
+ }
+]
