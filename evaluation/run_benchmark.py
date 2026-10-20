@@ -1,4 +1,4 @@
-"""파이프라인 구성 A~G를 평가 세트에 돌려 샘플별 결과를 저장한다.
+"""파이프라인 구성 A~H를 평가 세트에 돌려 샘플별 결과를 저장한다.
 
     python -m evaluation.run_benchmark                       # 모든 평가 세트, A~E 전체
     python -m evaluation.run_benchmark --configs G --sets injection injection_holdout   # 인젝션 방어 구성
@@ -144,7 +144,7 @@ def _save(path: Path, records: List[Dict]) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--sets", nargs="+", default=EVAL_SETS, choices=EVAL_SETS)
-    parser.add_argument("--configs", nargs="+", default=DEFAULT_CONFIGS, choices=list("ABCDEFG"))
+    parser.add_argument("--configs", nargs="+", default=DEFAULT_CONFIGS, choices=list("ABCDEFGH"))
     parser.add_argument("--limit", type=int, default=None, help="세트당 앞에서부터 N건만 (스모크 테스트용)")
     parser.add_argument("--top-k", type=int, default=4)
     parser.add_argument("--fast-path-threshold", type=float, default=DEFAULT_FAST_PATH_THRESHOLD)

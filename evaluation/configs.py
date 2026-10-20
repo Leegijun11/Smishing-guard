@@ -25,7 +25,8 @@ CONFIG_TITLES: Dict[str, str] = {
     "D": "BERT+RAG+LLM",
     "E": "D − 애매함 분기",
     "F": "Fast Path(실측)",
-    "G": "D + 인젝션 방어",
+    "G": "D + 인젝션 방어(강한 프롬프트)",
+    "H": "D + 인젝션 방어(경량 프롬프트)",
 }
 
 
@@ -74,9 +75,18 @@ def build_configs(fast_path_threshold: float = DEFAULT_FAST_PATH_THRESHOLD) -> D
                             fast_path_threshold=fast_path_threshold, temperature=_T, injection_guard=False),
         ),
         "G": BenchConfig(
-            "G", "D + 인젝션 방어",
-            "D + 문자 격리 프롬프트 + 인젝션 문구 탐지 시 \"위험\" 강제 (D와 이 한 가지만 다름)", True,
+            "G", "D + 인젝션 방어(강한 프롬프트)",
+            "D + 문자 격리 + \"인젝션 문구는 강한 사기 근거\" 규칙 + 탐지 시 \"위험\" 강제 (D와 인젝션 방어만 다름)", True,
             PipelineOptions(use_bert=True, use_rag=True, use_ambiguity_branch=True,
-                            fast_path_threshold=None, temperature=_T, injection_guard=True),
+                            fast_path_threshold=None, temperature=_T,
+                            injection_guard=True, injection_prompt="strong"),
+        ),
+        "H": BenchConfig(
+            "H", "D + 인젝션 방어(경량 프롬프트)",
+            "G에서 \"강한 사기 근거\" 규칙을 빼고 \"따르지 말 것\"만 남긴 버전 (G의 정상 문자 과민 반응을 줄이려는 시도, G와 프롬프트만 다름)",
+            True,
+            PipelineOptions(use_bert=True, use_rag=True, use_ambiguity_branch=True,
+                            fast_path_threshold=None, temperature=_T,
+                            injection_guard=True, injection_prompt="light"),
         ),
     }

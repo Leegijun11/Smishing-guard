@@ -21,7 +21,7 @@ from common.settings import (
     OPENAI_TEMPERATURE,
 )
 from llm.injection import detect_injection
-from llm.prompts import SYSTEM_PROMPT, SYSTEM_PROMPT_GUARDED, build_user_prompt
+from llm.prompts import SYSTEM_PROMPT, build_user_prompt, guarded_system_prompt
 from llm.schemas import SmishingVerdict
 from ml_model.classifier import get_classifier
 from vector_db.retriever import get_retriever
@@ -44,6 +44,8 @@ class PipelineOptions:
     temperature: Optional[float] = None
     # 프롬프트 인젝션 방어 (문자 격리 프롬프트, 인젝션 문구 탐지 시 "위험" 강제, 탐지되면 Fast Path 차단)
     injection_guard: bool = INJECTION_GUARD
+    # 방어 프롬프트 스타일: "strong"(인젝션 문구를 강한 사기 근거로 봄, 구성 G) / "light"(따르지 말 것만, 구성 H)
+    injection_prompt: str = "strong"
 
 
 class SmishingAgent:
@@ -108,7 +110,10 @@ class SmishingAgent:
             guard=options.injection_guard,
         )
         messages: List[Dict[str, str]] = [
-            {"role": "system", "content": SYSTEM_PROMPT_GUARDED if options.injection_guard else SYSTEM_PROMPT},
+            {
+                "role": "system",
+                "content": guarded_system_prompt(options.injection_prompt) if options.injection_guard else SYSTEM_PROMPT,
+            },
             {"role": "user", "content": user_prompt},
         ]
 

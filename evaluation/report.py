@@ -47,7 +47,7 @@ TEST_SPLIT_CSV = DATA_DIR / "eval" / "test_split.csv"
 # gpt-3.5-turbo 기준 단가(USD / 100만 토큰). 다른 모델을 쓰면 OpenAI 요금표를 확인해 수정할 것.
 PRICE_PER_1M = {"input": 0.50, "output": 1.50}
 
-CONFIG_ORDER = "ABCDEFG"
+CONFIG_ORDER = "ABCDEFGH"
 SET_ORDER = ["test", "hard", "challenge", "injection", "injection_holdout", "injection_holdout2"]
 INJECTION_SETS = ("injection", "injection_holdout", "injection_holdout2")
 CORE_SETS = ["test", "hard", "challenge"]  # 수용 기준 1·2·5번을 합산하는 세트 (인젝션은 별도 기준)
@@ -217,7 +217,7 @@ def cfg_label(name: str) -> str:
 # ---------------------------------------------------------------- 수용 기준 대조
 def acceptance_table(data: Dict[str, Dict], corpus) -> str:
     """결과를 보기 전에 정한 기준(evaluation/ACCEPTANCE.md)을 D(서비스 구성)와 G(인젝션 방어)에 대조한다."""
-    cols = [c for c in ["D", "G"] if any(c in d["by_config"] for d in data.values())]
+    cols = [c for c in ["D", "G", "H"] if any(c in d["by_config"] for d in data.values())]
     if not cols:
         return ""
 
@@ -348,7 +348,7 @@ def sweep_table(d_records: List[Dict], a_records: Optional[List[Dict]]) -> str:
 def override_table(by_config: Dict[str, List[Dict]]) -> str:
     """LLM이 BERT 1순위와 다른 최종 유형을 냈을 때, 누가 맞았는가."""
     rows = []
-    for name in ["C", "D", "E", "G"]:
+    for name in ["C", "D", "E", "G", "H"]:
         records = by_config.get(name)
         if not records:
             continue
@@ -372,7 +372,7 @@ def ambiguity_table(by_config: Dict[str, List[Dict]]) -> str:
     if not ambiguous_texts:
         return "이 세트에는 BERT 기준 애매한 문자가 없습니다."
     rows = []
-    for name in ["B", "C", "D", "E", "G"]:
+    for name in ["B", "C", "D", "E", "G", "H"]:
         records = by_config.get(name)
         if not records:
             continue
