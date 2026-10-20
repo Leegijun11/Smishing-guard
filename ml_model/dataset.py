@@ -9,7 +9,14 @@ from datasets import Dataset, DatasetDict
 from sklearn.model_selection import train_test_split
 
 from common.labels import LABEL2ID
-from common.settings import AUGMENT_DATASET, CHALLENGE_SET, HARD_SET, INJECTION_SET, RAW_DATASET
+from common.settings import (
+    AUGMENT_DATASET,
+    CHALLENGE_SET,
+    HARD_SET,
+    INJECTION_HOLDOUT_SET,
+    INJECTION_SET,
+    RAW_DATASET,
+)
 
 SPLIT_SEED = 42
 
@@ -62,7 +69,7 @@ def split_dataframes(
 def _protected_texts(valid_df: pd.DataFrame, test_df: pd.DataFrame) -> set:
     """학습 보강 데이터에 들어오면 안 되는 문자: validation/test와 모든 평가셋(hard, challenge, injection)."""
     texts = set(valid_df["text"]) | set(test_df["text"])
-    for path in (HARD_SET, CHALLENGE_SET, INJECTION_SET):
+    for path in (HARD_SET, CHALLENGE_SET, INJECTION_SET, INJECTION_HOLDOUT_SET):
         if Path(path).exists():
             texts |= set(pd.read_csv(path)["text"].dropna())
     return texts
