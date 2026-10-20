@@ -22,18 +22,26 @@ from typing import Dict, List
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from common.labels import LABEL_KEYS
-from common.settings import CHALLENGE_SET, DATA_DIR, HARD_SET, INJECTION_HOLDOUT_SET, INJECTION_SET
+from common.settings import (
+    CHALLENGE_SET,
+    DATA_DIR,
+    HARD_SET,
+    INJECTION_HOLDOUT2_SET,
+    INJECTION_HOLDOUT_SET,
+    INJECTION_SET,
+)
 from evaluation.configs import DEFAULT_FAST_PATH_THRESHOLD, BenchConfig, build_configs
 
 RESULTS_DIR = Path(__file__).resolve().parent / "results" / "raw"
 TEST_SPLIT_CSV = DATA_DIR / "eval" / "test_split.csv"
 DEFAULT_CONFIGS = ["A", "B", "C", "D", "E"]
-EVAL_SETS = ["test", "hard", "challenge", "injection", "injection_holdout"]
+EVAL_SETS = ["test", "hard", "challenge", "injection", "injection_holdout", "injection_holdout2"]
 CSV_SETS = {
     "hard": HARD_SET,
     "challenge": CHALLENGE_SET,
     "injection": INJECTION_SET,
     "injection_holdout": INJECTION_HOLDOUT_SET,
+    "injection_holdout2": INJECTION_HOLDOUT2_SET,
 }
 
 
